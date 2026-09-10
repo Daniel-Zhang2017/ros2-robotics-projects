@@ -1,0 +1,59 @@
+三维重建相关指令
+
+一、Lio-sam建图算法
+1、启动建图
+lio-sam online (无gnss数据在线建图):
+ros2 launch lio_sam run.launch.py
+
+lio-sam online (带gnss数据在线建图):
+ros2 launch lio_sam  run_gnss.launch.py
+
+lio-sam offline (无gnss数据离线建图):
+ros2 launch lio_sam run_offline.launch.py
+
+lio-sam offline (带gnss数据离线建图):
+ros2 launch lio_sam  run_offline_gnss.launch.py
+or
+ros2 launch lio_sam  run_usegnss.launch.py
+2、键盘控制
+ros2 run wheeltec_robot_keyboard wheeltec_keyboard
+
+保存地图
+## Save map
+```
+ros2 service call /lio_sam/save_map lio_sam/srv/SaveMap
+ros2 service call /lio_sam/save_map lio_sam/srv/SaveMap "{resolution: 0.2, destination: /Downloads/service_LOAM}"
+```
+
+二、lego_loam建图算法
+启动建图：
+ros2 launch lego_loam_sr run.launch.py
+键盘控制：
+ros2 run wheeltec_robot_keyboard wheeltec_keyboard
+保存地图：
+pcl_viewer ${HOME}/wheeltec_ros2/src/data/LEGO-LOAM/*.pcd
+
+三、cartographer_3d建图算法
+启动建图：
+ros2 launch wheeltec_cartographer carto_3d.launch.py
+键盘控制：
+ros2 run wheeltec_robot_keyboard wheeltec_keyboard
+录制数据包(一定要录，否则无法转换PCD地图)：
+ros2 bag record -o ${HOME}/wheeltec_ros2/src/data/cartographer/carto_map \
+/point_cloud_raw /imu/data_raw
+结束建图(并结束数据包的录制)：
+ros2 service call /finish_trajectory cartographer_ros_msgs/srv/FinishTrajectory "{trajectory_id: 0}"
+保存地图(以下为一条指令)：
+ros2 service call /write_state cartographer_ros_msgs/srv/WriteState "{filename: '/home/wheeltec/wheeltec_ros2/src/data/cartographer/map.pbfile'}"
+地图数据转换为PCD格式(以下为一条指令)
+step1:
+ros2 launch wheeltec_cartographer assets_writer_carto_3d.launch.py \
+bag_filenames:=${HOME}/wheeltec_ros2/src/data/cartographer/carto_map \
+pose_graph_filename:=${HOME}/wheeltec_ros2/src/data/cartographer/map.pbfile
+step2：(以下为一条指令)
+pcl_ply2pcd \
+${HOME}/wheeltec_ros2/src/data/cartographer/carto_map_points.ply \
+${HOME}/wheeltec_ros2/src/data/cartographer/carto_map.pcd
+
+查看pcd点云地图：
+pcl_viewer ${HOME}/wheeltec_ros2/src/data/cartographer/carto_map.pcd

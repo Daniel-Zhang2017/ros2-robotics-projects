@@ -1,0 +1,50 @@
+# 可选车型型号 对应填入car_mode
+  # mini_mec/mini_akm/mini_tank/mini_4wd/mini_diff/mini_omni
+  # V550_4wd/V550_akm/V550_mec
+  
+  # senior_akm/top_akm_bs/top_akm_dl
+  # senior_mec_bs/senior_mec_dl/top_mec_bs/top_mec_dl/top_mec_EightDrive/flagship_mec_bs/flagship_mec_dl
+  # senior_omni/top_omni
+  # senior_4wd_bs/senior_4wd_dl/flagship_4wd_bs/flagship_4wd_dl/top_4wd_bs/top_4wd_dl
+  # senior_diff/four_wheel_diff_bs/four_wheel_diff_dl
+  # S100_diff/S200_4wd/V650_diff
+
+  # autoware_senior_akm/autoware_top_akm_single_antenna/autoware_top_akm_dual_antenna/
+
+  # R680A_4wd_arm/R680A_mec_arm    
+  # S300_pro/S300_mini/eco65
+
+car_mode:  mini_mec
+      
+# NAV2导航超声波避障功能的开启与关闭  false关闭 true开启
+# 此项配置仅对有超声波硬件的车型有效
+ultrasonic_avoid: false
+
+# 可选雷达型号 对应填入lidar_type
+  # ls_M10_uart ls_M10_net ls_M10P_uart ls_M10P_net  ls_M10P_uart_double
+  # ls_N10_uart ls_N10_net ls_N10Plus_uart ls_N10Plus_net  
+  # ldstl19p ldstl06nbj ldstl19n rplidar_c1  
+  # lscx
+
+lidar_type: ls_N10Plus_uart     
+
+# ls_M10/ls_N10系列单线雷达可修改内容
+x10:
+  lidar_port: /dev/wheeltec_lidar  # 雷达连接串口名称 使用网口请将值改为空
+  angle_disable_min: [11000]         # 雷达扫描最小裁剪角度 填整数 例：12000 单位: 0.01°
+  angle_disable_max: [25000]        # 雷达扫描最大裁剪角度 填整数 例：24000 单位: 0.01°
+
+# lscx系列多线雷达可修改内容
+lscx:
+  angle_disable_min: [12000]        # 雷达扫描最小裁剪角度 填整数 例：12000 单位: 0.01°
+  angle_disable_max: [24000]         # 雷达扫描最大裁剪角度 填整数 例：24000 单位: 0.01°
+
+# 可选imu型号 对应填入imu_mode
+  # stm32  H30  N300pro
+
+imu_mode: stm32 
+
+# 可选相机型号 对应填入camera_mode
+  # astra  astra_pro   dabai_u3   gemini   usb
+
+camera_mode: astra
