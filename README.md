@@ -2,7 +2,7 @@
 smart car
 ROS2+slam+web video server+ttl
 
-### ROS2-YOLOvX Real-Time Detection###
+### Project 1: ROS2-YOLOvX Real-Time Detection
 # testing procedure
 
 1. ### start camera node
