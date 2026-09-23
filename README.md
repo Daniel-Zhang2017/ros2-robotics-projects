@@ -11,11 +11,16 @@ ROS2+slam+web video server+ttl
 ros2 launch turn_on_wheeltec_robot wheeltec_camera.launch.py
 ```
 
-2. ### new terminates
+2. ### new terminal
 
 ```bash
 source install/setup.bash
 ros2 launch ultralytics_ros2 yolo.launch.py
+```
+or
+```bash
+source install/setup.bash
+ros2 run ultralytics_ros2 detection_node
 ```
 
 3. ### rqt_image_view view `/detected_image`
