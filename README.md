@@ -24,7 +24,7 @@ ros2 run ultralytics_ros2 detection_node
 ```
 3. ### rqt_image_view view `/detected_image`
 
-Note: if you change the detection_node.py, it's very important to delete the build and install log by the following code:
+Note: if you make any changes in the detection_node.py or launch file, it's very important to delete the build and install log by the following code:
 ```bash
 rm -rf build/ultralytics_ros2 install/ultralytics_ros2
 ```
