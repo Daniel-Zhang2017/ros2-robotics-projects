@@ -4,6 +4,15 @@ ROS2+slam+web video server+ttl
 
 ### Project 1: ROS2-YOLOvX Real-Time Detection
 # Running procedure
+0. clone the code and install dependcies
+ ```bash
+git clone https://github.com/Daniel-Zhang2017/ros2-robotics-projects.git
+```  
+install all main dependencies for ultralytics_ros2 (ROS2 Humble, Ubuntu 22.04, Python3.10)
+```bash
+chmod +x install_deps.sh
+./install_deps.sh
+```
 
 1. ### start camera node
 
