@@ -8,7 +8,7 @@ def generate_launch_description():
             executable='detection_node',
             name='yolo_detector',
             parameters=[
-                {'model': '/home/wheeltec/wheeltec_ros2/src/ultralytics_ros2/model/yolov8s.pt'},
+                {'model': '/home/da/ros2_ws/src/ultralytics_ros2/model/yolov8s.pt'}, #replace with your own mode pt file
                 {'input_image_topic': '/image_raw'},
                 {'enable_cuda': True},
                 {'conf_threshold': 0.5}
