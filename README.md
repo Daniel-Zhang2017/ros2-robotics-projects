@@ -1,6 +1,6 @@
-# ros2-smart-car
-smart car
-ROS2+slam+web video server+ttl
+# ros2-robotics-projects (continue updating, please star)
+
+# ROS2+slam+deep learning
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
