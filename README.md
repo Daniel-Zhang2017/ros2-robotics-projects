@@ -2,7 +2,7 @@
 smart car
 ROS2+slam+web video server+ttl
 
-# Project 1: ROS2-YOLOvX Real-Time Detection
+# Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
 0. ### clone the code and install dependcies
  ```bash
@@ -41,4 +41,31 @@ Then build the functional package:
 ```bash
 colcon build --packages-select ultralytics_ros2
 source install/setup.bash
+```
+
+# Project 2: # ROS2 Person Detection Alert Project
+This project combines USB camera capture, YOLO object detection, and a secondary person recognition node.
+The system captures live video stream, runs YOLO inference to draw annotated frames, then a separate node listens to the annotated image topic and triggers an alert message when a human (COCO class `person`) is detected.
+
+## System Architecture
+### Nodes:
+1. **usb_cam**: USB webcam driver, publishes raw image `sensor_msgs/Image` on `/image_raw`
+2. **ultralytics_ros2/detection_node**: YOLO detector. Takes `/image_raw`, runs object detection, draws bounding boxes, publishes annotated image to `/detected_image`
+3. **person_detector/person_detector_node**: Subscribes `/detected_image`, performs YOLO inference again. If `person (class id=0)` is found, publish `std_msgs/String` message to `/person_alert`
+
+> ⚠️ Note: This design runs YOLO twice (two separate model loads). This is for demonstration. For better CPU performance, move person alert logic directly into `ultralytics_ros2` node so YOLO runs only once.
+## Build the package
+
+```
+cd ~/ros2_ws
+# clean old build files
+rm -rf build/person_detector install/person_detector
+colcon build --packages-select person_detector
+source install/setup.bash
+```
+
+## Run the full system
+
+```
+ros2 launch person_detector camera_yolo_person.launch.py
 ```
