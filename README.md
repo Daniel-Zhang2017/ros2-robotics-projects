@@ -2,9 +2,9 @@
 smart car
 ROS2+slam+web video server+ttl
 
-### Project 1: ROS2-YOLOvX Real-Time Detection
-# Running procedure
-0. clone the code and install dependcies
+# Project 1: ROS2-YOLOvX Real-Time Detection
+## Running procedure
+0. ### clone the code and install dependcies
  ```bash
 git clone https://github.com/Daniel-Zhang2017/ros2-robotics-projects.git
 ```  
