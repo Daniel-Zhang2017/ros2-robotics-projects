@@ -10,8 +10,8 @@ sudo apt install -y ros-humble-vision-msgs ros-humble-rclpy ros-humble-sensor-ms
 echo "=== Install python pip and required python packages ==="
 sudo apt install -y python3-pip python3-venv
 
-echo "=== Install ultralytics YOLO library (user pip, NO sudo) ==="
-pip3 install --user ultralytics torch torchvision opencv-python
+echo "=== Install ultralytics YOLO library (user pip, NO sudo) -- USTC mirror ==="
+pip3 install --user --timeout=1200 ultralytics torch torchvision opencv-python -i https://pypi.mirrors.ustc.edu.cn/simple
 
 echo "=== Verify python import test ==="
 python3 -c "
