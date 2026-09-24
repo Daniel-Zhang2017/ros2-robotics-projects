@@ -8,12 +8,12 @@ import cv2
 import numpy as np
 import os
 import torch
-from threading import Lock
+from threading import Lock, Thread
 
 class YOLODetector(Node):
     def __init__(self):
         super().__init__('yolo_detector')
-        print("==== Node init finished, code loaded successfully ====")
+        self.get_logger().info("==== Node init finished, code loaded successfully ====")
 
         self.declare_parameters(
             namespace='',
@@ -22,48 +22,53 @@ class YOLODetector(Node):
                 ('input_image_topic', '/image_raw'),
                 ('enable_cuda', True),
                 ('conf_threshold', 0.5),
-                ('infer_period', 0.08)  # 推理週期 0.08s ≈12.5Hz；可調
+                ('infer_period', 0.08)
             ]
         )
-
-        model_path = self.get_parameter('model').value
-        input_topic = self.get_parameter('input_image_topic').value
-        enable_cuda = self.get_parameter('enable_cuda').value
+        self.model_name = self.get_parameter('model').value
+        self.input_topic = self.get_parameter('input_image_topic').value
+        self.enable_cuda = self.get_parameter('enable_cuda').value
         self.conf_threshold = self.get_parameter('conf_threshold').value
-        infer_period = self.get_parameter('infer_period').value
+        self.infer_period = self.get_parameter('infer_period').value
 
-        model_full_path = os.path.expanduser("~/wheeltec_ros2/src/ultralytics_ros2/model/yolov8s.pt")
-        self.model = YOLO(model_full_path)
-
-        if enable_cuda and torch.cuda.is_available():
-            self.model.to('cuda')
-            self.get_logger().info("Using CUDA GPU")
-        else:
-            self.get_logger().info("CUDA not available, run on CPU")
-        self.model.fuse()
-
+        self.model_full_path = self.model_name
+        self.model = None
         self.bridge = CvBridge()
 
-        # 緩存最新圖像，鎖防止競爭
         self.latest_image = None
         self.latest_msg_header = None
         self.lock = Lock()
 
-        # 訂閱：只接收圖像，唔做推理
         self.sub = self.create_subscription(
-            Image, input_topic, self.image_callback,
-            qos_profile=rclpy.qos.QoSProfile(depth=1) # 隊列深度=1，丟棄舊消息！
+            Image, self.input_topic, self.image_callback,
+            qos_profile=rclpy.qos.QoSProfile(depth=1)
         )
-
         self.pub_image = self.create_publisher(Image, 'detected_image', 10)
         self.pub_detections = self.create_publisher(Detection2DArray, 'detections', 10)
 
-        # 定時器負責推理
-        self.infer_timer = self.create_timer(infer_period, self.infer_timer_callback)
+        self.infer_timer = self.create_timer(self.infer_period, self.infer_timer_callback)
         self.last_time = self.get_clock().now()
 
+        # Start model loading in background thread, do NOT block rclpy executor
+        self.load_thread = Thread(target=self._load_model_worker, daemon=True)
+        self.load_thread.start()
+
+    def _load_model_worker(self):
+        """Run model loading on separate background thread"""
+        self.get_logger().info(f"Start loading model: {self.model_full_path}")
+        try:
+            self.model = YOLO(self.model_full_path)
+            if self.enable_cuda and torch.cuda.is_available():
+                self.model.to('cuda')
+                self.get_logger().info("Using CUDA GPU")
+            else:
+                self.get_logger().info("CUDA not available, run on CPU")
+            self.model.fuse()
+            self.get_logger().info("✅ Model loaded successfully")
+        except Exception as e:
+            self.get_logger().error(f"Failed to load model: {str(e)}")
+
     def image_callback(self, msg):
-        """只存最新圖像，唔做任何計算"""
         try:
             cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             with self.lock:
@@ -73,7 +78,9 @@ class YOLODetector(Node):
             self.get_logger().warn(f"callback convert error: {str(e)}")
 
     def infer_timer_callback(self):
-        """定時器執行推理，只處理最新一幀"""
+        if self.model is None:
+            return
+
         with self.lock:
             if self.latest_image is None:
                 return
@@ -85,26 +92,22 @@ class YOLODetector(Node):
                 source=img,
                 conf=self.conf_threshold,
                 verbose=False,
-                # 優化參數
                 imgsz=640,
                 half=False,
                 device=0 if torch.cuda.is_available() else 'cpu'
             )
             result = results[0]
-
             detections_msg = Detection2DArray()
             detections_msg.header = header
-
             annotated_image = result.plot()
             annotated_image = np.array(annotated_image, dtype=np.uint8).copy()
             annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR)
 
             current_time = self.get_clock().now()
             delta_time = current_time - self.last_time
-            fps = 1e9 / delta_time.nanoseconds if delta_time.nanoseconds >0 else 0.0
-            cv2.putText(annotated_image, f'FPS: {fps:.2f}', (10,30), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
+            fps = 1e9 / delta_time.nanoseconds if delta_time.nanoseconds > 0 else 0.0
+            cv2.putText(annotated_image, f'FPS: {fps:.2f}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-            # 手動構建Image msg
             img_msg = Image()
             img_msg.header = header
             img_msg.height = annotated_image.shape[0]
