@@ -22,6 +22,8 @@ or
 source install/setup.bash
 ros2 run ultralytics_ros2 detection_node
 ```
+3. ### rqt_image_view view `/detected_image`
+
 Note: if you change the detection_node.py, it's very important to delete the build and install log by the following code:
 ```bash
 rm -rf build/ultralytics_ros2 install/ultralytics_ros2
@@ -31,4 +33,3 @@ Then build the functional package:
 colcon build --packages-select ultralytics_ros2
 source install/setup.bash
 ```
-3. ### rqt_image_view view `/detected_image`
