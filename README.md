@@ -7,7 +7,7 @@ ROS2+slam+web video server+ttl
 0. ### clone the code and install dependcies
  ```bash
 git clone https://github.com/Daniel-Zhang2017/ros2-robotics-projects.git
-mkdir -p ros2_ws2/src
+mkdir -p ros2_ws/src
 # Now move all content from ros2‑robotics‑projects
 mv ros2-robotics-projects/* ros2_ws/src/
 rm -rf ros2-robotics-projects
