@@ -8,7 +8,7 @@ ROS2+slam+web video server+ttl
 1. ### start camera node
 
 ```bash
-ros2 launch turn_on_wheeltec_robot wheeltec_camera.launch.py
+ros2 launch usb_cam usb_cam_launch.py
 ```
 
 2. ### new terminal
@@ -22,5 +22,13 @@ or
 source install/setup.bash
 ros2 run ultralytics_ros2 detection_node
 ```
-
+Note: if you change the detection_node.py, it's very important to delete the build and install log by the following code:
+```bash
+rm -rf build/ultralytics_ros2 install/ultralytics_ros2
+```
+Then build the functional package:
+```bash
+colcon build --packages-select ultralytics_ros2
+source install/setup.bash
+```
 3. ### rqt_image_view view `/detected_image`
