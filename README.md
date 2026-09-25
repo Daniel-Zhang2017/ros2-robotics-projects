@@ -58,6 +58,7 @@ The system captures live video stream, runs YOLO inference to draw annotated fra
 3. **person_detector/person_detector_node**: Subscribes `/detected_image`, performs YOLO inference again. If `person (class id=0)` is found, publish `std_msgs/String` message to `/person_alert`
 
 > ⚠️ Note: This design runs YOLO twice (two separate model loads). This is for demonstration. For better CPU performance, move person alert logic directly into `ultralytics_ros2` node so YOLO runs only once.
+> **when you use camera_person_track.launch.py, please revise the person_detector_node.py by subscribing the topic of /image_raw, instead of /detected_image.**
 ## Build the package
 
 ```
@@ -72,4 +73,7 @@ source install/setup.bash
 
 ```
 ros2 launch person_detector camera_yolo_person.launch.py
+
+#check topic frequency
+ros2 topic hz /person_alert
 ```
