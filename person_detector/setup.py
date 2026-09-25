@@ -11,7 +11,8 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/launch', [
-            'launch/camera_yolo_person.launch.py'
+            'launch/camera_yolo_person.launch.py',
+            'launch/camera_person_track.launch.py'
         ]),
     ],
     install_requires=['setuptools', 'ultralytics', 'torch', 'opencv-python'],
