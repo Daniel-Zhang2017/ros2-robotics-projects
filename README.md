@@ -97,11 +97,15 @@ ros2 run status_display sys_status_display
 # Project 4: # Understanding the cmd_vel, and remap topic
 ## Description: topic_practice_ws/src
 Write your own publisher node to make the turtle draw a circle automatically — Goal: Understand cmd_vel control.
-Control the second turtle and practice topic remapping (remap) — Goal: Master the entry-level skills of multi-robot control.
+Control the second turtle and practice **topic remapping (remap)** — Goal: Master the entry-level skills of multi-robot control.
+This ROS 2 Humble Python node publishes `Twist` messages to `/turtle1/cmd_vel` at 10 Hz to drive the turtlesim turtle along a circular path. When interrupted with Ctrl+C, it publishes a zero-velocity Twist command to stop the turtle before shutting down the node.
 ```bash
 cd /topic_practice_ws
 colcon build --packages-select turtle_draw
 source install/setup.bash
+# Terminal1
+ros2 run turtlesim turtlesim_node
+# Terminal2
 ros2 run turtle_draw draw_circle
 ```
 Spawn a second turtle.
@@ -111,5 +115,5 @@ ros2 service call /spawn turtlesim/srv/Spawn "{x: 8.0, y: 8.0, theta: 0.0, name:
 turtle2 appears in the top-right corner of the window. At this point, ros2 topic list will show an additional set of topics: /turtle2/cmd_vel and /turtle2/pose.
 ```bash
 ros2 run turtle_draw draw_circle --ros-args --remap /turtle1/cmd_vel:=/turtle2/cmd_vel
-#Syntax meaning: --remap original_name:=new_name. After startup, the publisher object inside the node remains unchanged, but the actual data flows to /turtle2/cmd_vel — and turtle2 in the top-right corner starts drawing a circle.
 ```
+Syntax meaning: --remap original_name:=new_name. After startup, the publisher object inside the node remains unchanged, but the actual data flows to /turtle2/cmd_vel — and turtle2 in the top-right corner starts drawing a circle.
