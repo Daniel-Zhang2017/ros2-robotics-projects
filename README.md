@@ -83,6 +83,7 @@ ros2 topic hz /person_alert
 Under the `topic_practice_ws/src` folder, there are three subfolders: `status_display`, `status_interfaces`, and `status_publisher`. When you run the code, you can view system status information including `host_name`, `cpu_percent`, `memory_percent`, `memory_total`, `memory_available`, **`battery_percent` (remaining battery level)**, and more.
 
 ```bash
+cd /topic_practice_ws
 colcon build --packages-select status_interfaces
 source install/setup.bash
 colcon build --packages-select status_display status_publisher
@@ -91,4 +92,24 @@ source install/setup.bash
 ```bash
 ros2 run status_publisher sys_status_pub 
 ros2 run status_display sys_status_display
+```
+
+# Project 4: # Understanding the cmd_vel, and remap topic
+## Description: topic_practice_ws/src
+Write your own publisher node to make the turtle draw a circle automatically — Goal: Understand cmd_vel control.
+Control the second turtle and practice topic remapping (remap) — Goal: Master the entry-level skills of multi-robot control.
+```bash
+cd /topic_practice_ws
+colcon build --packages-select turtle_draw
+source install/setup.bash
+ros2 run turtle_draw draw_circle
+```
+Spawn a second turtle.
+```bash
+ros2 service call /spawn turtlesim/srv/Spawn "{x: 8.0, y: 8.0, theta: 0.0, name: 'turtle2'}"
+```
+turtle2 appears in the top-right corner of the window. At this point, ros2 topic list will show an additional set of topics: /turtle2/cmd_vel and /turtle2/pose.
+```bash
+ros2 run turtle_draw draw_circle --ros-args --remap /turtle1/cmd_vel:=/turtle2/cmd_vel
+#Syntax meaning: --remap original_name:=new_name. After startup, the publisher object inside the node remains unchanged, but the actual data flows to /turtle2/cmd_vel — and turtle2 in the top-right corner starts drawing a circle.
 ```
