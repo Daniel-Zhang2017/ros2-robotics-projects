@@ -79,7 +79,8 @@ ros2 topic hz /person_alert
 ```
 
 # Project 3: # Publish system status and show in QT page
-## Description: Under the `topic_practice_ws` folder, there are three sub‑folders: `status_display`, `status_interface`, and `status_publisher`. When you run the code, you can view system status information including `host_name`, `cpu_percent`, `memory_percent`, `memory_total`, `memory_available`, and more.
+## Description: 
+Under the `topic_practice_ws/src` folder, there are three sub‑folders: `status_display`, `status_interface`, and `status_publisher`. When you run the code, you can view system status information including `host_name`, `cpu_percent`, `memory_percent`, `memory_total`, `memory_available`, and more.
 
 ```bash
 colcon build --packages-select status_display status_publisher
