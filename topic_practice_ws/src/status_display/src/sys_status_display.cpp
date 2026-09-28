@@ -29,6 +29,7 @@ QString get_qstr_from_msg(const SystemStatus::SharedPtr msg) {
         << "剩余有效内存:\t" << msg->memory_available << "\tMB\n"
         << "网络发送量:\t" << msg->net_sent << "\tMB\n"
         << "网络接收量:\t" << msg->net_recv << "\tMB\n"
+        << "电池剩余电量:\t" << msg->battery_percent << "\t%\n"  // NEW LINE
         << "==========================================";
 
     return QString::fromStdString(show_str.str());
