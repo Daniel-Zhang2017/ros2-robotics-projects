@@ -1,7 +1,5 @@
 # ros2-robotics-projects (continue updating, please star)
 
-# ROS2+slam+deep learning
-
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
 0. ### clone the code and install dependcies
@@ -117,3 +115,15 @@ turtle2 appears in the top-right corner of the window. At this point, ros2 topic
 ros2 run turtle_draw draw_circle --ros-args --remap /turtle1/cmd_vel:=/turtle2/cmd_vel
 ```
 Syntax meaning: --remap original_name:=new_name. After startup, the publisher object inside the node remains unchanged, but the actual data flows to /turtle2/cmd_vel — and turtle2 in the top-right corner starts drawing a circle.
+
+# Project 5: # using service for face recognition, Understanding the ROS2 service (updating the folder and files soon)
+## Description: topic_practice_ws/src/demo_python_service; demo_python_service  includes face_detect_client_node.py and face_detect_node.py
+
+```bash
+pip3 install face_recognition
+cd /topic_practice_ws
+colcon build --packages-select interfaces
+source install/setup.bash
+colcon build --packages-select demo_python_service 
+source install/setup.bash
+ros2 service call /face_detect interfaces/srv/FaceDetector
