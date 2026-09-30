@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from interfaces.srv import FaceDetector
+from services_interfaces.srv import FaceDetector
 from sensor_msgs.msg import Image
 from ament_index_python.packages import get_package_share_directory
 import cv2

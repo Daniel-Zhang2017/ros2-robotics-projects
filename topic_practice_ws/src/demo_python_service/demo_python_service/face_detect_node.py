@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from interfaces.srv import FaceDetector 
+from services_interfaces.srv import FaceDetector 
 from ament_index_python.packages import get_package_share_directory
 from cv_bridge import CvBridge # 用于转换格式
 import cv2

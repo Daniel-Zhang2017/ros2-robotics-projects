@@ -9,7 +9,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>chapt4_interfaces</depend>
+  <depend>services_interfaces</depend>
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
   <depend>turtlesim</depend>
