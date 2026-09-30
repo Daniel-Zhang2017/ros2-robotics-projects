@@ -116,14 +116,27 @@ ros2 run turtle_draw draw_circle --ros-args --remap /turtle1/cmd_vel:=/turtle2/c
 ```
 Syntax meaning: --remap original_name:=new_name. After startup, the publisher object inside the node remains unchanged, but the actual data flows to /turtle2/cmd_vel — and turtle2 in the top-right corner starts drawing a circle.
 
-# Project 5: # using service for face recognition, Understanding the ROS2 service (updating the folder and files soon)
-## Description: topic_practice_ws/src/demo_python_service; demo_python_service  includes face_detect_client_node.py and face_detect_node.py
+# Project 5: # using service for face recognition, Understanding the ROS2 service 
+## Description: topic_practice_ws/src/demo_python_service; demo_python_service  includes face_detect_client_node.py and face_detect_node.py; learn_detect_from_camera.py node just combines the `face_recognition` and OpenCV for detecing face from the local webcam.
 
 ```bash
-pip3 install face_recognition
+pip3 install face_recognition # or using pip3 install face_recognition -i https://pypi.mirrors.ustc.edu.cn/simple
+
 cd /topic_practice_ws
-colcon build --packages-select interfaces
+colcon build --packages-select services_interfaces
 source install/setup.bash
 colcon build --packages-select demo_python_service 
 source install/setup.bash
-ros2 service call /face_detect interfaces/srv/FaceDetector
+```
+```bash
+# Terminal1
+ros2 run demo_python_service face_detect_client_node
+# Terminal2
+ros2 run demo_python_service face_detect_node
+```
+This demo implements real‑time face detection using `face_recognition` and OpenCV. It reads live video stream from the local webcam, detects human faces and draws bounding boxes on each detected face. The code is built for ROS2, and uses `ament_index_python` to access package resource files. Press `q` in the display window to stop the program.
+
+```bash
+ros2 run demo_python_service learn_detect_from_camera
+```
+
