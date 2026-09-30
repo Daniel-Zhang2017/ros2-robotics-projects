@@ -139,4 +139,43 @@ This demo implements real‑time face detection using `face_recognition` and Ope
 ```bash
 ros2 run demo_python_service learn_detect_from_camera
 ```
+# Project 6: # ROS2 PID Controller Demo for Turtlesim With Action server and client
+## Description: topic_practice_ws/src/turtle_demo_controller + The custom action GoToPose: cpp_node package (see cpp_node/action/GoToPose.action);
+The package implements a custom action called GoToPose which asks the turtlesim turtle to navigate to a desired (x, y) position. The action server computes velocity commands using a PID controller based on the turtle's current pose, while the action client sends goals and listens for feedback and results.
+🛠️ Build
+From the root of your ROS 2 workspace: topic_practice_ws/src
 
+```bash
+colcon build --packages-select turtle_demo_controller
+source install/setup.bash
+```
+Ensure cpp_node (which provides the GoToPose action) is also built and sourced.
+
+🚀 Run
+Terminal 1 — Start turtlesim
+```bash
+ros2 run turtlesim turtlesim_node
+```
+Terminal 2 — Start the action server
+```bash
+ros2 run turtle_demo_controller turtle_controller
+```
+Terminal 3 — Send a goal with the client
+```bash
+ros2 run turtle_demo_controller client
+```
+You'll be prompted:
+text
+Enter the desired X position: 8.0
+Enter the desired Y position: 6.0
+The turtle will rotate and move toward the target while the client prints feedback.
+🧠 **How It Works**
+The client sends a GoToPose.Goal with target (x, y).
+The server's goal_callback validates the request and accepts or rejects it.
+The server's execute_callback subscribes to the turtle's pose and starts a timer.
+On each pose update, the server:
+Publishes feedback with the current position.
+Computes err_dist and err_theta.
+Applies PID control to produce linear and angular velocities.
+Publishes a Twist to /turtle1/cmd_vel.
+When the errors fall within tolerance, the goal is marked as succeeded and the result is returned.
