@@ -1,4 +1,17 @@
 # ros2-robotics-projects (continue updating, please star)
+📚 Table of Contents
+## 📚 Table of Contents
+
+| # | Project | Focus |
+|---|---------|-------|
+| 1 | [ROS2-USB_CAM_YOLOvX Real-Time Detection](#project-1) | Real-time YOLO detection |
+| 2 | [ROS2 Person Detection Alert](#project-2) | Multi-node alerting |
+| 3 | [System Status + QT Display](#project-3) | Custom interfaces |
+| 4 | [cmd_vel & Topic Remapping](#project-4) | Turtlesim control |
+| 5 | [Face Recognition Service](#project-5) | ROS2 services |
+| 6 | [PID Controller for Turtlesim](#project-6) | ROS2 Action + PID |
+| 7 | [Camera Intrinsic Calibration](#project-7) | Camera calibration |
+| 8 | [Training YOLO with Ultralytics](#project-8) | CV Model training |
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
@@ -271,3 +284,168 @@ Load `ost.yaml` with `camera_info_manager` node in your ROS2 vision pipeline to 
 5. **Reprojection error**: After calibration, check the terminal reprojection error. An error > 1 pixel usually means poor samples or a warped chessboard; redo calibration.
 6. **Do not move camera**: Keep the camera fixed during the whole calibration process. Only move the chessboard.
 7. **File permission**: `/tmp/` files are temporary and deleted after reboot. Copy `ost.yaml` to your project folder immediately after calibration.
+
+# Project 8: # Training YOLO Models with Ultralytics
+🗂 Dataset Preparation
+Ultralytics expects datasets in YOLO format.
+
+Directory Structure
+text
+dataset/
+├── images/
+│   ├── train/
+│   └── val/
+└── labels/
+    ├── train/
+    └── val/
+Each image in images/ must have a matching .txt file in labels/ with the same filename.
+
+Label Format
+Each line in a label file represents one object:
+
+text
+<class_id> <x_center> <y_center> <width> <height>
+All coordinates must be normalized to [0, 1].
+
+class_id is a zero-based integer.
+
+Example:
+
+text
+0 0.512 0.634 0.221 0.418
+1 0.104 0.882 0.089 0.150
+Create data.yaml
+yaml
+path: /absolute/path/to/dataset
+train: images/train
+val: images/val
+
+names:
+  0: person
+  1: car
+  2: dog
+🏋️ Training
+Python API
+python
+from ultralytics import YOLO
+
+# Load a pretrained model
+model = YOLO("yolo26n.pt")  # n / s / m / l / x
+
+# Train
+model.train(
+    data="data.yaml",
+    epochs=100,
+    imgsz=640,
+    batch=16,
+    project="runs/train",
+    name="exp1",
+    device=0,            # 0 for GPU, "cpu" for CPU
+    workers=8,
+    pretrained=True,
+    optimizer="auto",
+    patience=50,
+    save=True,
+    plots=True,
+)
+CLI
+bash
+yolo detect train \
+  model=yolo26n.pt \
+  data=data.yaml \
+  epochs=100 \
+  imgsz=640 \
+  batch=16 \
+  project=runs/train \
+  name=exp1
+Key Arguments
+Argument	Description	Default
+data	Path to data.yaml	—
+epochs	Number of training epochs	100
+imgsz	Input image size	640
+batch	Batch size (-1 = auto)	16
+device	0, 0,1, cpu	auto
+optimizer	SGD, Adam, AdamW, auto	auto
+lr0	Initial learning rate	0.01
+freeze	Freeze first N layers	None
+patience	Early stopping patience	50
+resume	Resume last training	False
+🔁 Resuming Training
+If training was interrupted:
+
+python
+from ultralytics import YOLO
+
+model = YOLO("runs/train/exp1/weights/last.pt")
+model.train(resume=True)
+Or via CLI:
+
+bash
+yolo detect train resume model=runs/train/exp1/weights/last.pt
+✅ Validation
+python
+from ultralytics import YOLO
+
+model = YOLO("runs/train/exp1/weights/best.pt")
+metrics = model.val(data="data.yaml", imgsz=640, batch=16)
+print(metrics.box.map)  # mAP50-95
+CLI:
+
+bash
+yolo detect val model=runs/train/exp1/weights/best.pt data=data.yaml
+🔍 Inference
+On images
+python
+from ultralytics import YOLO
+
+model = YOLO("runs/train/exp1/weights/best.pt")
+results = model.predict(source="test.jpg", conf=0.25, save=True)
+On a folder / video / webcam
+bash
+yolo detect predict model=best.pt source=path/to/folder save=True
+yolo detect predict model=best.pt source=video.mp4 save=True
+yolo detect predict model=best.pt source=0 show=True
+📤 Export
+Export a trained model to ONNX, TensorRT, CoreML, etc.
+
+python
+from ultralytics import YOLO
+
+model = YOLO("runs/train/exp1/weights/best.pt")
+model.export(format="onnx", dynamic=True, simplify=True)
+Supported formats: onnx, torchscript, engine (TensorRT), coreml, tflite, openvino, pb, saved_model, paddle, ncnn.
+
+📁 Project Structure
+text
+your-project/
+├── data.yaml
+├── train.py
+├── val.py
+├── predict.py
+├── requirements.txt
+├── dataset/
+│   ├── images/
+│   └── labels/
+└── runs/
+    └── train/
+        └── exp1/
+            ├── weights/
+            │   ├── best.pt
+            │   └── last.pt
+            ├── results.csv
+            ├── confusion_matrix.png
+            └── results.png
+💡 **Tips & Troubleshooting**
+**Out of memory?** Reduce batch or imgsz, or set batch=-1 for auto-batching.
+**Slow convergence?** Start from a pretrained checkpoint (yolo26n.pt) instead of yolo26n.yaml.
+**Overfitting?** Increase augmentation (mosaic, mixup, degrees), add dropout, or freeze layers.
+**Class imbalance?** Use cls loss weight or oversample minority classes.
+**Reproducibility?** Set deterministic=True and seed=42.
+**Multi-GPU training**: device=0,1,2,3 or yolo detect train ... device=0,1.
+
+bash
+yolo detect train --help
+Or visit the official docs: https://docs.ultralytics.com/modes/train/
+
+📄 License
+This project follows the AGPL-3.0 License unless otherwise stated.
