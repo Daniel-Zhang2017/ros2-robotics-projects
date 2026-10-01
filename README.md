@@ -229,6 +229,7 @@ New terminal, launch camera driver:
 
 ```
 ros2 launch turn_on_wheeltec_robot wheeltec_camera.launch.py
+#or you own camera ROS2 node
 ```
 
 ## Step 4: Capture calibration samples
