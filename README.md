@@ -361,28 +361,8 @@ yolo detect train \
   name=exp1
 ```
 **Key Arguments**
+<img width="564" height="691" alt="image" src="https://github.com/user-attachments/assets/ab66f2c1-3189-40c9-960c-3f5d996b591b" />
 
-Argument	Description	Default
-
-data	Path to data.yaml	—
-
-epochs	Number of training epochs	100
-
-imgsz	Input image size	640
-
-batch	Batch size (-1 = auto)	16
-
-device	0, 0,1, cpu	auto
-
-optimizer	SGD, Adam, AdamW, auto	auto
-
-lr0	Initial learning rate	0.01
-
-freeze	Freeze first N layers	None
-
-patience	Early stopping patience	50
-
-resume	Resume last training	False
  
 🔁 Resuming Training
 If training was interrupted:
