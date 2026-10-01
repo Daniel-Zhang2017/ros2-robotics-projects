@@ -179,3 +179,94 @@ Computes err_dist and err_theta.
 Applies PID control to produce linear and angular velocities.
 Publishes a Twist to /turtle1/cmd_vel.
 When the errors fall within tolerance, the goal is marked as succeeded and the result is returned.
+
+# Project 7: # Camera Intrinsic Calibration for ROS2
+## Description: ## Why calibrate the camera
+
+Real camera lenses introduce radial and tangential distortion, bending straight lines and causing pixel position errors. Intrinsic calibration computes the camera intrinsic matrix (focal length, principal point) and distortion coefficients. These parameters are required for SLAM, visual odometry, 3D reconstruction and object pose estimation.
+
+This guide uses the official ROS2 `camera_calibration` package with a chessboard pattern to get intrinsic parameters.
+
+## Prerequisites
+
+- ROS2 installed (Humble / Iron / Rolling, replace `<ros2-distro>` with your distro)
+- A printed chessboard calibration plate
+- A camera publishing raw image topic
+
+### Install dependencies
+
+```
+sudo apt install ros-<ros2-distro>-camera-calibration
+sudo apt install ros-<ros2-distro>-camera-info-manager
+```
+
+## Step 1: Prepare chessboard pattern
+
+Download printable chessboard:
+[https://calib.io/pages/camera-calibration-pattern-generator](https://calib.io/pages/camera-calibration-pattern-generator)
+
+> 
+> ⚠️ Important:
+> `--size` = **inner corner count**, NOT the number of black/white squares.
+> Example: 12×14 squares → inner corners `11x13`.
+> `--square` = physical side length of one square (in meters, measure after printing).
+
+## Step 2: Launch calibration node
+
+Open a terminal and run, modify parameters for your chessboard and camera topic:
+
+```
+ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.014 image:=/camera/color/image_raw
+```
+
+- `--size 6x9`: chessboard inner corners
+- `--square 0.014`: square size in meters
+- `image:=/camera/color/image_raw`: your raw image topic (may be `/camera/rgb/image_raw`)
+
+## Step 3: Start your camera
+
+New terminal, launch camera driver:
+
+```
+ros2 launch turn_on_wheeltec_robot wheeltec_camera.launch.py
+```
+
+## Step 4: Capture calibration samples
+
+A GUI window opens. On the right are four progress bars: `X`, `Y`, `Size`, `Skew`.
+
+1. Move the chessboard in front of camera: left/right, up/down, forward/backward, tilt and rotate.
+2. Cover all regions of the image frame with different distances and angles.
+3. Stop when **all 4 bars turn green**, and `CALIBRATE` button becomes dark green.
+
+> 
+> Lighting should be uniform, avoid glare or overexposure.
+
+## Step 5: Compute and save calibration
+
+1. Click `CALIBRATE`. The GUI freezes; **do not close it**.
+2. Wait for terminal output of intrinsic matrix and distortion values.
+3. Click `SAVE`.
+4. Output archive saved at `/tmp/calibrationdata.tar.gz`.
+5. Extract `ost.yaml` inside this archive — this file stores your camera intrinsic and distortion parameters.
+6. Click `COMMIT` if you want to register parameters to `camera_info_manager`.
+
+## Step 6: Use calibrated parameters
+
+Load `ost.yaml` with `camera_info_manager` node in your ROS2 vision pipeline to publish corrected camera info.
+
+## Troubleshooting
+
+- `CALIBRATE` grey: insufficient samples. Collect more frames with varied position/tilt.
+- No chess corner detection: improve lighting, keep chessboard flat, reduce reflection.
+- Topic error: check available topics with `ros2 topic list` and update the `image:=` argument.
+
+## Notes & Common Pitfalls
+
+1. **Print scaling error**: When printing the chessboard, disable "fit to page". If the printer scales the image, your `--square` measurement will be wrong and calibration results invalid. Always physically measure the printed square size with a ruler.
+2. **Flat board requirement**: Do not use curved paper. Tape the chessboard flat onto rigid cardboard to avoid bending. Board deformation leads to bad calibration.
+3. **Focus & exposure lock**: If your camera supports auto-focus / auto-exposure, disable them before calibration. Changing focus during capture alters intrinsic parameters.
+4. **Sample distribution**: Do not only hold the chessboard at the image centre. Capture samples in corners, near edges, at close range and far range. This greatly improves robustness.
+5. **Reprojection error**: After calibration, check the terminal reprojection error. An error > 1 pixel usually means poor samples or a warped chessboard; redo calibration.
+6. **Do not move camera**: Keep the camera fixed during the whole calibration process. Only move the chessboard.
+7. **File permission**: `/tmp/` files are temporary and deleted after reboot. Copy `ost.yaml` to your project folder immediately after calibration.
