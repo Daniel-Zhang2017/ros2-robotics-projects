@@ -373,7 +373,6 @@ lr0	Initial learning rate	0.01
 freeze	Freeze first N layers	None
 patience	Early stopping patience	50
 resume	Resume last training	False
-<details> <summary><b>📖 Click to expand: Detailed argument reference</b></summary>
  
 🔁 Resuming Training
 If training was interrupted:
