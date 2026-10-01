@@ -228,7 +228,7 @@ Download printable chessboard:
 
 Open a terminal and run, modify parameters for your chessboard and camera topic:
 
-```
+```bash
 ros2 run camera_calibration cameracalibrator --size 6x9 --square 0.014 image:=/camera/color/image_raw
 ```
 
@@ -286,7 +286,7 @@ Load `ost.yaml` with `camera_info_manager` node in your ROS2 vision pipeline to 
 7. **File permission**: `/tmp/` files are temporary and deleted after reboot. Copy `ost.yaml` to your project folder immediately after calibration.
 
 # Project 8: # Training YOLO Models with Ultralytics
-🗂 Dataset Preparation
+🗂 **Dataset Preparation**
 Ultralytics expects datasets in YOLO format.
 
 Directory Structure
@@ -309,7 +309,7 @@ All coordinates must be normalized to [0, 1].
 
 class_id is a zero-based integer.
 
-Example:
+**Example:**
 
 text
 0 0.512 0.634 0.221 0.418
@@ -324,11 +324,12 @@ names:
   0: person
   1: car
   2: dog
+  
 🏋️ Training
-Python API
-python
+```bash
 from ultralytics import YOLO
-
+```
+```bash
 # Load a pretrained model
 model = YOLO("yolo26n.pt")  # n / s / m / l / x
 
@@ -348,8 +349,9 @@ model.train(
     save=True,
     plots=True,
 )
+```
 CLI
-bash
+```bash
 yolo detect train \
   model=yolo26n.pt \
   data=data.yaml \
@@ -358,7 +360,8 @@ yolo detect train \
   batch=16 \
   project=runs/train \
   name=exp1
-Key Arguments
+```
+**Key Arguments**
 Argument	Description	Default
 data	Path to data.yaml	—
 epochs	Number of training epochs	100
@@ -373,48 +376,54 @@ resume	Resume last training	False
 🔁 Resuming Training
 If training was interrupted:
 
-python
+```bash
 from ultralytics import YOLO
 
 model = YOLO("runs/train/exp1/weights/last.pt")
 model.train(resume=True)
+```
 Or via CLI:
 
-bash
+```bash
 yolo detect train resume model=runs/train/exp1/weights/last.pt
+```
 ✅ Validation
-python
+```bash
 from ultralytics import YOLO
 
 model = YOLO("runs/train/exp1/weights/best.pt")
 metrics = model.val(data="data.yaml", imgsz=640, batch=16)
 print(metrics.box.map)  # mAP50-95
+```
 CLI:
 
-bash
+```bash
 yolo detect val model=runs/train/exp1/weights/best.pt data=data.yaml
+```
 🔍 Inference
 On images
-python
+```bash
 from ultralytics import YOLO
 
 model = YOLO("runs/train/exp1/weights/best.pt")
 results = model.predict(source="test.jpg", conf=0.25, save=True)
+```
 On a folder / video / webcam
-bash
+```bash
 yolo detect predict model=best.pt source=path/to/folder save=True
 yolo detect predict model=best.pt source=video.mp4 save=True
 yolo detect predict model=best.pt source=0 show=True
+```
 📤 Export
 Export a trained model to ONNX, TensorRT, CoreML, etc.
 
-python
+```bash
 from ultralytics import YOLO
 
 model = YOLO("runs/train/exp1/weights/best.pt")
 model.export(format="onnx", dynamic=True, simplify=True)
 Supported formats: onnx, torchscript, engine (TensorRT), coreml, tflite, openvino, pb, saved_model, paddle, ncnn.
-
+```
 📁 Project Structure
 text
 your-project/
@@ -437,14 +446,20 @@ your-project/
             └── results.png
 💡 **Tips & Troubleshooting**
 **Out of memory?** Reduce batch or imgsz, or set batch=-1 for auto-batching.
+
 **Slow convergence?** Start from a pretrained checkpoint (yolo26n.pt) instead of yolo26n.yaml.
+
 **Overfitting?** Increase augmentation (mosaic, mixup, degrees), add dropout, or freeze layers.
+
 **Class imbalance?** Use cls loss weight or oversample minority classes.
+
 **Reproducibility?** Set deterministic=True and seed=42.
+
 **Multi-GPU training**: device=0,1,2,3 or yolo detect train ... device=0,1.
 
-bash
+```bash
 yolo detect train --help
+```
 Or visit the official docs: https://docs.ultralytics.com/modes/train/
 
 📄 License
