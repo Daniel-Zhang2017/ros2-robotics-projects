@@ -361,6 +361,7 @@ yolo detect train \
   name=exp1
 ```
 **Key Arguments**
+
 Argument	Description	Default
 data	Path to data.yaml	—
 epochs	Number of training epochs	100
@@ -372,6 +373,8 @@ lr0	Initial learning rate	0.01
 freeze	Freeze first N layers	None
 patience	Early stopping patience	50
 resume	Resume last training	False
+<details> <summary><b>📖 Click to expand: Detailed argument reference</b></summary>
+ 
 🔁 Resuming Training
 If training was interrupted:
 
