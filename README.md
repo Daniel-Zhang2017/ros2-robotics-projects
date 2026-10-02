@@ -459,61 +459,66 @@ Or visit the official docs: https://docs.ultralytics.com/modes/train/
 This project follows the AGPL-3.0 License unless otherwise stated.
 
 # Project 9: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
-## roarm_ws is a workspace containing multiple ROS2 packages, each serving a specific purpose in the operation and control of robotic arms.
-**Details can be found in https://github.com/waveshareteam/roarm_ws.git**
+## Overview
 
-Below is an overview of each package and its main functionalities:
+`roarm_ws` is a dedicated ROS2 workspace integrated with multiple functional packages for the motion control, simulation, hardware driving and task planning of the Roarm robotic arm. Each independent package undertakes a specific modular function to support the full physical robotic arm control workflow.
 
-**roarm_main:**
+Full project details: [https://github.com/waveshareteam/roarm_ws.git](https://github.com/waveshareteam/roarm_ws.git)
 
-1. roarm_description
-Robotic Arm Model:
+## Workspace Package Structure & Functional Description
 
-Contains the URDF (Unified Robot Description Format) files and other model descriptions necessary for simulating and visualizing the robotic arm.
+The workspace is divided into two core module groups: `roarm_main` (core customized packages for Roarm) and `roarm_else` (extended functional packages).
 
-2. roarm_driver
-Driver for Real Robot:
+### 1. roarm_main (Core Custom Packages)
 
-Responsible for interfacing with and controlling the physical robotic arm hardware.
+#### 1.1 roarm_description
 
-3. roarm_moveit
-Kinematic Configuration:
+**Function**: Robotic arm model definition and visualization
+Stores URDF (Unified Robot Description Format) files and all robot model configuration resources, supporting 3D simulation, model rendering and visual verification of the Roarm robotic arm in ROS2 environment.
 
-Provides configurations for MoveIt, a motion planning framework, including setup files and parameters required for the kinematic control of the robotic arm.
+#### 1.2 roarm_driver
 
-4. roarm_moveit_ikfast_plugins
-IKFast Kinematics Solver:
+**Function**: Physical hardware driver
+Provides underlying hardware interface adaptation, responsible for data communication and real-time control of the physical Roarm robotic arm, realizing the connection between ROS2 software system and actual hardware equipment.
 
-Implements the IKFast kinematics solver, which is used for efficient and fast inverse kinematics calculations.
+#### 1.3 roarm_moveit
 
-5. roarm_msgs
-Message Definitions:
+**Function**: MoveIt2 kinematics configuration
+Integrates all configuration files and core operation parameters for the MoveIt2 motion planning framework, and completes the kinematic control environment setup for the robotic arm autonomous motion planning.
 
-Defines custom message types used for communication between different packages and components in the robotic arm system.
+#### 1.4 roarm_moveit_ikfast_plugins
 
-6. roarm_moveit_cmd
-Control Commands:
+**Function**: IKFast high-speed kinematics solver
+Encapsulates and implements the IKFast inverse kinematics algorithm plugin, which efficiently optimizes the inverse kinematics calculation speed of the robotic arm, ensuring smooth and real-time motion response.
 
-Includes scripts and nodes for sending control commands to the robotic arm, allowing for movement and task execution.
+#### 1.5 roarm_msgs
 
-7. roarm_moveit_servo
-Roarm Control:
+**Function**: Custom message definition
+Defines exclusive custom message types for the Roarm robotic arm system, realizing standardized data transmission and communication interaction between different functional packages and nodes.
 
-Enables control of the robotic arm using keyboard, allowing for intuitive manual operation.
+#### 1.6 roarm_moveit_cmd
 
-8. roarm_moveit_mtc_demo
-MTC Demo:
+**Function**: Robotic arm automatic control command
+Contains rich control scripts and functional nodes, which can send customized motion instructions to the robotic arm to realize automatic movement and fixed-task execution.
 
-Demonstrates the use of MoveIt Task Constructor (MTC) for complex robotic arm tasks, showcasing its capabilities in automating and simplifying robotic operations.
+#### 1.7 roarm_moveit_servo
 
-**roarm_else:**
+**Function**: Manual keyboard real-time control
+Supports real-time servo control of the robotic arm via keyboard operation, providing intuitive and flexible manual debugging and motion control methods.
 
-1. moveit_servo
-Arm Control:
+#### 1.8 roarm_moveit_mtc_demo
 
-Enables control of the robotic arm using keyboard, allowing for intuitive manual operation.
+**Function**: MoveIt Task Constructor (MTC) demo
+Provides practical demo cases based on MTC framework, verifies the ability of MTC to decompose, construct and execute complex robotic arm tasks, and supports secondary development of automated composite tasks.
 
-2. moveit_task_constructor
-**MTC Planner:**
+### 2. roarm_else (Extended Functional Packages)
 
-Provides a framework for constructing complex robotic arm tasks using MoveIt Task Constructor (MTC).
+#### 2.1 moveit_servo
+
+**Function**: Extended keyboard servo control
+Extended manual control module, compatible with multi-scene keyboard operation logic, assists in rapid debugging of robotic arm motion status and parameter verification.
+
+#### 2.2 moveit_task_constructor
+
+**Function**: MTC core planning framework
+Integrates the official MoveIt Task Constructor core framework, provides basic task modeling, scheduling and execution logic support for complex robotic arm task planning, and is the underlying dependency for automated composite tasks.
