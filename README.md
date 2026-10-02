@@ -11,7 +11,7 @@
 | 6 | [PID Controller for Turtlesim](#project-6) | ROS2 Action + PID |
 | 7 | [Camera Intrinsic Calibration](#project-7) | Camera calibration |
 | 8 | [Training YOLO with Ultralytics](#project-8) | CV Model training |
-| 9 | [ROS2+Moveit2 for Roarm](#project-9) | ROS2 &Moveit2 |
+| 9 | [Controlling a Physical Robotic Arm](#project-9) | ROS2 + Moveit2 for Roarm|
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
@@ -458,13 +458,13 @@ Or visit the official docs: https://docs.ultralytics.com/modes/train/
 📄 License
 This project follows the AGPL-3.0 License unless otherwise stated.
 
-# Project 9: ROS2+Moveit2 for Roarm
-##roarm_ws is a workspace containing multiple ROS2 packages, each serving a specific purpose in the operation and control of robotic arms. 
-details can be see https://github.com/waveshareteam/roarm_ws.git
+# Project 9: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
+**roarm_ws is a workspace containing multiple ROS2 packages, each serving a specific purpose in the operation and control of robotic arms. **
+**Details can be see https://github.com/waveshareteam/roarm_ws.git**
 
 Below is an overview of each package and its main functionalities:
 
-roarm_main:
+**roarm_main:**
 
 1. roarm_description
 Robotic Arm Model:
@@ -506,7 +506,7 @@ MTC Demo:
 
 Demonstrates the use of MoveIt Task Constructor (MTC) for complex robotic arm tasks, showcasing its capabilities in automating and simplifying robotic operations.
 
-roarm_else:
+**roarm_else:**
 
 1. moveit_servo
 Arm Control:
@@ -514,6 +514,6 @@ Arm Control:
 Enables control of the robotic arm using keyboard, allowing for intuitive manual operation.
 
 2. moveit_task_constructor
-MTC Planner:
+**MTC Planner:**
 
 Provides a framework for constructing complex robotic arm tasks using MoveIt Task Constructor (MTC).
