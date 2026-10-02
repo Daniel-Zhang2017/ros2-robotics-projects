@@ -461,7 +461,7 @@ This project follows the AGPL-3.0 License unless otherwise stated.
 # Project 9: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
 ## Overview
 
-`roarm_ws` is a dedicated ROS2 workspace integrated with multiple functional packages for the motion control, simulation, hardware driving and task planning of the Roarm robotic arm. Each independent package undertakes a specific modular function to support the full physical robotic arm control workflow.
+`ros2_arm_ws` is a dedicated ROS2 workspace integrated with multiple functional packages for the motion control, simulation, hardware driving and task planning of the Roarm robotic arm. Each independent package undertakes a specific modular function to support the full physical robotic arm control workflow.
 
 Full project details: [https://github.com/waveshareteam/roarm_ws.git](https://github.com/waveshareteam/roarm_ws.git)
 
