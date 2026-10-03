@@ -1,17 +1,25 @@
-# ros2-robotics-projects (continue updating, please star)
+# ROS2 Project Portfolio
+##ros2-robotics-projects (continue updating, please star)
+**A collection of ROS2 robotics projects covering simulation, navigation, computer vision, motion control and custom interface development.**
 ## 📚 Table of Contents
 
 | # | Project | Focus |
 |---|---------|-------|
-| 1 | [ROS2-USB_CAM_YOLOvX Real-Time Detection](#project-1) | Real-time YOLO detection |
-| 2 | [ROS2 Person Detection Alert](#project-2) | Multi-node alerting |
-| 3 | [System Status + QT Display](#project-3) | Custom interfaces |
-| 4 | [cmd_vel & Topic Remapping](#project-4) | Turtlesim control |
-| 5 | [Face Recognition Service](#project-5) | ROS2 services |
-| 6 | [PID Controller for Turtlesim](#project-6) | ROS2 Action + PID |
-| 7 | [Camera Intrinsic Calibration](#project-7) | Camera calibration |
-| 8 | [Training YOLO with Ultralytics](#project-8) | CV Model training |
-| 9 | [Controlling a Physical Robotic Arm](#project-9) | ROS2 + Moveit2 for Roarm|
+| 0.1 | Gazebo: Build Your Own Robot | Gazebo simulation, URDF/Xacro modeling |
+| 0.2 | ros2_control | Hardware interfaces, controllers, real-time control |
+| 0.3 | slam_toolbox | SLAM, mapping, localization |
+| 0.4 | Navigation 2 | Path planning, costmaps, behavior trees |
+| 0.5 | autopatrol_robot | Autonomous patrol, waypoint following, speaker, capture images |
+| 1 | ROS2-USB_CAM_YOLOvX Real-Time Detection | Real-time YOLO detection, camera pipeline |
+| 2 | ROS2 Person Detection Alert | Multi-node alerting, pub/sub orchestration |
+| 3 | System Status + Qt Display | Custom interfaces, Qt GUI, system telemetry |
+| 4 | cmd_vel & Topic Remapping | Turtlesim control, topics, remapping |
+| 5 | Face Recognition Service | ROS2 services, OpenCV, face recognition |
+| 6 | PID Controller for Turtlesim | ROS2 Action + PID, feedback control |
+| 7 | Camera Intrinsic Calibration | Camera calibration, distortion correction |
+| 8 | Training YOLO with Ultralytics | CV model training, dataset prep, export |
+| 9 | Controlling a Physical Robotic Arm | ROS2 + MoveIt2 for RoArm, manipulation |
+# The Project 0 series are basic learning projects.
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
