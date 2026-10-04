@@ -19,9 +19,21 @@
 | 7 | [Camera Intrinsic Calibration](#project-7) | Camera calibration |
 | 8 | [Training YOLO with Ultralytics](#project-8) | CV Model training |
 | 9 | [Controlling a Physical Robotic Arm](#project-9) | ROS2 + Moveit2 for Roarm|
-# The Project 0 series are basic learning projects.
 
+# The Project 0 series are basic learning projects
+## robot001
 
+This package contains the robot description implemented with **URDF** and **Xacro** for ROS 2.
+
+URDF (Unified Robot Description Format) uses XML to define robot links, joints, geometry and physical properties. To reduce redundant XML code, we adopt Xacro, a URDF preprocessor supporting variables, mathematical calculations and reusable component macros. At launch time, Xacro files are expanded into standard URDF automatically.
+
+The launch file loads the robot model via `robot_state_publisher` to publish TF transforms. `joint_state_publisher_gui` provides sliders to adjust joint angles. Run the launch script and open RViz2, add the RobotModel display, set the fixed frame, then visualise the full robot model.
+```bash
+#to the project0 folder
+colcon build robot_description
+source install/setup.bash
+ros2 launch robot_description display_robot.launch.py
+```
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 ## Running procedure
