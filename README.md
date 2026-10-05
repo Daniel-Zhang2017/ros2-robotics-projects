@@ -134,6 +134,7 @@ model.predict(source=img, conf=0.5)    # Faster, but more missed detections
 # 3) Use half precision (GPU only)
 model.predict(source=img, half=True)   # FP16, ~2x faster
 ```
+**launch the node**
 ```bash
 colcon build --packages-select ultralytics_ros2
 source install/setup.bash
