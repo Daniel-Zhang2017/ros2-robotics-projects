@@ -11,7 +11,7 @@ def generate_launch_description():
         Node(
             package='ultralytics_ros2',
             executable='detection_node_onnx',
-            name='yolo_onnx_detector',
+            name='yolo_detector_onnx',
             output='screen',
             parameters=[{
                 'model': os.path.join(model_dir, 'yolov8n.pt'),
