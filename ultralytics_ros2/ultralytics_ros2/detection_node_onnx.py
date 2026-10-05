@@ -11,12 +11,12 @@ import torch
 from threading import Lock, Thread
 
 
-def export_model_to_onnx(model_name='yolov8n.pt', imgsz=640, opset=12):
+def export_model_to_onnx(model_name='yolov8s.pt', imgsz=640, opset=12):
     """
     Export a YOLO model to ONNX format (run once).
     
     Args:
-        model_name (str): Path or name of the YOLO model (e.g., 'yolov8n.pt')
+        model_name (str): Path or name of the YOLO model (e.g., 'yolov8s.pt')
         imgsz (int): Inference image size
         opset (int): ONNX opset version
     
@@ -36,7 +36,7 @@ def export_model_to_onnx(model_name='yolov8n.pt', imgsz=640, opset=12):
 
 class YOLODetector(Node):
     def __init__(self):
-        super().__init__('yolo_detector')
+        super().__init__('yolo_detector_onnx')
         self.get_logger().info("==== Node init finished, code loaded successfully ====")
 
         self.declare_parameters(
@@ -48,7 +48,7 @@ class YOLODetector(Node):
                 ('conf_threshold', 0.5),
                 ('infer_period', 0.08),
                 ('export_onnx', False),
-                ('onnx_export_model', 'yolov8n.pt'),
+                ('onnx_export_model', 'yolov8s.pt'),
                 ('onnx_export_imgsz', 640),
                 ('onnx_export_opset', 12),
             ]
