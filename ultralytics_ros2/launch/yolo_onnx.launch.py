@@ -10,8 +10,8 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='ultralytics_ros2',
-            executable='detection_node',
-            name='yolo_detector',
+            executable='detection_node_onnx',
+            name='yolo_onnx_detector',
             output='screen',
             parameters=[{
                 'model': os.path.join(model_dir, 'yolov8n.pt'),
@@ -19,7 +19,7 @@ def generate_launch_description():
                 'enable_cuda': True,
                 'conf_threshold': 0.5,
                 'infer_period': 0.08,
-                'export_onnx': False,
+                'export_onnx': True,
                 'onnx_export_model': os.path.join(model_dir, 'yolov8n.pt'),
                 'onnx_export_imgsz': 640,
                 'onnx_export_opset': 12,
