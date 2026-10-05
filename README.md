@@ -10,7 +10,7 @@
 | 0.3 | [slam_toolbox](#project-0.3) | SLAM, mapping, localization |
 | 0.4 | [Navigation 2](#project-0.4) | Path planning, costmaps, behavior trees |
 | 0.5 | [autopatrol_robot](#project-0.5) | Autonomous patrol, waypoint following, speaker, capture images |
-| 1 | [ROS2-USB_CAM_YOLOvX Real-Time Detection](#project-1) | Real-time YOLO detection |
+| 1 | [ROS2-USB_CAM_YOLOvX Real-Time Detection](#project-1) | Real-time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project-2) | Multi-node alerting |
 | 3 | [System Status + QT Display](#project-3) | Custom interfaces |
 | 4 | [cmd_vel & Topic Remapping](#project-4) | Turtlesim control |
@@ -38,6 +38,14 @@ ros2 launch robot_description display_robot.launch.py
 ```
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
+**A ROS 2 package for real-time object detection using a USB camera and Ultralytics YOLO models.**
+
+**Prerequisites**
+Ubuntu 22.04
+
+ROS 2 Humble
+
+Python 3.10
 ## Running procedure
 0. ### clone the code and install dependcies
  ```bash
@@ -81,7 +89,54 @@ Then build the functional package:
 colcon build --packages-select ultralytics_ros2
 source install/setup.bash
 ```
+### GPU Acceleration & Model Optimization
+**Verify CUDA Availability**
+```bash
+python3 - << 'EOF'
+import torch
+print(f'CUDA available: {torch.cuda.is_available()}')
+if torch.cuda.is_available():
+    print(f'GPU: {torch.cuda.get_device_name(0)}')
+    print(f'VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB')
+EOF
+```
+### Export to ONNX for Faster CPU Inference
+For environments without a GPU, exporting the PyTorch model to ONNX can significantly speed up CPU inference (thanks to ONNXRuntime optimizations):
 
+```bash
+from ultralytics import YOLO
+
+model = YOLO('yolov8n.pt')
+```
+### Export to ONNX (run once)
+```bash
+model.export(format='onnx', imgsz=640, opset=12)
+# Produces yolov8n.onnx
+#Install onnxruntime:
+```
+```bash
+uv pip install onnxruntime       # CPU
+```
+```bash
+# or
+uv pip install onnxruntime-gpu   # GPU
+```
+Run inference with the ONNX model (roughly 1.5–2x speedup):
+
+### Parameter Tuning & Performance Impact
+```bash
+# Speed vs. accuracy trade-off
+
+# 1) Lower input resolution (most effective speedup)
+model.predict(source=img, imgsz=320)   # ~160 fps, but lower small-object recall
+model.predict(source=img, imgsz=640)   # ~80 fps,  standard resolution
+
+# 2) Raise confidence threshold (reduces NMS workload)
+model.predict(source=img, conf=0.5)    # Faster, but more missed detections
+
+# 3) Use half precision (GPU only)
+model.predict(source=img, half=True)   # FP16, ~2x faster
+```
 # Project 2: # ROS2 Person Detection Alert Project
 This project combines USB camera capture, YOLO object detection, and a secondary person recognition node.
 The system captures live video stream, runs YOLO inference to draw annotated frames, then a separate node listens to the annotated image topic and triggers an alert message when a human (COCO class `person`) is detected.
