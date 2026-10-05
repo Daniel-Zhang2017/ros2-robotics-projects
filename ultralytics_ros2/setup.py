@@ -11,6 +11,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/launch', ['launch/yolo.launch.py']),
+        ('share/' + package_name + '/launch', ['launch/yolo_onnx.launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -22,6 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'detection_node = ultralytics_ros2.detection_node:main',
+            'detection_node_onnx = ultralytics_ros2.detection_node_onnx:main',
         ],
     },
 )
