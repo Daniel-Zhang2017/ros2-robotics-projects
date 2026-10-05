@@ -14,12 +14,10 @@ from threading import Lock, Thread
 def export_model_to_onnx(model_name='yolov8s.pt', imgsz=640, opset=12):
     """
     Export a YOLO model to ONNX format (run once).
-    
     Args:
         model_name (str): Path or name of the YOLO model (e.g., 'yolov8s.pt')
         imgsz (int): Inference image size
         opset (int): ONNX opset version
-    
     Returns:
         str: Path to the exported ONNX file, or None if export failed
     """
@@ -38,7 +36,6 @@ class YOLODetector(Node):
     def __init__(self):
         super().__init__('yolo_detector_onnx')
         self.get_logger().info("==== Node init finished, code loaded successfully ====")
-
         self.declare_parameters(
             namespace='',
             parameters=[
@@ -51,6 +48,7 @@ class YOLODetector(Node):
                 ('onnx_export_model', 'yolov8s.pt'),
                 ('onnx_export_imgsz', 640),
                 ('onnx_export_opset', 12),
+                ('enable_half', False),
             ]
         )
         self.model_name = self.get_parameter('model').value
@@ -62,15 +60,16 @@ class YOLODetector(Node):
         self.onnx_export_model = self.get_parameter('onnx_export_model').value
         self.onnx_export_imgsz = self.get_parameter('onnx_export_imgsz').value
         self.onnx_export_opset = self.get_parameter('onnx_export_opset').value
+        self.enable_half = self.get_parameter('enable_half').value
 
         self.model_full_path = self.model_name
         self.model = None
         self.bridge = CvBridge()
-
         self.latest_image = None
         self.latest_msg_header = None
         self.lock = Lock()
 
+        # Image subscriber
         self.sub = self.create_subscription(
             Image, self.input_topic, self.image_callback,
             qos_profile=rclpy.qos.QoSProfile(depth=1)
@@ -81,7 +80,7 @@ class YOLODetector(Node):
         self.infer_timer = self.create_timer(self.infer_period, self.infer_timer_callback)
         self.last_time = self.get_clock().now()
 
-        # Start model loading in background thread, do NOT block rclpy executor
+        # Background thread to load model
         self.load_thread = Thread(target=self._load_model_worker, daemon=True)
         self.load_thread.start()
 
@@ -128,7 +127,6 @@ class YOLODetector(Node):
     def infer_timer_callback(self):
         if self.model is None:
             return
-
         with self.lock:
             if self.latest_image is None:
                 return
@@ -141,21 +139,24 @@ class YOLODetector(Node):
                 conf=self.conf_threshold,
                 verbose=False,
                 imgsz=640,
-                half=False,
-                device=0 if torch.cuda.is_available() else 'cpu'
+                half=self.enable_half,
             )
             result = results[0]
             detections_msg = Detection2DArray()
             detections_msg.header = header
+
+            # Annotated image (YOLO plot returns RGB)
             annotated_image = result.plot()
-            annotated_image = np.array(annotated_image, dtype=np.uint8).copy()
             annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR)
 
+            # FPS calculation
             current_time = self.get_clock().now()
             delta_time = current_time - self.last_time
             fps = 1e9 / delta_time.nanoseconds if delta_time.nanoseconds > 0 else 0.0
-            cv2.putText(annotated_image, f'FPS: {fps:.2f}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            cv2.putText(annotated_image, f'FPS: {fps:.2f}', (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
+            # Publish visualized image
             img_msg = Image()
             img_msg.header = header
             img_msg.height = annotated_image.shape[0]
@@ -166,6 +167,7 @@ class YOLODetector(Node):
             img_msg.data = annotated_image.tobytes()
             self.pub_image.publish(img_msg)
 
+            # Fill Detection2DArray
             for box in result.boxes:
                 detection = Detection2D()
                 detection.bbox = BoundingBox2D()
@@ -174,8 +176,10 @@ class YOLODetector(Node):
                 detection.bbox.center.position.y = float(yc)
                 detection.bbox.size_x = float(w)
                 detection.bbox.size_y = float(h)
+
                 cls_idx = int(box.cls)
                 conf_score = float(box.conf)
+
                 hypothesis = ObjectHypothesisWithPose()
                 hypothesis.hypothesis.class_id = str(cls_idx)
                 hypothesis.hypothesis.score = conf_score
@@ -187,6 +191,13 @@ class YOLODetector(Node):
 
         except Exception as e:
             self.get_logger().error(f"infer error: {str(e)}")
+
+    def destroy_node(self):
+        # Clean GPU memory
+        if self.model is not None:
+            del self.model
+        torch.cuda.empty_cache()
+        super().destroy_node()
 
 
 def main(args=None):

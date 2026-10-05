@@ -1,6 +1,12 @@
+import os
+import glob
 from setuptools import setup
 
 package_name = 'ultralytics_ros2'
+
+# Get absolute path to model folder inside this package source
+pkg_model_dir = os.path.join(os.path.dirname(__file__), "model")
+pt_files = glob.glob(os.path.join(pkg_model_dir, "*.pt"))
 
 setup(
     name=package_name,
@@ -10,6 +16,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        # Copy all *.pt from source model/ to install/share/ultralytics_ros2/model
+        (os.path.join('share', package_name, 'model'), pt_files),
         ('share/' + package_name + '/launch', ['launch/yolo.launch.py']),
         ('share/' + package_name + '/launch', ['launch/yolo_onnx.launch.py']),
     ],
