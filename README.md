@@ -36,6 +36,35 @@ colcon build robot_description
 source install/setup.bash
 ros2 launch robot_description display_robot.launch.py
 ```
+**project0/robot002**
+**Description: Using xacro to build the robot model, create the world field, and show the robot in Gazebo.**
+
+To use a URDF (Unified Robot Description Format) file in Gazebo, you need to go beyond the basic structure used for visualization in RViz. You must add specific <gazebo> tags that provide the simulator with critical physical properties, sensor definitions, and control plugins.
+
+🔄 **The Conversion Process: URDF to SDF**
+**Gazebo does not natively use URDF; it uses SDF (Simulation Description Format). When you load a URDF into Gazebo, the simulator internally converts it into an SDF model.**
+
+To ensure this conversion is successful, your URDF must define <inertial> and <collision> elements for every link. Without a valid mass (greater than zero) and inertia matrix, Gazebo will ignore the link or simulate it incorrectly.
+
+🏷️ Essential Gazebo Tags
+
+The standard URDF tags are insufficient for a full simulation. You must include the following Gazebo-specific tags:
+
+<gazebo reference="link_name">: This is the primary tag used to attach SDF properties to a specific link. It acts as a bridge, allowing you to "decorate" your URDF with simulation-specific data.
+
+Gazebo Material: URDF <material> tags (used for RViz colors) are ignored by Gazebo. To set a color in the simulator, you must use <gazebo reference="link_name"><material>Gazebo/Orange</material></gazebo>.
+
+Physics Properties: Inside the <gazebo> tag, you can define friction coefficients (mu1, mu2), contact stiffness (kp), and damping (dampingFactor) to refine the physical interaction.
+
+Plugins: Sensors (Lidar, Camera) and actuators (Differential Drive) are implemented in Gazebo via <plugin> tags. These are typically placed inside a <gazebo> block to define how the robot moves and senses its environment.
+```bash
+#cd the project0/robot002 folder
+cd project0/robot002
+colcon build robot_description
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+
 
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 **A ROS 2 package for real-time object detection using a USB camera and Ultralytics YOLO models.**
