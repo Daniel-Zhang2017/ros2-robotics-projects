@@ -40,12 +40,7 @@ ros2 launch robot_description display_robot.launch.py
 # Project 1: ROS2-USB_CAM_YOLOvX Real-Time Detection
 **A ROS 2 package for real-time object detection using a USB camera and Ultralytics YOLO models.**
 
-**Prerequisites**
-Ubuntu 22.04
-
-ROS 2 Humble
-
-Python 3.10
+**Prerequisites:** Ubuntu 22.04, ROS 2 Humble, Python 3.10
 ## Running procedure
 0. ### clone the code and install dependcies
  ```bash
