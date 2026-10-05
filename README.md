@@ -59,6 +59,8 @@ chmod +x install_deps.sh
 1. ### start camera node
 
 ```bash
+colcon build --packages-select usb_cam
+source install/setup.bash
 ros2 launch usb_cam usb_cam_launch.py
 ```
 
@@ -84,7 +86,7 @@ Then build the functional package:
 colcon build --packages-select ultralytics_ros2
 source install/setup.bash
 ```
-### GPU Acceleration & Model Optimization
+### GPU Acceleration & Model Optimization: ros2 launch yolo_onnx.launch.py
 **Verify CUDA Availability**
 ```bash
 python3 - << 'EOF'
@@ -131,6 +133,12 @@ model.predict(source=img, conf=0.5)    # Faster, but more missed detections
 
 # 3) Use half precision (GPU only)
 model.predict(source=img, half=True)   # FP16, ~2x faster
+```
+```bash
+colcon build --packages-select ultralytics_ros2
+source install/setup.bash
+ros2 launch yolo_onnx.launch.py
+
 ```
 # Project 2: # ROS2 Person Detection Alert Project
 This project combines USB camera capture, YOLO object detection, and a secondary person recognition node.
