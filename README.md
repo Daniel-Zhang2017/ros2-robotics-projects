@@ -13,12 +13,13 @@
 | 1 | [ROS2-USB_CAM_YOLOvX Real-Time Detection](#project-1) | Real-time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project-2) | Multi-node alerting |
 | 3 | [System Status + QT Display](#project-3) | Custom interfaces |
-| 4 | [cmd_vel & Topic Remapping](#project-4) | Turtlesim control |
-| 5 | [Face Recognition Service](#project-5) | ROS2 services |
-| 6 | [PID Controller for Turtlesim](#project-6) | ROS2 Action + PID |
-| 7 | [Camera Intrinsic Calibration](#project-7) | Camera calibration |
-| 8 | [Training YOLO with Ultralytics](#project-8) | CV Model training |
-| 9 | [Controlling a Physical Robotic Arm](#project-9) | ROS2 + Moveit2 for Roarm|
+| 4 | [Suscribe topics and alert node based on the status](#project-3) | Custom alert nodes |
+| 5 | [cmd_vel & Topic Remapping](#project-4) | Turtlesim control |
+| 6 | [Face Recognition Service](#project-5) | ROS2 services |
+| 7 | [PID Controller for Turtlesim](#project-6) | ROS2 Action + PID |
+| 8 | [Camera Intrinsic Calibration](#project-7) | Camera calibration |
+| 9 | [Training YOLO with Ultralytics](#project-8) | CV Model training |
+| 10 | [Controlling a Physical Robotic Arm](#project-9) | ROS2 + Moveit2 for Roarm|
 
 # The Project 0 series are basic learning projects
 ## Project 0.1: Build Your Own Robot
@@ -209,8 +210,100 @@ source install/setup.bash
 ros2 run status_publisher sys_status_pub 
 ros2 run status_display sys_status_display
 ```
+# Project 4: # sys_status_monitor
 
-# Project 4: # Understanding the cmd_vel, and remap topic
+ROS2 Humble package for system status monitoring and multi‑level battery alerts.
+Subscribes to custom `/sys_status` topic from `status_interfaces`.
+
+## Features
+
+- Console subscriber for system status
+- 3‑level battery alert (Warning / Critical / Danger)
+- Skip alerts when no battery hardware (`battery_percent=-1.0`)
+
+表格
+
+| Level | Condition | Log |
+| --- | --- | --- |
+| Danger | <10% | FATAL |
+| Critical | 10‑19% | ERROR |
+| Warning | 20‑39% | WARN |
+| Normal | ≥40% | INFO |
+
+## Prerequisites
+
+- ROS2 Humble
+- `status_interfaces` (custom `SystemStatus` message)
+
+## Build
+
+```
+cd ~/ros2_ws/src
+git clone <repo-url> sys_status_monitor
+cd ..
+colcon build --packages-select sys_status_monitor
+source install/setup.bash
+```
+
+## Package Structure
+
+```
+sys_status_monitor/
+├── sys_status_monitor/
+│   ├── __init__.py
+│   ├── subscriber_node.py
+│   └── alert_node.py
+├── launch/sys_status_launch.py
+├── package.xml
+└── setup.py
+```
+
+## Nodes
+
+```
+# Print system status
+ros2 run sys_status_monitor sys_status_sub
+
+# Battery alert logic
+ros2 run sys_status_monitor battery_alert
+```
+
+## Run
+
+Terminal 1 (publisher):
+
+```bash
+ros2 run status_interfaces sys_status_pub
+```
+
+Terminal 2:
+
+```
+ros2 run sys_status_monitor sys_status_sub
+```
+
+Terminal3:
+
+```
+ros2 run sys_status_monitor battery_alert
+```
+
+Launch all nodes:
+
+```bash
+ros2 launch sys_status_monitor sys_status_launch.py
+```
+
+## Topics
+
+表格
+
+| Topic | Message |
+| --- | --- |
+| `/sys_status` | `status_interfaces/msg/SystemStatus` |
+
+
+# Project 5: # Understanding the cmd_vel, and remap topic
 ## Description: topic_practice_ws/src
 Write your own publisher node to make the turtle draw a circle automatically — Goal: Understand cmd_vel control.
 Control the second turtle and practice **topic remapping (remap)** — Goal: Master the entry-level skills of multi-robot control.
@@ -234,7 +327,7 @@ ros2 run turtle_draw draw_circle --ros-args --remap /turtle1/cmd_vel:=/turtle2/c
 ```
 Syntax meaning: --remap original_name:=new_name. After startup, the publisher object inside the node remains unchanged, but the actual data flows to /turtle2/cmd_vel — and turtle2 in the top-right corner starts drawing a circle.
 
-# Project 5: # using service for face recognition, Understanding the ROS2 service 
+# Project 6: # using service for face recognition, Understanding the ROS2 service 
 ## Description: topic_practice_ws/src/demo_python_service; demo_python_service  includes face_detect_client_node.py and face_detect_node.py; learn_detect_from_camera.py node just combines the `face_recognition` and OpenCV for detecing face from the local webcam.
 
 ```bash
@@ -257,7 +350,7 @@ This demo implements real‑time face detection using `face_recognition` and Ope
 ```bash
 ros2 run demo_python_service learn_detect_from_camera
 ```
-# Project 6: # ROS2 PID Controller Demo for Turtlesim With Action server and client
+# Project 7: # ROS2 PID Controller Demo for Turtlesim With Action server and client
 ## Description: topic_practice_ws/src/turtle_demo_controller + The custom action GoToPose: cpp_node package (see cpp_node/action/GoToPose.action);
 The package implements a custom action called GoToPose which asks the turtlesim turtle to navigate to a desired (x, y) position. The action server computes velocity commands using a PID controller based on the turtle's current pose, while the action client sends goals and listens for feedback and results.
 🛠️ Build
@@ -298,7 +391,7 @@ Applies PID control to produce linear and angular velocities.
 Publishes a Twist to /turtle1/cmd_vel.
 When the errors fall within tolerance, the goal is marked as succeeded and the result is returned.
 
-# Project 7: # Camera Intrinsic Calibration for ROS2
+# Project 8: # Camera Intrinsic Calibration for ROS2
 ## Description: ## Why calibrate the camera
 
 Real camera lenses introduce radial and tangential distortion, bending straight lines and causing pixel position errors. Intrinsic calibration computes the camera intrinsic matrix (focal length, principal point) and distortion coefficients. These parameters are required for SLAM, visual odometry, 3D reconstruction and object pose estimation.
@@ -390,7 +483,7 @@ Load `ost.yaml` with `camera_info_manager` node in your ROS2 vision pipeline to 
 6. **Do not move camera**: Keep the camera fixed during the whole calibration process. Only move the chessboard.
 7. **File permission**: `/tmp/` files are temporary and deleted after reboot. Copy `ost.yaml` to your project folder immediately after calibration.
 
-# Project 8: # Training YOLO Models with Ultralytics
+# Project 9: # Training YOLO Models with Ultralytics
 🗂 **Dataset Preparation**
 Ultralytics expects datasets in YOLO format.
 
@@ -563,7 +656,7 @@ Or visit the official docs: https://docs.ultralytics.com/modes/train/
 📄 License
 This project follows the AGPL-3.0 License unless otherwise stated.
 
-# Project 9: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
+# Project 10: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
 ## Overview
 
 `ros2_arm_ws` is a dedicated ROS2 workspace integrated with multiple functional packages for the motion control, simulation, hardware driving and task planning of the Roarm robotic arm. Each independent package undertakes a specific modular function to support the full physical robotic arm control workflow.
