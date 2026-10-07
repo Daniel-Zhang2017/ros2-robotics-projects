@@ -6,11 +6,11 @@
 ## 📚 Table of Contents
 | # | Project | Focus |
 |---|---------|-------|
-| 0.1 | [Gazebo: Build Your Own Robot](#project‑01) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
-| 0.2 | [ros2_control](#project‑02) | Hardware interfaces, controllers, real‑time control |
-| 0.3 | [slam_toolbox](#project‑03) | SLAM, mapping, localization |
-| 0.4 | [Navigation 2](#project‑04) | Path planning, costmaps, behavior trees |
-| 0.5 | [autopatrol_robot](#project‑05) | Autonomous patrol, waypoint following, speaker, capture images |
+| 0.1 | [Gazebo: Build Your Own Robot](#project‑0.1) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
+| 0.2 | [ros2_control](#project‑0.2) | Hardware interfaces, controllers, real‑time control |
+| 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
+| 0.4 | [Navigation 2](#project‑0.4) | Path planning, costmaps, behavior trees |
+| 0.5 | [autopatrol_robot](#project‑0.5) | Autonomous patrol, waypoint following, speaker, capture images |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -26,7 +26,7 @@
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series are basic learning projects
 
-<a id="project‑01"></a>
+<a id="project‑0.1"></a>
 ## Project 0.1: Build Your Own Robot
 **project0/robot001**
 This package contains the robot description implemented with **URDF** and **Xacro** for ROS 2.
@@ -66,24 +66,28 @@ ros2 launch robot_description gazebo_robot.launch.py
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
+<a id="project‑0.2"></a>
 ## Project 0.2: ros2_control
 
 > 
 > *TODO: add your ros2_control project content here*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
+<a id="project‑0.3"></a>
 ## Project 0.3: slam_toolbox
 
 > 
 > *TODO: add your slam_toolbox project content here*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
+<a id="project‑0.4"></a>
 ## Project 0.4: Navigation 2
 
 > 
 > *TODO: add your Navigation2 project content here*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
+<a id="project‑0.5"></a>
 ## Project 0.5: autopatrol_robot
 
 > 
@@ -295,7 +299,6 @@ Subscribes to custom `/sys_status` topic from `status_interfaces`.
 - 3‑level battery alert (Warning / Critical / Danger)
 - Skip alerts when no battery hardware (`battery_percent=-1.0`)
 
-表格
 
 | Level | Condition | Log Level |
 | --- | --- | --- |
@@ -369,8 +372,6 @@ ros2 launch sys_status_monitor sys_status_launch.py
 ```
 
 ## Topics
-
-表格
 
 | Topic | Message Type |
 | --- | --- |
@@ -946,6 +947,7 @@ Error code `11212` means your Iflytek offline resource is expired. Follow these 
 
 > 
 > This ROS2 wrapper code is for demonstration. The underlying Iflytek SDK follows Iflytek's official license terms.
+> 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑11"></a>
