@@ -855,7 +855,7 @@ Copy the architecture‑matched `libmsc.so` to system library path:
 
 ```
 # example for x64 platform
-cd ~/wheeltec_ros2/src/tts_make_ros2/libs/x64
+cd topic_practice_ws/src/tts_make_ros2/libs/x64
 sudo cp libmsc.so /usr/lib
 ```
 
@@ -865,7 +865,7 @@ sudo cp libmsc.so /usr/lib
 ### Step 2: Compile the ROS2 package
 
 ```
-cd ~/wheeltec_ros2
+cd topic_practice_ws
 colcon build --packages-select tts
 source install/setup.bash
 ```
