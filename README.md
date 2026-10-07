@@ -70,28 +70,28 @@ ros2 launch robot_description gazebo_robot.launch.py
 ## Project 0.2: ros2_control
 
 > 
-> *TODO: add your ros2_control project content here*
+> *TODO: update ros2_control project soon*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.3"></a>
 ## Project 0.3: slam_toolbox
 
 > 
-> *TODO: add your slam_toolbox project content here*
+> *TODO: update slam_toolbox project soon*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.4"></a>
 ## Project 0.4: Navigation 2
 
 > 
-> *TODO: add your Navigation2 project content here*
+> *TODO: update Navigation2 project soon*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.5"></a>
 ## Project 0.5: autopatrol_robot
 
 > 
-> *TODO: add your autopatrol_robot project content here*
+> *TODO: update autopatrol_robot project soon*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑1"></a>
