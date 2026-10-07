@@ -1,46 +1,41 @@
+```
 # ROS2 Project Portfolio
-
 ## ros2‑robotics‑projects (continue updating, please star)
-
 **A collection of ROS2 robotics projects covering simulation, navigation, computer vision, motion control and custom interface development.**
 
+<a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
-
-表格
-
 | # | Project | Focus |
-| --- | --- | --- |
-| 0.1 | [Gazebo: Build Your Own Robot](#project%E2%80%9101) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
-| 0.2 | [ros2_control](#project%E2%80%9102) | Hardware interfaces, controllers, real‑time control |
-| 0.3 | [slam_toolbox](#project%E2%80%9103) | SLAM, mapping, localization |
-| 0.4 | [Navigation 2](#project%E2%80%9104) | Path planning, costmaps, behavior trees |
-| 0.5 | [autopatrol_robot](#project%E2%80%9105) | Autonomous patrol, waypoint following, speaker, capture images |
-| 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project%E2%80%911) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
-| 2 | [ROS2 Person Detection Alert](#project%E2%80%912) | Multi‑node alerting |
-| 3 | [System Status + QT Display](#project%E2%80%913) | Custom interfaces |
-| 4 | [Subscribe topics and alert node based on the status](#project%E2%80%914) | Custom alert nodes |
-| 5 | [cmd_vel & Topic Remapping](#project%E2%80%915) | Turtlesim control |
-| 6 | [Face Recognition Service](#project%E2%80%916) | ROS2 services |
-| 7 | [PID Controller for Turtlesim](#project%E2%80%917) | ROS2 Action + PID |
-| 8 | [Camera Intrinsic Calibration](#project%E2%80%918) | Camera calibration |
-| 9 | [Training YOLO with Ultralytics](#project%E2%80%919) | CV Model training |
-| 10 | [ROS2 Text‑to‑Speech (TTS)](#project%E2%80%9110) | TTS |
-| 11 | [Controlling a Physical Robotic Arm](#project%E2%80%9111) | ROS2 + Moveit2 for Roarm |
+|---|---------|-------|
+| 0.1 | [Gazebo: Build Your Own Robot](#project‑01) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
+| 0.2 | [ros2_control](#project‑02) | Hardware interfaces, controllers, real‑time control |
+| 0.3 | [slam_toolbox](#project‑03) | SLAM, mapping, localization |
+| 0.4 | [Navigation 2](#project‑04) | Path planning, costmaps, behavior trees |
+| 0.5 | [autopatrol_robot](#project‑05) | Autonomous patrol, waypoint following, speaker, capture images |
+| 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
+| 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
+| 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
+| 4 | [Subscribe topics and alert node based on the status](#project‑4) | Custom alert nodes |
+| 5 | [cmd_vel & Topic Remapping](#project‑5) | Turtlesim control |
+| 6 | [Face Recognition Service](#project‑6) | ROS2 services |
+| 7 | [PID Controller for Turtlesim](#project‑7) | ROS2 Action + PID |
+| 8 | [Camera Intrinsic Calibration](#project‑8) | Camera calibration |
+| 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
+| 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
+| 11 | [Controlling a Physical Robotic Arm](#project‑11) | ROS2 + Moveit2 for Roarm |
 
-> 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
-
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series are basic learning projects
 
+<a id="project‑01"></a>
 ## Project 0.1: Build Your Own Robot
-
 **project0/robot001**
 This package contains the robot description implemented with **URDF** and **Xacro** for ROS 2.
 URDF (Unified Robot Description Format) uses XML to define robot links, joints, geometry and physical properties. To reduce redundant XML code, we adopt Xacro, a URDF preprocessor supporting variables, mathematical calculations and reusable component macros. At launch time, Xacro files are expanded into standard URDF automatically.
 
 The launch file (`display_robot.launch.py`) loads the robot model via `robot_state_publisher` to publish TF transforms. `joint_state_publisher_gui` provides sliders to adjust joint angles. Run the launch script and open RViz2, add the RobotModel display, set the fixed frame, then visualise the full robot model.
 
-```
+```bash
 # cd the project0/robot001 folder
 cd project0/robot001
 colcon build --packages-select robot_description
