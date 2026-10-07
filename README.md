@@ -5,7 +5,7 @@
 
 | # | Project | Focus |
 |---|---------|-------|
-| 0.1 | [Gazebo: Build Your Own Robot](#project-0.1) | Gazebo simulation, URDF/Xacro modeling |
+| 0.1 | [Gazebo: Build Your Own Robot](#project-0.1) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
 | 0.2 | [ros2_control](#project-0.2) | Hardware interfaces, controllers, real-time control |
 | 0.3 | [slam_toolbox](#project-0.3) | SLAM, mapping, localization |
 | 0.4 | [Navigation 2](#project-0.4) | Path planning, costmaps, behavior trees |
@@ -252,8 +252,9 @@ sys_status_monitor/
 ├── sys_status_monitor/
 │   ├── __init__.py
 │   ├── subscriber_node.py
-│   └── alert_node.py
-├── launch/sys_status_launch.py
+│   └── alert_node.py             #set threshold
+│   └── battery_bridge.py          #publish battery_status topic
+├── launch/sys_status_launch.py   #run nodes together
 ├── package.xml
 └── setup.py
 ```
@@ -262,7 +263,7 @@ sys_status_monitor/
 
 ```
 # Print system status
-ros2 run sys_status_monitor sys_status_sub
+ros2 run status_publisher sys_status_sub
 
 # Battery alert logic
 ros2 run sys_status_monitor battery_alert

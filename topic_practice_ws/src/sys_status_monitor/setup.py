@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'sys_status_sub = sys_status_monitor.subscriber_node:main',
             'battery_alert = sys_status_monitor.alert_node:main',
+            'battery_bridge = sys_status_monitor.battery_bridge_node:main',
             
         ],
     },

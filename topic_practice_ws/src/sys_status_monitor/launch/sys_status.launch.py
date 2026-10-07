@@ -17,5 +17,10 @@ def generate_launch_description():
             package="sys_status_monitor",
             executable="battery_alert",
             name="battery_alert"
+        ),
+         Node(
+            package="sys_status_monitor",
+            executable="battery_bridge",
+            name="battery_bridge"
         )
     ])
