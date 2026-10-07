@@ -1,5 +1,5 @@
 # ROS2 Project Portfolio
-## ros2‑robotics‑projects (continuously updated; please star if you're keen on robotics. Each project code is carefully checked) 
+## ros2‑robotics‑projects (continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked) 
 **A collection of ROS2 robotics projects covering simulation, navigation, computer vision, motion control, custom interface development, and Artificial Intelligence for Robotics.**
 
 <a id="table‑of‑contents"></a>
