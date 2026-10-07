@@ -1,4 +1,3 @@
-```
 # ROS2 Project Portfolio
 ## ros2‑robotics‑projects (continue updating, please star)
 **A collection of ROS2 robotics projects covering simulation, navigation, computer vision, motion control and custom interface development.**
@@ -65,31 +64,31 @@ ros2 launch robot_description gazebo_robot.launch.py
 ```
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 ## Project 0.2: ros2_control
 
 > 
 > *TODO: add your ros2_control project content here*
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents")
 
 ## Project 0.3: slam_toolbox
 
 > 
 > *TODO: add your slam_toolbox project content here*
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 ## Project 0.4: Navigation 2
 
 > 
 > *TODO: add your Navigation2 project content here*
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 ## Project 0.5: autopatrol_robot
 
 > 
 > *TODO: add your autopatrol_robot project content here*
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 1: ROS2‑USB_CAM_YOLOvX Real‑Time Detection
 
@@ -219,7 +218,7 @@ ros2 launch ultralytics_ros2 yolo_onnx.launch.py
 ```
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents")
 
 # Project 2: ROS2 Person Detection Alert Project
 
@@ -257,7 +256,7 @@ ros2 topic hz /person_alert
 ```
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents")
 
 # Project 3: Publish system status and show in QT page
 
@@ -279,7 +278,7 @@ ros2 run status_display sys_status_display
 ```
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents")
 
 # Project 4: sys_status_monitor
 
@@ -374,7 +373,7 @@ ros2 launch sys_status_monitor sys_status_launch.py
 | `/sys_status` | `status_interfaces/msg/SystemStatus` |
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 5: Understanding cmd_vel and topic remapping
 
@@ -413,7 +412,7 @@ ros2 run turtle_draw draw_circle --ros‑args --remap /turtle1/cmd_vel:=/turtle2
 Syntax meaning: `--remap original_name:=new_name`. After startup, the publisher object inside the node remains unchanged, but the actual data flows to `/turtle2/cmd_vel` — and turtle2 in the top‑right corner starts drawing a circle.
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 6: Face Recognition with ROS2 Service
 
@@ -446,7 +445,7 @@ ros2 run demo_python_service learn_detect_from_camera
 ```
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 7: PID Controller for Turtlesim with ROS2 Action Server & Client
 
@@ -508,7 +507,7 @@ The turtle will rotate and move toward the target while the client prints feedba
 5. When errors fall within tolerance, the goal is marked as succeeded and result is returned.
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 8: Camera Intrinsic Calibration for ROS2
 
@@ -604,7 +603,7 @@ Load `ost.yaml` with `camera_info_manager` node in your ROS2 vision pipeline to 
 7. **File permission**: `/tmp/` files are temporary and deleted after reboot. Copy `ost.yaml` to your project folder immediately after calibration.
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 9: Training YOLO Models with Ultralytics
 
@@ -795,7 +794,7 @@ Or visit the official docs: [https://docs.ultralytics.com/modes/train/](https://
 This project follows the AGPL‑3.0 License unless otherwise stated.
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 10: ROS2 Text‑to‑Speech (TTS)
 
@@ -937,7 +936,7 @@ Error code `11212` means your Iflytek offline resource is expired. Follow these 
 
 > 
 > This ROS2 wrapper code is for demonstration. The underlying Iflytek SDK follows Iflytek's official license terms.
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 # Project 11: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
 
@@ -1006,4 +1005,4 @@ Extended manual control module, compatible with multi‑scene keyboard operation
 Integrates the official MoveIt Task Constructor core framework, provides basic task modeling, scheduling and execution logic support for complex robotic arm task planning, and is the underlying dependency for automated composite tasks.
 
 > 
-> [⬆️ Back to Table of Contents](#table%E2%80%91of%E2%80%91contents)
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
