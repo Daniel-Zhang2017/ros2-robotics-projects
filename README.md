@@ -21,7 +21,8 @@
 | 8 | [Camera Intrinsic Calibration](#project‑8) | Camera calibration |
 | 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
 | 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
-| 11 | [Controlling a Physical Robotic Arm](#project‑11) | ROS2 + Moveit2 for Roarm |
+| 11 | [2D Mapping Algorithms: GMapping, SLAM Toolbox, and Cartographer](#project‑11) | 2D Mapping Algorithms |
+| 12 | [Controlling a Physical Robotic Arm](#project‑12) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series are basic learning projects
@@ -949,9 +950,89 @@ Error code `11212` means your Iflytek offline resource is expired. Follow these 
 > This ROS2 wrapper code is for demonstration. The underlying Iflytek SDK follows Iflytek's official license terms.
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
-
 <a id="project‑11"></a>
-# Project 11: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
+# Project 11: 2D Mapping Algorithms: GMapping, SLAM Toolbox, and Cartographer
+# ROS2 2D Mapping \& Map Saving
+
+**Description: ** This document collects practical ROS2 launch commands for **2D SLAM map construction** and **map saving**\. It supports three mainstream SLAM algorithms: GMapping, Slam Toolbox, and Cartographer\. The exported map files are fully compatible with the NAV2 navigation stack for robot positioning, re\-localization and autonomous navigation tasks\.
+
+> **Important Note**: Maps saved with the `slam_toolbox:=true` parameter adopt a special compression format, which is mandatory for Slam Toolbox\-based NAV2 re\-localization\. Standard maps cannot be used for Slam Toolbox relocation\.
+> 
+> 
+
+## 2D SLAM Mapping Commands
+
+### 1\. Mapping with GMapping
+
+A lightweight, classic grid\-based SLAM algorithm, suitable for simple indoor flat scene mapping with low computational resource consumption\.
+
+```bash
+ros2 launch slam_gmapping slam_gmapping.launch.py
+```
+
+### 2\. Mapping with Slam Toolbox
+
+A modern, robust SLAM solution officially recommended by ROS2\. It supports real\-time mapping, loop closure, and is perfectly integrated with the NAV2 navigation system\.
+
+```bash
+ros2 launch wheeltec_slam_toolbox online_async_launch.py
+```
+
+### 3\. Mapping with Cartographer
+
+A high\-precision SLAM algorithm developed by Google, featuring excellent loop closure detection and anti\-drift performance, suitable for large\-scale and complex indoor scene mapping\.
+
+```bash
+ros2 launch wheeltec_cartographer cartographer.launch.py
+```
+
+## Map Saving Commands
+
+### Standard Map Saving \(General Navigation\)
+
+Outputs universal standard map files, applicable for most basic NAV2 navigation scenarios\.
+
+```bash
+ros2 launch wheeltec_nav2 save_map.launch.py
+```
+
+### Slam Toolbox Special Map Saving \(For NAV2 Re\-localization\)
+
+Saves maps in a dedicated format matching Slam Toolbox\. **Required** if you need to use the NAV2 automatic re\-localization function\.
+
+```bash
+ros2 launch wheeltec_nav2 save_map.launch.py slam_toolbox:=true
+```
+
+## Post\-Mapping Usage Tips
+
+### 1\. Map File Output
+
+After executing the save map command, two core map files will be generated in the current working directory by default:
+
+- `map.pgm`: Grid map raster image file, records the obstacle and free space information of the environment
+
+- `map.yaml`: Map parameter configuration file, stores map resolution, origin coordinates, obstacle threshold and other core parameters for NAV2 loading
+
+### 2\. Usage Scenario Suggestions
+
+- **GMapping**: Recommended for low\-performance devices and simple small\-space scenarios
+
+- **Slam Toolbox**: Preferred solution for daily ROS2 navigation and re\-localization tasks
+
+- **Cartographer**: Suitable for large venues, long\-distance mapping and high\-precision positioning scenarios
+
+### 3\. Common Precautions
+
+- Do not switch SLAM algorithms arbitrarily during a single mapping task
+
+- For re\-localization tasks, ensure the map file matches the SLAM algorithm used
+
+- It is recommended to rename and classify map files after saving to avoid coverage and confusion
+
+
+<a id="project‑12"></a>
+# Project 12: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
 
 ## Overview
 
@@ -962,6 +1043,8 @@ Full project details: [https://github.com/waveshareteam/roarm_ws.git](https://gi
 ## Workspace Package Structure & Functional Description
 
 The workspace is divided into two core module groups: `roarm_main` (core customized packages for Roarm) and `roarm_else` (extended functional packages).
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 ### 1. roarm_main (Core Custom Packages)
 
