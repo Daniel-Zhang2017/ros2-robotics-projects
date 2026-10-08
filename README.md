@@ -1054,7 +1054,7 @@ This package implements pure‑visual 3D dense point‑cloud mapping, 3D sparse 
 ```bash
 ros2 launch orb_slam2_ros orb_slam2_Astra_rgbd_launch.py
 ros2 run wheeltec_robot_keyboard wheeltec_keyboard
----
+```
 
 ## Published ROS 2 Topics
 
