@@ -1,0 +1,75 @@
+[0.014s] Invoking command in '/home/ace/Downloads/github/my_robots/robot003/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/ace/Downloads/github/my_robots/robot003/src/robot_description -DCMAKE_INSTALL_PREFIX=/home/ace/Downloads/github/my_robots/robot003/install/robot_description
+[0.232s] -- The C compiler identification is GNU 11.4.0
+[0.469s] -- The CXX compiler identification is GNU 11.4.0
+[0.496s] -- Detecting C compiler ABI info
+[0.659s] -- Detecting C compiler ABI info - done
+[0.669s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.670s] -- Detecting C compile features
+[0.671s] -- Detecting C compile features - done
+[0.675s] -- Detecting CXX compiler ABI info
+[0.848s] -- Detecting CXX compiler ABI info - done
+[0.858s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.858s] -- Detecting CXX compile features
+[0.859s] -- Detecting CXX compile features - done
+[0.864s] -- Found ament_cmake: 1.3.13 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.057s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.218s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.329s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.330s] -- Added test 'lint_cmake' to check CMake code style
+[1.331s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[1.335s] -- Added test 'xmllint' to check XML markup files
+[1.337s] -- Configuring done
+[1.341s] -- Generating done
+[1.343s] -- Build files have been written to: /home/ace/Downloads/github/my_robots/robot003/build/robot_description
+[1.350s] Invoked command in '/home/ace/Downloads/github/my_robots/robot003/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/ace/Downloads/github/my_robots/robot003/src/robot_description -DCMAKE_INSTALL_PREFIX=/home/ace/Downloads/github/my_robots/robot003/install/robot_description
+[1.352s] Invoking command in '/home/ace/Downloads/github/my_robots/robot003/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/ace/Downloads/github/my_robots/robot003/build/robot_description -- -j8 -l8
+[1.425s] Invoked command in '/home/ace/Downloads/github/my_robots/robot003/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/ace/Downloads/github/my_robots/robot003/build/robot_description -- -j8 -l8
+[1.446s] Invoking command in '/home/ace/Downloads/github/my_robots/robot003/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/ace/Downloads/github/my_robots/robot003/build/robot_description
+[1.455s] -- Install configuration: ""
+[1.455s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/launch
+[1.455s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/launch/display_robot.launch.py
+[1.456s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/launch/gazebo_robot.launch.py
+[1.456s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf
+[1.456s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot
+[1.456s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/plugins
+[1.456s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/plugins/gazebo_sensor_plugin.xacro
+[1.457s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/plugins/gazebo_control_plugin.xacro
+[1.457s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/common_inertia.xacro
+[1.457s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/sensor
+[1.457s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/sensor/imu.urdf.xacro
+[1.458s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/sensor/camera.urdf.xacro
+[1.458s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/sensor/laser.urdf.xacro
+[1.458s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/robot.urdf.xacro
+[1.458s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/robot.ros2_control.xacro
+[1.458s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/actuator
+[1.459s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/actuator/caster.urdf.xacro
+[1.459s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/actuator/wheel.urdf.xacro
+[1.459s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/urdf/robot/base.urdf.xacro
+[1.459s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/config
+[1.460s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/config/rviz
+[1.460s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/config/rviz/dispaly_model.rviz
+[1.460s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/config/robot_ros2_controller.yaml
+[1.460s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world
+[1.460s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/custom_room.world
+[1.461s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/room
+[1.461s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/room/model.config
+[1.461s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/room/model.sdf
+[1.461s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/room/room2
+[1.461s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/room/room2/model.config
+[1.462s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/world/room/room2/model.sdf
+[1.462s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/ament_index/resource_index/package_run_dependencies/robot_description
+[1.462s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/ament_index/resource_index/parent_prefix_path/robot_description
+[1.462s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/environment/ament_prefix_path.sh
+[1.463s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/environment/ament_prefix_path.dsv
+[1.463s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/environment/path.sh
+[1.463s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/environment/path.dsv
+[1.463s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/local_setup.bash
+[1.463s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/local_setup.sh
+[1.463s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/local_setup.zsh
+[1.464s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/local_setup.dsv
+[1.464s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/package.dsv
+[1.464s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/ament_index/resource_index/packages/robot_description
+[1.464s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/cmake/robot_descriptionConfig.cmake
+[1.464s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/cmake/robot_descriptionConfig-version.cmake
+[1.464s] -- Installing: /home/ace/Downloads/github/my_robots/robot003/install/robot_description/share/robot_description/package.xml
+[1.466s] Invoked command in '/home/ace/Downloads/github/my_robots/robot003/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/ace/Downloads/github/my_robots/robot003/build/robot_description

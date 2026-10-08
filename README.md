@@ -72,8 +72,59 @@ ros2 launch robot_description gazebo_robot.launch.py
 <a id="project‑0.2"></a>
 ## Project 0.2: ros2_control
 
+## What is ros2_control
+
+`ros2_control` is the standard robot control stack for ROS 2. It decouples robot controllers from low-level hardware drivers, enabling the **same controller code to run in simulation, mock mode, and on physical robots without modification**.
+
+### Core Components
+
+1. **Controller Manager**
+The core real-time node (`ros2_control_node`). It runs the control loop: `read hardware → update controllers → write commands`. It manages controller lifecycles (configure / activate / deactivate / cleanup) and allocates command/state interfaces between hardware and controllers via ROS 2 services.
+2. **Hardware Interfaces (`hardware_interface`)**
+Pluginlib-based hardware abstraction plugins, defined inside URDF with the `<ros2_control>` tag. Four types:
+
+- `SystemInterface`: Multi-joint robot system
+- `ActuatorInterface`: Single degree-of-freedom actuator
+- `SensorInterface`: Read-only sensor
+- `GPIOInterface`: Digital input/output
+
+Hardware plugins implement `read()` (fetch sensor/joint state) and `write()` (send command to motors).
+
+3. **Controller Interfaces (`controller_interface`)**
+Controllers are also pluginlib plugins. They consume **state interfaces (read)** and claim **command interfaces (write)**.
+Common pre-built controllers from `ros2_controllers`:
+
+- `joint_state_broadcaster`: Publish joint states to `/joint_states`
+- `joint_trajectory_controller`: Joint trajectory tracking with FollowJointTrajectory action
+- `diff_drive_controller`: Differential drive mobile robot controller
+- `forward_command_controller`: Direct passthrough of position/velocity/effort commands
+
+### Workflow
+
+URDF defines hardware resources → YAML config loads controllers → Controller Manager loads plugins → Real-time loop runs controllers → Controllers read joint states and output commands to hardware.
+
+ROS2 Application Layer (Topics/Actions/Services)
+↓ ↑
+Controller Manager (ros2_control_node, realtime loop)
+↓ ↑
+Controllers (joint_trajectory_controller, custom controller)
+↓ ↑
+Hardware Interfaces (System / Actuator / Sensor plugins)
+↓ ↑
+Robot Hardware / Gazebo Simulation
+
+```
+# cd the project0/robot003 folder
+cd project0/robot003
+colcon build --packages-select robot_description
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+```bash
+# Use the keyboard to control the robot in Gazebo
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
 > 
-> *TODO: update ros2_control project soon*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.3"></a>
