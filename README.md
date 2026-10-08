@@ -21,7 +21,7 @@
 | 8 | [Camera Intrinsic Calibration](#project‑8) | Camera calibration |
 | 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
 | 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
-| 11 | [2D Mapping Algorithms: GMapping, SLAM Toolbox, and Cartographer](#project‑11) | 2D Mapping Algorithms |
+| 11 | [GMapping, SLAM Toolbox, and Cartographer](#project‑11) | ROS2 2D Mapping Algorithms |
 | 12 | [Controlling a Physical Robotic Arm](#project‑12) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
@@ -1029,7 +1029,8 @@ After executing the save map command, two core map files will be generated in th
 - For re\-localization tasks, ensure the map file matches the SLAM algorithm used
 
 - It is recommended to rename and classify map files after saving to avoid coverage and confusion
-
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑12"></a>
 # Project 12: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
@@ -1043,8 +1044,6 @@ Full project details: [https://github.com/waveshareteam/roarm_ws.git](https://gi
 ## Workspace Package Structure & Functional Description
 
 The workspace is divided into two core module groups: `roarm_main` (core customized packages for Roarm) and `roarm_else` (extended functional packages).
-> 
-> [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 ### 1. roarm_main (Core Custom Packages)
 
