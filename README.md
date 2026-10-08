@@ -21,7 +21,7 @@
 | 8 | [Camera Intrinsic Calibration](#project‑8) | Camera calibration |
 | 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
 | 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
-| 11 | [Human Skeleton Recognition and Following: bodyreader](#project‑11) | real-time human skeleton keypoint detection, gesture recognition and mobile robot control |
+| 11 | [Human Skeleton Recognition and Following: bodyreader](#project‑11) | Real-time human skeleton keypoint detection, gesture recognition and mobile robot control |
 | 12 | [GMapping, SLAM Toolbox, and Cartographer](#project‑12) | ROS2 2D Mapping Algorithms |
 | 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
 | 14 | [Controlling a Physical Robotic Arm](#project‑14) | ROS2 + Moveit2 for Roarm |
@@ -989,7 +989,7 @@ Detected landmarks: Head, Spine, Shoulder Spine, Mid Spine, Base Spine, Left/Rig
 Clone to your ROS2 workspace `src/` directory:
 
 ```
-git clone <repo-url>
+git clone https://github.com/Daniel-Zhang2017/ros2-robotics-projects.git
 cd ..
 colcon build --packages-select bodyreader
 source install/setup.bash
