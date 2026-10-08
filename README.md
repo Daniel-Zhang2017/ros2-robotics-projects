@@ -22,7 +22,7 @@
 | 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
 | 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
 | 11 | [GMapping, SLAM Toolbox, and Cartographer](#project‑11) | ROS2 2D Mapping Algorithms |
-| 12 | [orb_slam2_ros](#project‑12) | orb_slam2_ros：visual mapping |
+| 12 | [orb_slam2_ros](#project‑12) | orb_slam2_ros: visual mapping |
 | 13 | [Controlling a Physical Robotic Arm](#project‑13) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
