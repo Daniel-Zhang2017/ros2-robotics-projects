@@ -21,9 +21,10 @@
 | 8 | [Camera Intrinsic Calibration](#project‑8) | Camera calibration |
 | 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
 | 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
-| 11 | [GMapping, SLAM Toolbox, and Cartographer](#project‑11) | ROS2 2D Mapping Algorithms |
-| 12 | [orb_slam2_ros](#project‑12) | orb_slam2_ros: visual mapping |
-| 13 | [Controlling a Physical Robotic Arm](#project‑13) | ROS2 + Moveit2 for Roarm |
+| 11 | [Human Skeleton Recognition and Following: bodyreader and interaction](#project‑11) | astra depth camera, bodyreader and interaction |
+| 12 | [GMapping, SLAM Toolbox, and Cartographer](#project‑12) | ROS2 2D Mapping Algorithms |
+| 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
+| 14 | [Controlling a Physical Robotic Arm](#project‑14) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series are basic learning projects
@@ -951,8 +952,103 @@ Error code `11212` means your Iflytek offline resource is expired. Follow these 
 > This ROS2 wrapper code is for demonstration. The underlying Iflytek SDK follows Iflytek's official license terms.
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
+
 <a id="project‑11"></a>
-# Project 11: 2D Mapping Algorithms: GMapping, SLAM Toolbox, and Cartographer
+# Project 11: BodyReader: Human Skeleton Gesture Controlled Robot (ROS2)
+> 
+> ROS2 framework for real-time human skeleton keypoint detection, gesture recognition and mobile robot control. Supports pose control, human following, multi-person orientation and RGB target memory.
+
+## System Workflow
+
+```
+Human Skeleton Detection
+        ↓
+Gesture Definition
+        ↓
+Gesture Driven Robot Motion
+        ↓
+Feedback (Audio / Visual)
+```
+
+The pipeline extracts human body keypoints, interprets predefined body gestures, sends motion commands to the robot, and returns system status via voice or image feedback.
+
+## Skeleton Keypoints
+
+Detected landmarks: Head, Spine, Shoulder Spine, Mid Spine, Base Spine, Left/Right Shoulder, Elbow, Wrist, Hand, Hip, Knee, Foot.
+
+## Prerequisites
+
+- ROS2 (Humble / Iron)
+- Python 3.8+
+- OpenCV
+- Pose estimation library
+- ROS2-compatible mobile robot base
+
+## Quick Start
+
+Clone to your ROS2 workspace `src/` directory:
+
+```
+git clone <repo-url>
+cd ..
+colcon build --packages-select bodyreader
+source install/setup.bash
+```
+
+### Launch Commands
+
+```
+# Pose Control (Pose Control, Multi-person Orientation, RGB memory person fusion)
+ros2 launch bodyreader bodyinteraction.launch.py
+
+# Human Skeleton Following (Human Tracking module)
+ros2 launch bodyreader bodyfollow.launch.py
+
+# Combined pose control + human following
+# Default: pose control mode. Cross arms in front of chest to toggle mode
+ros2 launch bodyreader final.launch.py
+```
+
+## Key Features
+
+- Real-time human skeleton keypoint extraction
+- Custom gesture definition for robot motion control
+- Human skeleton tracking mode
+- Multi-person orientation control
+- RGB visual memory for target person recognition
+- Gesture-based mode switching (cross arms to switch)
+- Audio and visual feedback
+
+## Project Structure
+
+```
+bodyreader/
+├── launch/
+│   ├── bodyinteraction.launch.py
+│   ├── bodyfollow.launch.py
+│   └── final.launch.py
+├── src/
+│   ├── skeleton_detector.py
+│   ├── gesture_parser.py
+│   ├── robot_driver.py
+│   └── feedback_node.py
+├── config/
+│   └── gesture_params.yaml
+└── README.md
+```
+
+## How It Works
+
+1. `skeleton_detector`: Reads camera frames and outputs body joint coordinates
+2. `gesture_parser`: Analyses joint positions to recognise predefined poses
+3. `robot_driver`: Converts valid gestures into ROS2 velocity commands
+4. `feedback_node`: Provides voice prompts or annotated image feedback
+
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑12"></a>
+# Project 12: 2D Mapping Algorithms: GMapping, SLAM Toolbox, and Cartographer
 # ROS2 2D Mapping \& Map Saving
 
 ## Description
@@ -1035,8 +1131,8 @@ After executing the save map command, two core map files will be generated in th
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
-<a id="project‑12"></a>
-# Project 12: ORB-SLAM2-ROS2: a sparse feature point cloud map system
+<a id="project‑13"></a>
+# Project 13: ORB-SLAM2-ROS2: a sparse feature point cloud map system
 
 ## Description
 
@@ -1094,8 +1190,8 @@ ros2 run wheeltec_robot_keyboard wheeltec_keyboard
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
-<a id="project‑13"></a>
-# Project 13: Controlling a Physical Robotic Arm： ROS2+Moveit2 for Roarm
+<a id="project‑14"></a>
+# Project 14: Controlling a Physical Robotic Arm： ROS2+Moveit2 for Roarm
 
 ## Overview
 

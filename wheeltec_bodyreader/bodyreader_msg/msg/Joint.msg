@@ -1,0 +1,3 @@
+int8 type
+Vector2f depthposition
+Vector3f worldposition
