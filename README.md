@@ -1038,7 +1038,7 @@ After executing the save map command, two core map files will be generated in th
 <a id="project‑12"></a>
 # Project 12: ORB-SLAM2-ROS2: a sparse feature point cloud map system
 
-##Description
+## Description
 
 This package implements pure‑visual 3D dense point‑cloud mapping, 3D sparse point‑cloud mapping, and converts 3D dense point clouds into 2D occupancy grid maps via OctoMap.
 
@@ -1049,13 +1049,13 @@ This package implements pure‑visual 3D dense point‑cloud mapping, 3D sparse 
 
 ## Launch ORB‑SLAM2‑ROS2
 
-SSH into your robot car’s terminal, start the ORB‑SLAM2‑ROS2 launch file together with robot base driver and keyboard teleoperation.
-
 ### For Astra RGBD Camera
+
 ```bash
 ros2 launch orb_slam2_ros orb_slam2_Astra_rgbd_launch.py
 ros2 run wheeltec_robot_keyboard wheeltec_keyboard
 ---
+
 ## Published ROS 2 Topics
 
 ### ORB‑SLAM2‑ROS2 Output Topics
