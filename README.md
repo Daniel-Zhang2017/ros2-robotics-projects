@@ -954,7 +954,9 @@ Error code `11212` means your Iflytek offline resource is expired. Follow these 
 # Project 11: 2D Mapping Algorithms: GMapping, SLAM Toolbox, and Cartographer
 # ROS2 2D Mapping \& Map Saving
 
-**Description: ** This document collects practical ROS2 launch commands for **2D SLAM map construction** and **map saving**\. It supports three mainstream SLAM algorithms: GMapping, Slam Toolbox, and Cartographer\. The exported map files are fully compatible with the NAV2 navigation stack for robot positioning, re\-localization and autonomous navigation tasks\.
+## Description
+
+ This document collects practical ROS2 launch commands for **2D SLAM map construction** and **map saving**\. It supports three mainstream SLAM algorithms: GMapping, Slam Toolbox, and Cartographer\. The exported map files are fully compatible with the NAV2 navigation stack for robot positioning, re\-localization and autonomous navigation tasks\.
 
 > **Important Note**: Maps saved with the `slam_toolbox:=true` parameter adopt a special compression format, which is mandatory for Slam Toolbox\-based NAV2 re\-localization\. Standard maps cannot be used for Slam Toolbox relocation\.
 > 
