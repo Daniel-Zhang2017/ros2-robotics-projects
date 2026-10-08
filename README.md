@@ -22,7 +22,8 @@
 | 9 | [Training YOLO with Ultralytics](#project‑9) | CV Model training |
 | 10 | [ROS2 Text‑to‑Speech (TTS)](#project‑10) | TTS |
 | 11 | [GMapping, SLAM Toolbox, and Cartographer](#project‑11) | ROS2 2D Mapping Algorithms |
-| 12 | [Controlling a Physical Robotic Arm](#project‑12) | ROS2 + Moveit2 for Roarm |
+| 12 | [orb_slam2_ros](#project‑12) | orb_slam2_ros：visual mapping |
+| 13 | [Controlling a Physical Robotic Arm](#project‑13) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series are basic learning projects
@@ -1035,7 +1036,72 @@ After executing the save map command, two core map files will be generated in th
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑12"></a>
-# Project 12: Controlling a Physical Robotic Arm：ROS2+Moveit2 for Roarm
+# Project 12: ORB-SLAM2-ROS2: a sparse feature point cloud map system
+
+##Description
+
+This package implements pure‑visual 3D dense point‑cloud mapping, 3D sparse point‑cloud mapping, and converts 3D dense point clouds into 2D occupancy grid maps via OctoMap.
+
+> ⚠️ **Important Pre‑requisites**
+> 1. Camera calibration is required before use. Each physical camera has different intrinsic parameters; calibrate your camera to achieve good mapping quality.
+> 2. Compilation memory requirement: ~13 GB RAM. Increase swap space before compiling this package, otherwise compilation will fail.
+> 3. Currently supported hardware: **RGBD camera & Gemini camera** for dense point‑cloud mapping. Monocular / stereo cameras are not officially adapted; you may try self‑adaptation.
+
+---
+
+## Launch ORB‑SLAM2‑ROS2
+
+SSH into your robot car’s terminal, start the ORB‑SLAM2‑ROS2 launch file together with robot base driver and keyboard teleoperation.
+
+### For Astra RGBD Camera
+```bash
+ros2 launch orb_slam2_ros orb_slam2_Astra_rgbd_launch.py
+ros2 run wheeltec_robot_keyboard wheeltec_keyboard
+
+## Published ROS 2 Topics
+
+### ORB‑SLAM2‑ROS2 Output Topics
+
+| Topic name | Description |
+| --- | --- |
+| `/RGBD/debug_image` | Image with extracted ORB feature points |
+| `/RGBD/cloud_points` | Dense 3D point‑cloud output |
+| `/RGBD/map_points` | Sparse 3D point‑cloud output |
+| `/RGBD/pose` | Visual estimated camera pose |
+
+### OctoMap Output Topics
+
+| Topic name | Description |
+| --- | --- |
+| `/octomap_point_cloud_centers` | OctoMap voxel point cloud |
+| `/occupied_cells_vis_array` | OctoMap voxel model visualization |
+| `/projected_map` | Projected 2D occupancy grid map |
+
+---
+
+## Visualization Examples
+
+1. Dense point cloud output from ORB‑SLAM2‑ROS2
+2. Sparse point cloud output from ORB‑SLAM2‑ROS2
+3. OctoMap voxel point‑cloud model
+4. OctoMap projected 2D grid map
+
+> 
+> You may add your screenshot images under an `assets/` folder in repository and reference them here.
+
+---
+
+## Usage Notes
+
+- Pure visual SLAM is sensitive to lighting, texture and viewing angle. Avoid low‑light environments and texture‑less walls.
+- Always run keyboard teleoperation node to move robot slowly through the scene for stable visual tracking.
+- If tracking is lost, move robot back to previously mapped textured area to recover tracking.
+
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑13"></a>
+# Project 13: Controlling a Physical Robotic Arm： ROS2+Moveit2 for Roarm
 
 ## Overview
 
