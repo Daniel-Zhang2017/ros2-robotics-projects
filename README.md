@@ -1047,8 +1047,6 @@ This package implements pure‑visual 3D dense point‑cloud mapping, 3D sparse 
 > 2. Compilation memory requirement: ~13 GB RAM. Increase swap space before compiling this package, otherwise compilation will fail.
 > 3. Currently supported hardware: **RGBD camera & Gemini camera** for dense point‑cloud mapping. Monocular / stereo cameras are not officially adapted; you may try self‑adaptation.
 
----
-
 ## Launch ORB‑SLAM2‑ROS2
 
 SSH into your robot car’s terminal, start the ORB‑SLAM2‑ROS2 launch file together with robot base driver and keyboard teleoperation.
@@ -1057,7 +1055,7 @@ SSH into your robot car’s terminal, start the ORB‑SLAM2‑ROS2 launch file t
 ```bash
 ros2 launch orb_slam2_ros orb_slam2_Astra_rgbd_launch.py
 ros2 run wheeltec_robot_keyboard wheeltec_keyboard
-
+---
 ## Published ROS 2 Topics
 
 ### ORB‑SLAM2‑ROS2 Output Topics
@@ -1077,8 +1075,6 @@ ros2 run wheeltec_robot_keyboard wheeltec_keyboard
 | `/occupied_cells_vis_array` | OctoMap voxel model visualization |
 | `/projected_map` | Projected 2D occupancy grid map |
 
----
-
 ## Visualization Examples
 
 1. Dense point cloud output from ORB‑SLAM2‑ROS2
@@ -1088,8 +1084,6 @@ ros2 run wheeltec_robot_keyboard wheeltec_keyboard
 
 > 
 > You may add your screenshot images under an `assets/` folder in repository and reference them here.
-
----
 
 ## Usage Notes
 
