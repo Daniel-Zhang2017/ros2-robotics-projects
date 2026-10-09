@@ -104,15 +104,52 @@ Common pre-built controllers from `ros2_controllers`:
 URDF defines hardware resources → YAML config loads controllers → Controller Manager loads plugins → Real-time loop runs controllers → Controllers read joint states and output commands to hardware.
 
 ROS2 Application Layer (Topics/Actions/Services)
+
 ↓ ↑
+
 Controller Manager (ros2_control_node, realtime loop)
+
 ↓ ↑
 Controllers (joint_trajectory_controller, custom controller)
+
 ↓ ↑
+
 Hardware Interfaces (System / Actuator / Sensor plugins)
+
 ↓ ↑
+
 Robot Hardware / Gazebo Simulation
 
+# What ROS Control is About
+
+Its core can be summed up in one sentence: **read state, compute control, write command**.
+
+The best way to understand `ros_control` is not to memorize package names first, but to remember its main loop:
+
+```
+while (running) {
+    read();                     // Read hardware states
+    controller_manager.update();// Controller computation
+    write();                    // Write hardware commands
+}
+```
+
+These three steps form the heart of the entire framework.
+
+- `read()` fetches states from hardware, such as joint positions, velocities, encoder readings and current feedback.
+- `update()` makes controllers compute outputs based on current states and setpoints.
+- `write()` sends the computed control signals down to low-level drivers.
+
+You can think of ros_control as a control pipeline:
+
+> 
+> Hardware State → Controller Calculation → Control Command → Hardware Execution
+
+Nearly all related concepts revolve around this pipeline.
+
+- `hardware_interface` handles `read()` and `write()`
+- `controller` takes charge of `update()`
+- URDF and `transmission` tell the system which joints the robot has, and how these joints map to real actuators.
 ```
 # cd the project0/robot003 folder
 cd project0/robot003
