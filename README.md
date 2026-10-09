@@ -104,23 +104,16 @@ Common pre-built controllers from `ros2_controllers`:
 URDF defines hardware resources → YAML config loads controllers → Controller Manager loads plugins → Real-time loop runs controllers → Controllers read joint states and output commands to hardware.
 
 ROS2 Application Layer (Topics/Actions/Services)
-
 ↓ ↑
-
 Controller Manager (ros2_control_node, realtime loop)
-
 ↓ ↑
 Controllers (joint_trajectory_controller, custom controller)
-
 ↓ ↑
-
 Hardware Interfaces (System / Actuator / Sensor plugins)
-
 ↓ ↑
-
 Robot Hardware / Gazebo Simulation
 
-# What ROS Control is About
+## What ROS Control is About
 
 Its core can be summed up in one sentence: **read state, compute control, write command**.
 
