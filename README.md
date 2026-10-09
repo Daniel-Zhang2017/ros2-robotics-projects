@@ -160,8 +160,52 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 <a id="project‑0.3"></a>
 ## Project 0.3: slam_toolbox
 
+A robot navigation system mainly consists of **perception and localization, path planning, and motion control**.
+
+1. **Perception and Localization Module**: It acquires environmental information through sensors such as LiDAR and IMU, and calculates the robot’s real-time position and attitude with the pre-built map, answering where the robot is.
+2. **Path Planning Module**: It includes global planning and local planning. Global planning generates an optimal route from the start point to the target point based on the static map. Local planning detects dynamic obstacles in real time and adjusts trajectories for obstacle avoidance, determining which path the robot should follow.
+3. **Motion Control Module**: It receives the reference trajectory from the planner, computes linear and angular velocity commands, and drives the chassis to track the target path for motion execution, solving how the robot moves.
+
+## SLAM Mapping with slam_toolbox (Online Async Mode)
+We use `online_async_launch.py` for real-time 2D LiDAR SLAM.
+> Asynchronous mode processes the newest laser scan when computation is busy, suitable for embedded hardware with limited computing resources.
+
+### Prerequisite
+- 2D LiDAR publishing `/scan`
+- Robot odometry published at `/odom`
+- Complete TF tree from laser to robot base
+
+```
+# cd the project0/robot003 folder
+cd project0/robot003
+colcon build --packages-select robot_description
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+### Launch command
+```bash
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True
+```
+New terminal (RViz2):
+```
+rviz2 --ros-args -p use_sim_time:=True
+```
+New Terminal(teleop to drive robot):
+
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p use_sim_time:=True
+```
+## nav2_map_server
+`nav2_map_server` is the official Nav2 map handling package. It provides map loading (`map_server`) and map saving (`map_saver_cli`) utilities for occupancy grid maps used by Nav2 global / local planners.
+
+> - `.posegraph` saved by slam_toolbox: used for slam_toolbox localization (retains loop closure graph)
+> - `.yaml + .pgm` saved by nav2_map_server: standard map format for Nav2 navigation.
+
+### Save map from slam_toolbox live /map topic
+```bash
+ros2 run nav2_map_server map_saver_cli -f my_sim_map
+```
 > 
-> *TODO: update slam_toolbox project soon*
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.4"></a>
