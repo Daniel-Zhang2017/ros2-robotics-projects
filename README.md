@@ -211,8 +211,11 @@ ros2 run nav2_map_server map_saver_cli -f my_sim_map
 <a id="project‑0.4"></a>
 ## Project 0.4: Navigation 2
 📌 Overview
-Navigation 2 (Nav2) is the official modern navigation stack for ROS 2, replacing the legacy ROS 1 navigation stack. It is a modular, extensible, and production-grade framework for mobile robot autonomous navigation. This repository packages a fully configured Nav2 environment tailored for ROS 2 Humble, supporting simulation testing and real-world robot deployment.
+
+Navigation 2 (Nav2) is the official modern navigation stack for ROS 2. It is a modular, extensible, and production-grade framework for mobile robot autonomous navigation. This repository packages a fully configured Nav2 environment tailored for ROS 2 Humble, supporting simulation testing and real-world robot deployment.
+
 This project includes core Nav2 modules: global path planning, local trajectory control, SLAM mapping, AMCL localization, behavior tree navigation, and RViz visualization tools.
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup
@@ -226,7 +229,7 @@ ros2 launch robot_description gazebo_robot.launch.py
 ros2 launch robot_navigation2 navigation2.launch.py
 ```
 
-All Nav2 core parameters are customizable in the config/ folder: config/nav2_params.yaml
+**All Nav2 core parameters are customizable in the config/ folder: config/nav2_params.yaml**
 
 # How to tune `nav2_params.yaml` (Nav2 Humble)
 
