@@ -1,0 +1,9 @@
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/uninstall.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/robot_navigation2_uninstall.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/test.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/edit_cache.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/rebuild_cache.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/list_install_components.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/install.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/install/local.dir
+/home/ace/Downloads/github/my_robots/robot004/build/robot_navigation2/CMakeFiles/install/strip.dir

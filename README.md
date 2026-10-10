@@ -9,7 +9,7 @@
 | 0.1 | [Gazebo: Build Your Own Robot](#project‑0.1) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
 | 0.2 | [ros2_control](#project‑0.2) | Hardware interfaces, controllers, real‑time control |
 | 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
-| 0.4 | [Navigation 2](#project‑0.4) | Path planning, costmaps, behavior trees |
+| 0.4 | [Navigation 2](#project‑0.4) | fine tuning the config parameters: DWB controller, NavFn planner, costmaps, AMCL|
 | 0.5 | [autopatrol_robot](#project‑0.5) | Autonomous patrol, waypoint following, speaker, capture images |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
@@ -210,9 +210,135 @@ ros2 run nav2_map_server map_saver_cli -f my_sim_map
 
 <a id="project‑0.4"></a>
 ## Project 0.4: Navigation 2
+📌 Overview
+Navigation 2 (Nav2) is the official modern navigation stack for ROS 2, replacing the legacy ROS 1 navigation stack. It is a modular, extensible, and production-grade framework for mobile robot autonomous navigation. This repository packages a fully configured Nav2 environment tailored for ROS 2 Humble, supporting simulation testing and real-world robot deployment.
+This project includes core Nav2 modules: global path planning, local trajectory control, SLAM mapping, AMCL localization, behavior tree navigation, and RViz visualization tools.
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup
+
+cd project0/robot004
+colcon build
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+```bash
+ros2 launch robot_navigation2 navigation2.launch.py
+```
+
+All Nav2 core parameters are customizable in the config/ folder: config/nav2_params.yaml
+
+# How to tune `nav2_params.yaml` (Nav2 Humble)
 
 > 
-> *TODO: update Navigation2 project soon*
+> Step-by-step tuning workflow + parameter adjustment rules, ordered from highest priority to fine tuning.
+
+## 1. Pre-tune checklist (must set first)
+
+These are hardware-dependent, wrong values cause immediate failures.
+
+1. **Robot dimension**: `robot_radius` / `footprint`
+   - `robot_radius`: actual radius of your robot. `inflation_radius` must be **> robot_radius** (safety buffer).
+   - If your robot is rectangular: remove `robot_radius`, define `footprint: [[x1,y1], [x2,y2]...]`
+2. **TF & sensor topic**: confirm LiDAR topic name (`/scan`), frame names (`base_link`, `map`, `odom`)
+3. **Speed limits**: `max_vel_x`, `max_vel_theta`, `acc_lim_x`. Never set higher than robot hardware limits.
+
+## 2. Tuning order
+
+### Step 1: Costmaps (global + local)
+
+Goal: Robot does not collide, does not get stuck in narrow gaps.
+
+- `inflation_radius`:
+  - Too small → collision risk
+  - Too large → robot cannot pass narrow doorways
+  - Rule: `inflation_radius = robot_radius + safety_margin (0.1~0.2 m)`
+- `cost_scaling_factor`: controls how fast obstacle cost fades away
+  - Higher: obstacle influence drops sharply; robot can go closer to obstacles
+  - Lower: robot keeps further away from obstacles
+- `update_frequency`
+  - local_costmap: 5–10 Hz for dynamic obstacle
+  - global_costmap: 1–2 Hz (no need high frequency)
+- `marking: true, clearing: true` → enable adding/removing obstacles from LiDAR
+
+### Step 2: AMCL Localization
+
+Goal: No pose drift, particle cloud converges.
+
+- `particlecloud_min_size / max_size`
+  - Start: min=500, max=2000.
+  - Localization noisy → increase min particles. (higher = more compute)
+  - High CPU load → reduce particle count.
+- `update_min_d` / `update_min_a`: minimum movement to trigger AMCL update
+  - Too small: frequent updates, high CPU, jitter
+  - Too large: slow to correct pose error
+  - Typical: `0.2 m`, `0.2 rad`
+- `a1,a2,a3,a4` odom noise:
+  - Odom drifts easily → increase these four noise values
+  - Odom is very good → decrease them
+- `laser_max_range`: match your LiDAR spec.
+
+### Step3: DWB Controller (local planner, robot motion)
+
+Goal: Smooth movement, stop near goal, no oscillation.
+
+- `max_vel_x`: start low (0.2~0.3 m/s), gradually increase after stable
+- `acc_lim_x`: small value for smoother motion
+- `xy_goal_tolerance` / `yaw_goal_tolerance`: goal arrival condition
+  - Robot overshoot goal → reduce tolerance
+  - Robot stops far away → increase tolerance
+- `sim_time`: DWB trajectory preview window
+  - Larger sim_time: looks further ahead, slower response
+  - Smaller: responsive but easy to oscillate
+  - Default ~1.5s works for most differential robots
+- Robot wiggling / oscillating:
+  - Reduce `max_vel_theta`
+  - Lower acceleration
+  - Reduce sim_time
+
+### Step4: Global Planner (NavFn)
+
+Goal: global path is reasonable.
+
+- `tolerance`: global path goal tolerance
+- `allow_unknown: true`: allow planning into unmapped area; set false if you only want navigation inside mapped region
+- `use_astar: true`: A* search (slower but better path), false = Dijkstra
+
+### Step5: Behavior Tree (optional)
+
+- `bt_loop_duration`: BT tick rate, usually 100ms
+- If recovery behaviours (spin, backup) trigger too often, go back to tune controller/costmap, not BT first.
+
+## 3. Iterative tuning workflow
+
+1. Set all base hardware params first, start with conservative low speed.
+2. Launch Nav2, set 1 simple goal in RViz.
+3. Change **only ONE parameter per test**, record result.
+
+> 
+> ❌ Never modify multiple parameters in one run; you cannot know which one caused change.
+
+4. Increase speed gradually after robot navigates safely.
+
+## 4. Common symptoms & fix table
+
+| Symptom | Parameter to adjust |
+| --- | --- |
+| Robot hits obstacle | ↑ inflation_radius, check footprint |
+| Cannot go through narrow passage | ↓ inflation_radius |
+| Localization drifts / lost | ↑ AMCL particles, tune a1~a4, check TF |
+| Robot oscillate/wiggle | ↓ max_vel_theta, ↓ acceleration |
+| Overshoot goal | ↓ xy_goal_tolerance / yaw_goal_tolerance |
+| Stuck, no path found | ↓ inflation_radius, check allow_unknown |
+| High CPU usage | Reduce AMCL particles, lower costmap frequency |
+
+## 5. Useful tips
+
+- After edit yaml: `colcon build --symlink-install` (symlink, no need rebuild every time)
+- Use RViz to observe: costmap, particle cloud, planned path, DWB preview trajectory
+- Tune in simulation first, then deploy to physical robot. Simulation parameters are not directly copy-paste to real robot.
+
+> 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.5"></a>
