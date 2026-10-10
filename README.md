@@ -9,7 +9,7 @@
 | 0.1 | [Gazebo: Build Your Own Robot](#project‑0.1) | Gazebo simulation, URDF/Xacro modeling, rqt, Rviz2 |
 | 0.2 | [ros2_control](#project‑0.2) | Hardware interfaces, controllers, real‑time control |
 | 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
-| 0.4 | [Navigation 2](#project‑0.4) | fine tuning the config parameters: DWB controller, NavFn planner, costmaps, AMCL|
+| 0.4 | [Navigation 2](#project‑0.4) | Fine tuning the config parameters: controller_server (DWB Local Controller), planner_server, costmaps, amcl (Localization)|
 | 0.5 | [autopatrol_robot](#project‑0.5) | Autonomous patrol, waypoint following, speaker, capture images |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
