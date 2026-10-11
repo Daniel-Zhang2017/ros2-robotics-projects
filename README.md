@@ -555,6 +555,15 @@ ros2 launch robot_description gazebo_robot.launch.py
 ```bash
 ros2 launch robot_navigation2 navigation2.launch.py
 ```
+## Extensions Ideas
+
+- Add obstacle avoidance in local controller
+- Implement MPC / LQR / Stanley controller
+- Add path smoothing in global planner
+- Add visualization markers for debug
+- Add unit tests with `ament_cmake_gtest`
+- Add benchmarking against default Nav2 planners (Smac, ThetaStar) and controllers (PurePursuit, RegulatedPurePursuit)
+
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
