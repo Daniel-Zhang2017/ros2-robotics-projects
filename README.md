@@ -10,7 +10,7 @@
 | 0.2 | [ros2_control](#project‑0.2) | Hardware interfaces, controllers, real‑time control |
 | 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
 | 0.4 | [Navigation 2](#project‑0.4) | Fine tuning the config parameters: controller_server (DWB Local Controller), planner_server, costmaps, amcl (Localization)|
-| 0.5 | [Nav2 application](#project‑0.5) | custom nodes: init_post, get_robo_post, nav_to_pose, and waypoint_follower |
+| 0.5 | [Nav2 custom application](#project‑0.5) | Custom nav2_app nodes: init_robot_post, get_robot_post, nav_to_pose, and waypoint_follower |
 | 0.6 | [autopatrol_robot](#project‑0.6) | Autonomous patrol, waypoint following, speaker, capture images |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
@@ -373,6 +373,10 @@ ros2 launch robot_description gazebo_robot.launch.py
 ros2 launch robot_navigation2 navigation2.launch.py
 ```
 
+```bash
+ros2 run nav2_application waypoint_follower
+```
+
 ```
 init_robot_pose → /initialpose → AMCL
 get_robot_pose ⟵ TF(map → base_link)
@@ -391,8 +395,6 @@ nav2_application/
 │   └── waypoint_follower.py
 ├── config/
 │   └── waypoints.yaml          # List of navigation target poses
-├── launch/
-│   └── nav2_custom_nodes.launch.py
 ├── package.xml
 ├── setup.py
 └── README.md
