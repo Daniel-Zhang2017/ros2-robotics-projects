@@ -10,7 +10,8 @@
 | 0.2 | [ros2_control](#project‑0.2) | Hardware interfaces, controllers, real‑time control |
 | 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
 | 0.4 | [Navigation 2](#project‑0.4) | Fine tuning the config parameters: controller_server (DWB Local Controller), planner_server, costmaps, amcl (Localization)|
-| 0.5 | [autopatrol_robot](#project‑0.5) | Autonomous patrol, waypoint following, speaker, capture images |
+| 0.5 | [Nav2 application](#project‑0.5) | custom nodes: init_post, get_robo_post, nav_to_pose, and waypoint_follower |
+| 0.6 | [autopatrol_robot](#project‑0.6) | Autonomous patrol, waypoint following, speaker, capture images |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -345,7 +346,62 @@ Goal: global path is reasonable.
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.5"></a>
-## Project 0.5: autopatrol_robot
+## Project 0.5: Nav2 application
+ # Nav2‑Custom‑App
+
+> 
+> ROS2 Python custom nodes for Nav2 autonomous navigation: `init_robot_pose.py`, `get_robot_pose.py`, `nav_to_pose.py`, `waypoint_follower.py`
+
+## 📋 Overview
+
+This ROS2 Python package builds application‑level logic upon the Nav2 navigation stack.
+
+- `init_robot_pose`: Publish `/initialpose` to initialize AMCL localization on startup
+- `get_robot_pose`: Lookup TF from `map` → `base_link`, output robot `(x, y, yaw)` for monitoring
+- `nav_to_pose`: Nav2 `NavigateToPose` action client, send single navigation goal and track result
+- `waypoint_follower`: High‑level mission node; loads waypoints from YAML, sequentially invokes `nav_to_pose` for autonomous waypoint patrol
+
+**Execution flow**
+
+```bash
+cd project0/robot005
+colcon build
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+```bash
+ros2 launch robot_navigation2 navigation2.launch.py
+```
+
+```
+init_robot_pose → /initialpose → AMCL
+get_robot_pose ⟵ TF(map → base_link)
+waypoint_follower ⟶ nav_to_pose ⟶ Nav2 bt_navigator
+```
+
+## 📂 Folder Structure
+
+```
+nav2_application/
+├── nav2_application/
+│   ├── __init__.py
+│   ├── init_robot_pose.py
+│   ├── get_robot_pose.py
+│   ├── nav_to_pose.py
+│   └── waypoint_follower.py
+├── config/
+│   └── waypoints.yaml          # List of navigation target poses
+├── launch/
+│   └── nav2_custom_nodes.launch.py
+├── package.xml
+├── setup.py
+└── README.md
+```
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑0.6"></a>
+## Project 0.6: autopatrol_robot
 
 > 
 > *TODO: update autopatrol_robot project soon*
