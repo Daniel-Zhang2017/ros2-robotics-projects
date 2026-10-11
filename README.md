@@ -11,7 +11,7 @@
 | 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
 | 0.4 | [Navigation 2](#project‑0.4) | Fine tuning the config parameters: controller_server (DWB Local Controller), planner_server, costmaps, amcl (Localization)|
 | 0.5 | [Nav2 custom application](#project‑0.5) | Custom nav2_app nodes: init_robot_post, get_robot_post, nav_to_pose, and waypoint_follower |
-| 0.6 | [autopatrol_robot](#project‑0.6) | Autonomous patrol, waypoint following, speaker, capture images |
+| 0.6 | [Auto‑Patrol Robot (ROS2)](#project‑0.6) | patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -394,7 +394,6 @@ nav2_application/
 │   ├── nav_to_pose.py
 │   └── waypoint_follower.py
 ├── config/
-│   └── waypoints.yaml          # List of navigation target poses
 ├── package.xml
 ├── setup.py
 └── README.md
@@ -403,10 +402,120 @@ nav2_application/
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑0.6"></a>
-## Project 0.6: autopatrol_robot
+## Project 0.6:  Auto‑Patrol Robot (ROS2)
+
+A ROS‑2‑based autonomous patrol robot project, includes patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints.
+
+## Project Structure
+
+```
+robot006/src
+├── autopatrol_interfaces      # Custom service definition package
+│   └── srv
+│       └── SpeechText.srv     # Custom SRV for text‑to‑speech request
+└── autopatrol_robot           # Main robot application package
+    ├── autopatrol_robot/
+    │   ├── __init__.py
+    │   ├── patrol_node.py     # Main patrol logic node: waypoint navigation + camera recording trigger
+    │   └── speaker.py         # Speaker service client node (call SpeechText service)
+    ├── config/
+    │   └── patrol_config.yaml # Patrol waypoints & parameters config file
+    ├── launch/
+    │   └── autopatrol.launch.py # Unified launch file to start all nodes
+    ├── resource/
+    ├── test/
+    ├── package.xml
+    ├── setup.cfg
+    └── setup.py
+```
+
+## Features
+
+1. **Autonomous Waypoint Patrol**
+`patrol_node.py` reads waypoint parameters from yaml config, robot navigates sequentially to predefined target points.
+2. **Automatic Camera Recording Trigger**
+When robot reaches each patrol target point, the node triggers camera video/image recording.
+3. **Text‑to‑Speech Interaction**
+Custom ROS2 service `SpeechText.srv`. `speaker.py` acts as service client to send text payload for voice broadcast.
+4. **One‑click Launch**
+`autopatrol.launch.py` brings up patrol node and speaker node together, loads patrol configuration.
+
+## Dependencies
+
+- ROS2 (Humble / Iron / Jazzy)
+- `ament_python`
+- Custom interface package: `autopatrol_interfaces`
+- Navigation stack (Nav2, for robot moving to waypoints)
+- Camera driver package (e.g. usb_cam) for video recording
 
 > 
-> *TODO: update autopatrol_robot project soon*
+> Make sure Nav2 and camera driver are properly installed and sourced in your ROS2 environment.
+
+## Build & Install
+
+```
+# go to workspace root
+cd project0/robot006
+
+colcon build
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+```bash
+ros2 launch robot_navigation2 navigation2.launch.py
+```
+```bash
+# build workspace
+colcon build --packages-select autopatrol_interfaces autopatrol_robot
+
+# source workspace
+source install/setup.bash
+```
+
+## How To Run
+
+```
+# Launch patrol robot system (patrol_node + speaker node, load patrol_config.yaml)
+ros2 launch autopatrol_robot autopatrol.launch.py
+```
+
+### Configuration
+
+Edit `src/autopatrol_robot/config/patrol_config.yaml`
+
+- Modify patrol target waypoint coordinates
+- Adjust patrol loop frequency, camera recording enable/disable, save path for captured footage.
+
+## Nodes Description
+
+### 1. patrol_node
+
+- Package: `autopatrol_robot`
+- Executable: `patrol_node`
+- Function:
+  - Load patrol parameters from yaml
+  - Send navigation goals to Nav2 to visit each waypoint sequentially
+  - Detect arrival at target point
+  - Trigger camera recording when reaching each patrol point
+  - Interact with speaker service for status announcement
+
+### 2. speaker node
+
+- Package: `autopatrol_robot`
+- Executable: `speaker`
+- Function: ROS2 service client for `SpeechText.srv`. Receives text message from patrol node and requests text‑to‑speech playback.
+
+## Example Workflow
+
+1. Launch the system with `autopatrol.launch.py`
+2. `patrol_node` reads waypoints config file
+3. Robot navigates to first target via Nav2
+4. Upon reaching target point:
+   - Trigger camera recording
+   - Call `SpeechText` service via speaker node to broadcast arrival message
+5. Proceed to next patrol point, repeat above steps
+
+> 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑1"></a>
