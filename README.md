@@ -11,7 +11,7 @@
 | 0.3 | [slam_toolbox](#project‑0.3) | SLAM, mapping, localization |
 | 0.4 | [Navigation 2](#project‑0.4) | Fine tuning the config parameters: controller_server (DWB Local Controller), planner_server, costmaps, amcl (Localization)|
 | 0.5 | [Nav2 custom application](#project‑0.5) | Custom nav2_app nodes: init_robot_post, get_robot_post, nav_to_pose, and waypoint_follower |
-| 0.6 | [Auto‑Patrol Robot (ROS2)](#project‑0.6) | patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
+| 0.6 | [***Practical Project: Auto‑Patrol Robot (ROS2)](#project‑0.6) | Patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
