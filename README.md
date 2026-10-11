@@ -545,9 +545,9 @@ This repository provides minimal working skeleton code to build your own:
 - Launch file example to run Nav2 stack with your custom plugins
 - Minimal dependencies, easy to extend for simulation (Gazebo / Webots) or real robot
 
+```bash
 # go to workspace root
 cd project0/robot007
-
 colcon build
 source install/setup.bash
 ros2 launch robot_description gazebo_robot.launch.py
