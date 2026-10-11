@@ -12,6 +12,7 @@
 | 0.4 | [Navigation 2](#project‑0.4) | Fine tuning the config parameters: controller_server (DWB Local Controller), planner_server, costmaps, amcl (Localization)|
 | 0.5 | [Nav2 custom application](#project‑0.5) | Custom nav2_app nodes: init_robot_post, get_robot_post, nav_to_pose, and waypoint_follower |
 | 0.6 | [***Practical Project: Auto‑Patrol Robot (ROS2)](#project‑0.6) | Patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
+| 0.7  | [Nav2 Custom Planner & Controller](#project‑0.7) | Nav2 Custom Planner & Controller|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -515,6 +516,45 @@ Edit `src/autopatrol_robot/config/patrol_config.yaml`
    - Call `SpeechText` service via speaker node to broadcast arrival message
 5. Proceed to next patrol point, repeat above steps
 
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑0.7"></a>
+# Project 0.7: Nav2 Custom Planner & Controller
+
+> 
+> A ROS 2 Humble / Iron / Jazzy package template for implementing **custom global planner** and **custom local controller** for Nav2.
+> This repo demonstrates how to write, register, and test your own planner and controller plugins compatible with Nav2 pluginlib architecture.
+
+## Overview
+
+Nav2 uses pluginlib to load modular global planners and local controllers at runtime.
+This repository provides minimal working skeleton code to build your own:
+
+1. **Custom Global Planner**: Implements `nav2_custom_controller::CustomPlanner` interface, generates global path from start to goal.
+2. **Custom Local Controller**: Implements `nav2_custom_controller::CustomController` interface, computes velocity commands to follow the global path.
+
+> 
+> ⚠️ This is a template skeleton. The planner/controller logic is stubbed; you need to implement your own algorithm (e.g. potential field, RRT*, model predictive control, pure pursuit variants).
+
+## Key Features
+
+- Full plugin registration for Nav2 pluginlib
+- Compatible with Nav2 `bt_navigator` lifecycle nodes
+- Sample parameter yaml for bringing up custom planner/controller
+- Launch file example to run Nav2 stack with your custom plugins
+- Minimal dependencies, easy to extend for simulation (Gazebo / Webots) or real robot
+
+# go to workspace root
+cd project0/robot007
+
+colcon build
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+```bash
+ros2 launch robot_navigation2 navigation2.launch.py
+```
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
