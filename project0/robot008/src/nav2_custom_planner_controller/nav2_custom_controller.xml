@@ -1,0 +1,12 @@
+<library path="custom_local_controller">
+  <class name="nav2_custom_planner_controller/CustomLocalController"
+         type="nav2_custom_planner_controller::CustomLocalController"
+         base_class_type="nav2_core::Controller">
+    <description>
+      Model Predictive Control (MPC) local controller with built-in
+      costmap-based obstacle avoidance for differential-drive robots.
+      Features configurable prediction horizon, tracking weights,
+      control smoothness, and soft obstacle penalty terms.
+    </description>
+  </class>
+</library>
