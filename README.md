@@ -1662,7 +1662,7 @@ ros2 run wheeltec_robot_keyboard wheeltec_keyboard
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑14"></a>
-# Project 14: Voice Control (Native Microphone Array) and LLM
+# Project 14: Voice Control (Native Microphone Array) and LLM (voice_control_and_LLMs_ros2 folder)
 ## Voice Control (Native Microphone Array)
 
 Basic voice command control using the onboard microphone array.
