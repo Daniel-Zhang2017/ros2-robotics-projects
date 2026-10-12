@@ -1,0 +1,34 @@
+call_recognition:
+    ros__parameters:
+        confidence_threshold : 20   #离线命令词识别置信度
+        time_per_order : 10         #最大识别录音持续时长(0~10s)
+
+command_recognition:
+    ros__parameters:
+        if_akm_yes_or_no : false    #是否为akm车型
+        line_vel_x : 0.2            #小车移动的X轴线速度
+        ang_vel_z : 0.5             #小车移动的Z轴角速度
+        
+        #语音导航I点坐标。
+        I_position_x : 2.0             
+        I_position_y : 0.0 
+        I_orientation_z : 0.0 
+        I_orientation_w : 1.0 
+        #语音导航J点坐标。
+        J_position_x : 1.0              
+        J_position_y : -1.0 
+        J_orientation_z : 0.0 
+        J_orientation_w : 1.0 
+        #语音导航K点坐标。
+        K_position_x : 2.0             
+        K_position_y : 1.0 
+        K_orientation_z : 0.0 
+        K_orientation_w : 1.0
+
+motion_control: 
+    ros__parameters:
+        if_akm_yes_or_no : false    #是否为akm车型
+        lidar_range : 0.5           #障碍物距离设置(单位/m)  
+        lidar_count : 3             #障碍物计数避免雷达噪点
+
+

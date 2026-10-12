@@ -1,0 +1,23 @@
+# Ollama/OpenAI 兼容接口参数
+chat_service:
+  ros__parameters:
+    base_url: "http://localhost:11434/v1"   # 本地 Ollama
+    api_key: "ollama"                       # 本地随意写；阿里云填真实 key
+    #base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"  # 阿里云示例
+    #api_key: "sk-*********************************"
+    #use_model: "deepseek-r1"
+    use_model: ""                           # 空 = 自动选第一个；也可写成 "deepseek-r1"
+    stream: false                           # true = 流式
+    temperature: 0.5
+    history_length: 10
+    
+ollama_topic_server:
+  ros__parameters:
+    base_url: "http://localhost:11434/v1"   # 本地 Ollama
+    api_key: "ollama"                       # 本地随意写；阿里云填真实 key
+    #base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"  # 阿里云示例
+    # api_key: "sk-*********************************"
+    use_model: ""                           # 空 = 自动选第一个；也可写成 "llama3.1:8b"
+    stream: false                           # true = 流式
+    temperature: 0.5
+    history_length: 10

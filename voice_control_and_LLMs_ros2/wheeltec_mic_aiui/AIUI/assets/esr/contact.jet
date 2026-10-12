@@ -1,0 +1,11 @@
+#FSA 1.0;
+
+0    1    <action>
+1    2    <contact>
+2    3    -
+2    3    <phoneType>
+;
+
+<action>:拨打|呼叫|打电话给;
+<contact>:张三|李四;
+<phoneType>:移动号码|家庭号码|单位号码;

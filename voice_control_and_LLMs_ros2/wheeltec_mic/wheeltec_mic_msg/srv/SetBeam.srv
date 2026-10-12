@@ -1,0 +1,4 @@
+int8 beam_value
+---
+bool success
+string result

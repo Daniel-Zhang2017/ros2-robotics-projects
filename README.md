@@ -26,7 +26,8 @@
 | 11 | [Human Skeleton Recognition and Following: bodyreader](#project‑11) | Real-time human skeleton keypoint detection, gesture recognition and mobile robot control |
 | 12 | [GMapping, SLAM Toolbox, and Cartographer](#project‑12) | ROS2 2D Mapping Algorithms |
 | 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
-| 14 | [Controlling a Physical Robotic Arm](#project‑14) | ROS2 + Moveit2 for Roarm |
+| 14 | [Voice Control (Native Microphone Array) and LLM](#project‑14) | Ollama‑hosted Deepseek large language model for conversational voice control |
+| 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series are basic learning projects
@@ -1661,7 +1662,63 @@ ros2 run wheeltec_robot_keyboard wheeltec_keyboard
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑14"></a>
-# Project 14: Controlling a Physical Robotic Arm： ROS2+Moveit2 for Roarm
+# Project 14: Voice Control (Native Microphone Array) and LLM
+## Voice Control (Native Microphone Array)
+
+Basic voice command control using the onboard microphone array.
+
+### Step 1: Launch microphone array initialization node
+
+```
+ros2 launch wheeltec_mic_ros2 mic_init.launch.py
+```
+
+### Step 2: Launch robot base/chassis initialization node
+
+```
+ros2 launch wheeltec_mic_ros2 base.launch.py
+```
+
+After both nodes are running, the microphone array is ready to receive voice commands for robot movement.
+
+---
+
+## Deepseek‑based Voice Control
+
+Integrate AIUI voice capture with Ollama‑hosted Deepseek large language model for conversational voice control.
+
+### Step 1: Start AIUI voice processing service
+
+```
+ros2 launch wheeltec_mic_aiui aiui_chat.launch.py
+```
+
+### Step 2: Launch Ollama‑ROS chat initialization node
+
+```
+ros2 launch ollama_ros_chat ollama_ros_chat.launch.py
+```
+
+> 
+> **Note**: Ensure the Deepseek model has been pulled locally by Ollama before launching this workflow.
+
+---
+
+## Troubleshooting
+
+1. No microphone input: Verify hardware connection, check `mic_init.launch.py` startup logs for device access errors.
+2. AIUI no speech output: Confirm audio device permissions and AIUI configuration parameters.
+3. Ollama chat not responding: Make sure Ollama background service is active and Deepseek model is downloaded.
+
+```
+# Verify ollama service status
+systemctl status ollama
+```
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑15"></a>
+# Project 15: Controlling a Physical Robotic Arm: ROS2 + MoveIt2 for Roarm
 
 ## Overview
 

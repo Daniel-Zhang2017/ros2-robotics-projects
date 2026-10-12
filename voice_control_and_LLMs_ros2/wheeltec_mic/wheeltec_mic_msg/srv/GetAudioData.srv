@@ -1,0 +1,8 @@
+# wheeltec_mic_msg/srv/GetAudioData.srv
+int8  mode         #0：取消原始音频输出 1：设置原始音频输出
+uint32 duration_sec
+---
+# 响应
+bool success
+string message
+uint32 file_size
