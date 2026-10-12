@@ -26,7 +26,7 @@
 | 11 | [Human Skeleton Recognition and Following: bodyreader](#project‑11) | Real-time human skeleton keypoint detection, gesture recognition and mobile robot control |
 | 12 | [GMapping, SLAM Toolbox, and Cartographer](#project‑12) | ROS2 2D Mapping Algorithms |
 | 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
-| 14 | [Voice Control (Native Microphone Array) and LLM](#project‑14) | Ollama‑hosted Deepseek large language model for conversational voice control |
+| 14 | [Voice Control (Native Microphone Array) and LLM](#project‑14) | ASR (Automatic Speech Recognition), Ollama‑hosted Deepseek large language model for conversational voice control |
 | 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
