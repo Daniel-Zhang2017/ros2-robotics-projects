@@ -31,7 +31,7 @@
 | 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2 for Roarm |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
-# The Project 0 series are basic learning projects
+# The Project 0 series are step to step progressing projects
 
 <a id="project‑0.1"></a>
 ## Project 0.1: Build Your Own Robot
