@@ -14,6 +14,7 @@
 | 0.6 | [**Practical Project: Auto‑Patrol Robot (ROS2)**](#project‑0.6) | Patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
 | 0.7  | [Nav2 Custom Planner & Controller](#project‑0.7) | Nav2 Custom Planner & Controller|
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
+| 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | MPPI（Model Predictive Path Integral）|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -584,6 +585,12 @@ Drop-in plugin replacement for the Nav2 navigation stack. Implements a **Model P
 - Hard emergency stop safety layer
 - RViz debug markers for predicted & reference trajectories
 - Standard pluginlib registration
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑0.9"></a>
+# Project 0.9: Nav2 Custom Planner & Controller: MPPI（Model Predictive Path Integral）
+
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
