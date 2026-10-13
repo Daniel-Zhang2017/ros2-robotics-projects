@@ -592,6 +592,19 @@ Drop-in plugin replacement for the Nav2 navigation stack. Implements a **Model P
 <a id="project‑0.9"></a>
 # Project 0.9: Nav2 Custom Planner & Controller: MPPI（Model Predictive Path Integral）
 
+```bash
+sudo apt update
+sudo apt install ros-humble-nav2-mppi-controller
+
+# go to workspace root
+cd project0/robot009
+colcon build
+source install/setup.bash
+ros2 launch robot_description gazebo_robot.launch.py
+```
+```bash
+ros2 launch robot_navigation2 navigation2.launch.py
+```
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
