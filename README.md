@@ -1,6 +1,6 @@
 # ROS2 Project Portfolio
 ## ros2‑robotics‑projects (continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked) 
-**A collection of ROS2 robotics projects covering simulation, navigation, computer vision, motion control, custom interface development, and Artificial Intelligence for Robotics.**
+**A hands‑on ROS2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real‑time computer vision, skeleton‑gesture robot control, TTS‑ASR‑LLM voice interaction, QT GUI monitoring, and MoveIt2 robotic‑arm manipulation. Projects range from basic ROS2 primitives to advanced autonomous patrol robots and custom navigation plugin development.**
 
 <a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
