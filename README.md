@@ -15,8 +15,7 @@
 | 0.7  | [Nav2 Custom Planner & Controller](#project‑0.7) | Nav2 Custom Planner & Controller|
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
 | 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | MPPI（Model Predictive Path Integral）|
-| 0.10  | [**Compare different global planners and local motion controllers for ROS 2 Nav2
-**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
+| 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
