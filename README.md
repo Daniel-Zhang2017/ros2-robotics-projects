@@ -14,7 +14,7 @@
 | 0.6 | [**Practical Project: Auto‑Patrol Robot (ROS2)**](#project‑0.6) | Patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
 | 0.7  | [Nav2 Custom Planner & Controller](#project‑0.7) | Nav2 Custom Planner & Controller|
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
-| 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | MPPI (Model Predictive Path Integral) and tunning tips for the nv2_params_yaml file (obtained after hundreds tries)|
+| 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | **MPPI (Model Predictive Path Integral) and tuning tips (obtained after hundreds of tries) for the nv2_params_yaml file**|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
