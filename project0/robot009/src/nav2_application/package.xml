@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>autopatrol_robot</name>
+  <name>nav2_application</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="87068644+fishros@users.noreply.github.com">fishros</maintainer>
+  <maintainer email="hhzhang2016@outlook.com">Daniel_zhang</maintainer>
   <license>TODO: License declaration</license>
 
   <test_depend>ament_copyright</test_depend>

@@ -14,7 +14,7 @@
 | 0.6 | [**Practical Project: Auto‑Patrol Robot (ROS2)**](#project‑0.6) | Patrol navigation node, text‑to‑speech service client, and camera recording trigger at target waypoints. |
 | 0.7  | [Nav2 Custom Planner & Controller](#project‑0.7) | Nav2 Custom Planner & Controller|
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
-| 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | MPPI（Model Predictive Path Integral）|
+| 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | MPPI (Model Predictive Path Integral) and tunning tips for the nv2_params_yaml file (obtained after hundreds tries)|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
@@ -605,6 +605,58 @@ ros2 launch robot_description gazebo_robot.launch.py
 ```bash
 ros2 launch robot_navigation2 navigation2.launch.py
 ```
+## Why your RViz crashes when adding these two critics
+
+1. **Wrong plugin names**`ObstacleCritic` / `TwistCritic` are invalid plugin names. MPPI controller cannot load the critic plugin → controller node crashes, and RViz appears to crash because it loses nav2 topics. This is **not RViz itself crashing**, the `controller_server` dies.
+   - Correct: `ObstaclesCritic` & `TwirlingCritic`Nav2
+2. **Other common crash triggers**
+
+- `ObstaclesCritic` needs valid local costmap running. If `local_costmap` is not alive / no laser data / wrong inflation params, ObstaclesCritic will throw exception.
+- `consider_footprint: true` without proper robot footprint defined → segfault / heavy computation overload. Start with `false`.
+- Too large `collision_cost` + sampling trajectories hitting costmap lethal zone → cost explosion, node crash.
+- Your MPPI `visualize: true` with huge sample count + ObstaclesCritic will publish massive trajectory messages and cause RViz2 OOM.
+
+> 
+> Debug suggestion: temporarily set `visualize: false` when adding ObstaclesCritic / TwirlingCritic.
+
+## Tuning order & weight balance recommendation
+
+Start with this priority:
+
+1. PathAlignCritic (10): follow global path direction
+2. PreferForwardCritic (5): ban backward motion
+3. GoalCritic (5): approach goal
+4. ObstaclesCritic (repulsion_weight=1.5): soft obstacle repulsion; critical_weight=20 only for near collision hard penalty
+5. TwirlingCritic (2): small weight, only suppress crazy spinning. **Do NOT set >5 for non-holonomic robot.**
+
+> 
+> If your robot is differential drive (non-holonomic): `TwirlingCritic` is less useful; high weight may cause oscillation.
+
+## Debug steps
+
+1. Check controller_server log:
+
+```
+ros2 log show controller_server
+```
+
+Look for `Failed to load critic plugin` — this confirms name typo.
+2. Launch without RViz first, verify controller_server stays alive, then open RViz.
+3. Add critics one by one:
+
+- Start: `["PathAlignCritic", "GoalCritic", "PreferForwardCritic"]` → confirm stable
+- Add `ObstaclesCritic` → test
+- Add `TwirlingCritic` → test
+
+4. Verify local costmap topic `/local_costmap/costmap` is published.
+
+## Quick weight tuning rule
+
+- Increase PathAlign → robot sticks tightly to global path, less willing to detour obstacles
+- Increase ObstaclesCritic repulsion → robot keeps larger clearance from obstacles, may freeze
+- Increase PreferForward → robot refuses reversing even if needed
+- TwirlingCritic only damp rotation wiggle; keep weight low.
+
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
