@@ -3,8 +3,6 @@ import launch
 import launch_ros
 from ament_index_python.packages import get_package_share_directory
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
-
 def generate_launch_description():
     # 获取与拼接默认路径
     robot_navigation2_dir = get_package_share_directory(
@@ -20,7 +18,6 @@ def generate_launch_description():
         'map', default=os.path.join(robot_navigation2_dir, 'maps', 'room.yaml'))
     nav2_param_path = launch.substitutions.LaunchConfiguration(
         'params_file', default=os.path.join(robot_navigation2_dir, 'config', 'nav2_params.yaml'))
-
     return launch.LaunchDescription([
         # 声明新的 Launch 参数
         launch.actions.DeclareLaunchArgument('use_sim_time', default_value=use_sim_time,
@@ -29,15 +26,17 @@ def generate_launch_description():
                                              description='Full path to map file to load'),
         launch.actions.DeclareLaunchArgument('params_file', default_value=nav2_param_path,
                                              description='Full path to param file to load'),
-
         launch.actions.IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [nav2_bringup_dir, '/launch', '/bringup_launch.py']),
-            # 使用 Launch 参数替换原有参数
+            # 使用 Launch 参数替换原有参数 `nav2 bringup_launch.py` 原生支持 launch 参数去关闭部分组件 true/false
             launch_arguments={
                 'map': map_yaml_path,
                 'use_sim_time': use_sim_time,
-                'params_file': nav2_param_path}.items(),
+                'params_file': nav2_param_path,
+                'launch_controller_server': 'true',
+                'launch_bt_navigator': 'true',
+            }.items(),
         ),
         launch_ros.actions.Node(
             package='rviz2',
