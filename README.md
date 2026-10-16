@@ -750,7 +750,7 @@ docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble se
 
 ros2 topic echo /stm32_publisher
 ```
-###📌 Supported Hardware Platforms
+📌 #### Supported Hardware Platforms
 * **micro-ROS works out-of-the-box or via community ports across a wide range of microcontrollers, including:**
 
 * Espressif: ESP32, ESP32-S3, ESP32-C3
