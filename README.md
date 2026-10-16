@@ -727,39 +727,35 @@ ros2 topic list
 ros2 topic echo /esp32_publisher
 ```
 ## 🚀 Part 2: STM32 Step-by-Step Workflow
-> For industrial or advanced robotics applications, micro-ROS can be integrated into STM32 microcontrollers using STM32CubeMX, FreeRTOS, and a custom UART transport (src/stm32/main.c).
+
+> For industrial or advanced robotics applications, micro-ROS can be integrated into STM32 microcontrollers using STM32CubeMX, FreeRTOS, and a custom UART transport (`src/stm32/main.c`).
 
 #### 1. Hardware Setup (STM32CubeMX)
-
-Configure a UART interface (e.g., USART2) with a stable baud rate (e.g., 115200).
-
-Enable FreeRTOS middleware in CubeMX.
-
-Allocate sufficient heap size in FreeRTOS (recommended at least 16KB to 32KB+ for micro-ROS tasks).
+* Configure a UART interface (e.g., `USART2`) with a stable baud rate (e.g., `115200`).
+* Enable FreeRTOS middleware in CubeMX.
+* Allocate sufficient heap size in FreeRTOS (recommended at least **16KB to 32KB+** for micro-ROS tasks).
 
 #### 2. Integrate micro-ROS Library
-
-Use the official micro_ros_stm32cubemx_utils package to cross-compile or integrate static micro-ROS libraries into your Makefile, CMake, or STM32CubeIDE project workspace.
+* Use the official `micro_ros_stm32cubemx_utils` package to cross-compile or integrate static micro-ROS libraries into your Makefile, CMake, or STM32CubeIDE project workspace.
 
 #### 3. Run and Verify
 Start the host agent for your STM32 board (adjusting the port as needed):
 
-```Bash
+```bash
 docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble serial --dev /dev/ttyACM0 -b 115200
+
 #Verify the data stream in a separate terminal:
 
 ros2 topic echo /stm32_publisher
 ```
-📌 #### Supported Hardware Platforms
-* **micro-ROS works out-of-the-box or via community ports across a wide range of microcontrollers, including:**
+#### 📌 Supported Hardware Platforms
 
-* Espressif: ESP32, ESP32-S3, ESP32-C3
+micro-ROS works out-of-the-box or via community ports across a wide range of microcontrollers, including:
 
-* STMicroelectronics: STM32F4, STM32F7, STM32H7 families
-
-* Raspberry Pi: RP2040 / RP2350 (Pico)
-
-* Others: Teensy, Arduino boards, and industrial Renesas microcontrollers.> 
+* **Espressif:** ESP32, ESP32-S3, ESP32-C3
+* **STMicroelectronics:** STM32F4, STM32F7, STM32H7 families
+* **Raspberry Pi:** RP2040 / RP2350 (Pico)
+* **Others:** Teensy, Arduino boards, and industrial Renesas microcontrollers.
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
