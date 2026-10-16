@@ -16,6 +16,7 @@
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
 | 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | **MPPI (Model Predictive Path Integral) and tuning tips (obtained after hundreds of tries) for the nv2_params_yaml file**|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
+| 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | Micro-ROS: create nodes, publishing topics in MCUs|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -668,6 +669,94 @@ Look for `Failed to load critic plugin` — this confirms name typo.
 ```bash
 git clone https://github.com/Daniel-Zhang2017/nav2-planner-controller-benchmark.git
 ```
+<a id="project‑0.11"></a>
+# Project 0.11:   Micro-ROS: create nodes, publishing topics in MCUs (ESP32 and STM32)
+
+**Code is in the folder of project0/robot010/src**
+
+## ESP32 micro-ROS Publisher Example 
+**This project provides a clean, ready-to-use template for running a micro-ROS node on an ESP32 microcontroller using the PlatformIO ecosystem. It publishes a standard std_msgs/msg/String message over a serial connection to a ROS 2 network.**
+
+Prerequisites
+Hardware: ESP32 Development Board (e.g., ESP32 NodeMCU)
+
+Software:
+
+Visual Studio Code with the PlatformIO extension.
+
+ROS 2 (e.g., Humble / Iron / Jazzy) installed on your host computer.
+
+Docker (recommended for running the micro-ROS Agent easily).
+
+Project Structure & Setup
+Create a new PlatformIO project and configure your files as follows:
+
+1. platformio.ini Configuration (see esp32/platformio.ini)
+
+2. Source Code (src/main.cpp)
+
+3. How to Build and Run
+
+Step 1: Flash the ESP32
+Compile and upload the code to your ESP32 board using PlatformIO:
+
+```Bash
+pio run --target upload
+```
+Step 2: Run the micro-ROS Agent
+
+On your host machine, run the micro-ROS agent via Docker to bridge serial data to the ROS 2 network (replace /dev/ttyUSB0 with your actual ESP32 port):
+
+```Bash
+docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble serial --dev /dev/ttyUSB0 -b 115200
+```
+Step 3: Verify with ROS 2
+Open a new terminal on your host machine to check if the node and topics are active:
+
+```Bash
+# Check active nodes
+ros2 node list
+# Expected output: /esp32_node
+
+# Check active topics
+ros2 topic list
+# Expected output: /esp32_publisher
+
+# Echo the published messages
+ros2 topic echo /esp32_publisher
+```
+
+## Step-by-Step Workflow for STM32 (src/stm32/main.c)
+
+Hardware Setup (STM32CubeMX):
+
+Configure a UART interface (e.g., USART2) with a proper baud rate (e.g., 115200).
+
+Enable FreeRTOS middleware in CubeMX.
+
+Allocate enough Heap size in FreeRTOS (recommended at least 16KB to 32KB+ heap for micro-ROS tasks).
+
+Integrate micro-ROS Library:
+
+Use the official micro_ros_stm32cubemx_utils package to cross-compile or integrate the static micro-ROS libraries into your Makefile/CMake/CubeIDE project workspace.   
+
+**main.c: using FreeRTOS**
+
+Run the Host Agent:
+```Bash
+docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble serial --dev /dev/ttyACM0 -b 115200
+
+#Verify via ROS 2:
+
+ros2 topic echo /stm32_publisher
+```
+**micro-ROS Architecture:**
+
+**micro-ROS Client (MCU side)**: Runs a lightweight C-based API (rcl + rclc) on top of embedded operating systems (FreeRTOS, Zephyr, NuttX) or bare-metal systems.   
+
+**micro-ROS Agent (Host side)**: Runs on the host PC or SBC (e.g., Raspberry Pi or Jetson running ROS 2). It translates lightweight DDS-XRCE protocol messages from the MCU (sent over UART, USB, Wi-Fi, or CAN) into standard DDS packets for the rest of the ROS 2 network.   
+
+**Supported Hardware**: Works on popular platforms including ESP32, STM32, Raspberry Pi Pico (RP2040/RP2350), Teensy, Arduino, and industrial boards like Renesas.   
 
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
