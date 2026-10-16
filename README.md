@@ -16,7 +16,7 @@
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
 | 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | **MPPI (Model Predictive Path Integral) and tuning tips (obtained after hundreds of tries) for the nv2_params_yaml file**|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
-| 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | Micro-ROS: create nodes, publishing topics in MCUs|
+| 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | Micro-ROS: create nodes, publish topics in MCUs with **Practical Tips**|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -742,7 +742,14 @@ ros2 topic echo /esp32_publisher
 Start the host agent for your STM32 board (adjusting the port as needed):
 
 ```bash
+# Practice Tips
+#Note: How to Run on Jetson Nano
+#Hardware Connection: Connect your ESP32 to the Jetson Nano via a USB cable.
+#Flash Code: Upload the compiled code to your ESP32.
+#Run micro-ROS Agent: On your Jetson Nano, launch the Docker agent to bridge the serial port to the ROS 2 network:
+
 docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble serial --dev /dev/ttyACM0 -b 115200
+#(Note: Replace /dev/ttyUSB0 with your actual device port if it differs, e.g., /dev/ttyACM0)
 
 #Verify the data stream in a separate terminal:
 
