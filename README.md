@@ -1,6 +1,6 @@
 # ROS2 Project Portfolio
 ## ros2‑robotics‑projects (continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked) 
-**A hands‑on ROS2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real‑time computer vision, skeleton‑gesture robot control, TTS‑ASR‑LLM voice interaction, QT GUI monitoring, and MoveIt2 robotic‑arm manipulation. Projects range from basic ROS2 primitives to advanced autonomous patrol robots and custom navigation plugin development.**
+**A hands‑on ROS2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real‑time computer vision, skeleton‑gesture robot control, TTS‑ASR‑LLM voice interaction, QT GUI monitoring, MCU programming, and MoveIt2 robotic‑arm manipulation. Projects range from basic ROS2 primitives to advanced autonomous patrol robots and custom navigation plugin development.**
 
 <a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
@@ -670,50 +670,51 @@ Look for `Failed to load critic plugin` — this confirms name typo.
 git clone https://github.com/Daniel-Zhang2017/nav2-planner-controller-benchmark.git
 ```
 <a id="project‑0.11"></a>
-# Project 0.11:   Micro-ROS: create nodes, publishing topics in MCUs (ESP32 and STM32)
+# Project 0.11: Micro-ROS on MCUs (ESP32 & STM32)
+A collection of ready-to-use templates and examples for running micro-ROS nodes and publishing standard topics from resource-constrained microcontrollers (ESP32 and STM32) into a ROS 2 ecosystem.
 
-**Code is in the folder of project0/robot010/src**
+📂 Source Code Location: project0/robot010/src
 
-## ESP32 micro-ROS Publisher Example 
-**This project provides a clean, ready-to-use template for running a micro-ROS node on an ESP32 microcontroller using the PlatformIO ecosystem. It publishes a standard std_msgs/msg/String message over a serial connection to a ROS 2 network.**
+🏗️ Quick Architecture Overview
+micro-ROS Client (MCU Side): Runs a lightweight C-based API (rcl + rclc) on top of embedded operating systems (such as FreeRTOS) or bare-metal configurations.
+
+micro-ROS Agent (Host Side): Runs on your host PC or companion computer (e.g., Ubuntu running ROS 2 Humble/Iron). It bridges lightweight DDS-XRCE protocol messages from the MCU (via UART, USB, Wi-Fi, or CAN) into standard ROS 2 DDS network packets.
+
+🚀 Part 1: ESP32 micro-ROS Publisher Example
+This project provides a clean template for running a micro-ROS node on an ESP32 using the PlatformIO ecosystem, publishing a standard std_msgs/msg/String message over serial.
 
 Prerequisites
 Hardware: ESP32 Development Board (e.g., ESP32 NodeMCU)
 
 Software:
 
-Visual Studio Code with the PlatformIO extension.
+VS Code with the PlatformIO extension.
 
 ROS 2 (e.g., Humble / Iron / Jazzy) installed on your host computer.
 
-Docker (recommended for running the micro-ROS Agent easily).
+Docker (recommended for running the micro-ROS Agent).
 
-Project Structure & Setup
-Create a new PlatformIO project and configure your files as follows:
+Setup & Build
+Configure your platformio.ini file (esp32/platformio.ini) with the micro-ROS dependency.
 
-1. platformio.ini Configuration (see esp32/platformio.ini)
-
-2. Source Code (src/main.cpp)
-
-3. How to Build and Run
+Place the publisher logic in your src/main.cpp.
 
 Step 1: Flash the ESP32
 Compile and upload the code to your ESP32 board using PlatformIO:
 
-```Bash
+```bash
 pio run --target upload
 ```
 Step 2: Run the micro-ROS Agent
+Bridge serial data to the ROS 2 network via Docker (replace /dev/ttyUSB0 with your actual ESP32 port and match your baud rate):
 
-On your host machine, run the micro-ROS agent via Docker to bridge serial data to the ROS 2 network (replace /dev/ttyUSB0 with your actual ESP32 port):
-
-```Bash
+```bash
 docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble serial --dev /dev/ttyUSB0 -b 115200
 ```
 Step 3: Verify with ROS 2
-Open a new terminal on your host machine to check if the node and topics are active:
+Open a new terminal on your host machine to check the node and topics
 
-```Bash
+```bash
 # Check active nodes
 ros2 node list
 # Expected output: /esp32_node
@@ -722,43 +723,45 @@ ros2 node list
 ros2 topic list
 # Expected output: /esp32_publisher
 
-# Echo the published messages
+# Echo published messages
 ros2 topic echo /esp32_publisher
 ```
+⚙️ Part 2: STM32 Step-by-Step Workflow
+For industrial or advanced robotics applications, micro-ROS can be integrated into STM32 microcontrollers using STM32CubeMX, FreeRTOS, and a custom UART transport (src/stm32/main.c).
 
-## Step-by-Step Workflow for STM32 (src/stm32/main.c)
+1. Hardware Setup (STM32CubeMX)
 
-Hardware Setup (STM32CubeMX):
-
-Configure a UART interface (e.g., USART2) with a proper baud rate (e.g., 115200).
+Configure a UART interface (e.g., USART2) with a stable baud rate (e.g., 115200).
 
 Enable FreeRTOS middleware in CubeMX.
 
-Allocate enough Heap size in FreeRTOS (recommended at least 16KB to 32KB+ heap for micro-ROS tasks).
+Allocate sufficient heap size in FreeRTOS (recommended at least 16KB to 32KB+ for micro-ROS tasks).
 
-Integrate micro-ROS Library:
+2. Integrate micro-ROS Library
 
-Use the official micro_ros_stm32cubemx_utils package to cross-compile or integrate the static micro-ROS libraries into your Makefile/CMake/CubeIDE project workspace.   
+Use the official micro_ros_stm32cubemx_utils package to cross-compile or integrate static micro-ROS libraries into your Makefile, CMake, or STM32CubeIDE project workspace.
 
-**main.c: using FreeRTOS**
+3. Run and Verify
+Start the host agent for your STM32 board (adjusting the port as needed):
 
-Run the Host Agent:
 ```Bash
 docker run -it --rm -v /dev:/dev --privileged microros/micro-ros-agent:humble serial --dev /dev/ttyACM0 -b 115200
-
-#Verify via ROS 2:
+#Verify the data stream in a separate terminal:
 
 ros2 topic echo /stm32_publisher
 ```
-**micro-ROS Architecture:**
+📌 Supported Hardware Platforms
+micro-ROS works out-of-the-box or via community ports across a wide range of microcontrollers, including:
 
-**micro-ROS Client (MCU side)**: Runs a lightweight C-based API (rcl + rclc) on top of embedded operating systems (FreeRTOS, Zephyr, NuttX) or bare-metal systems.   
+Espressif: ESP32, ESP32-S3, ESP32-C3
 
-**micro-ROS Agent (Host side)**: Runs on the host PC or SBC (e.g., Raspberry Pi or Jetson running ROS 2). It translates lightweight DDS-XRCE protocol messages from the MCU (sent over UART, USB, Wi-Fi, or CAN) into standard DDS packets for the rest of the ROS 2 network.   
+STMicroelectronics: STM32F4, STM32F7, STM32H7 families
 
-**Supported Hardware**: Works on popular platforms including ESP32, STM32, Raspberry Pi Pico (RP2040/RP2350), Teensy, Arduino, and industrial boards like Renesas.   
+Raspberry Pi: RP2040 / RP2350 (Pico)
 
-> 
+Others: Teensy, Arduino boards, and industrial Renesas microcontrollers.> 
+
+>
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
 <a id="project‑1"></a>
