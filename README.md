@@ -771,6 +771,11 @@ micro-ROS works out-of-the-box or via community ports across a wide range of mic
 <a id="project-0.12"></a>
 # Project 0.12: Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)
 
+## Introduction to Open-RMF
+Open-RMF (Open Robotics Management Framework) is an open-source, vendor-agnostic software framework developed primarily by Open Robotics (the organization behind ROS and Gazebo).
+
+While ROS 2 provides the core middleware for single-robot software and Nav2 manages individual robot navigation, Open-RMF operates at the fleet and infrastructure level. It enables heterogeneous fleets of Autonomous Mobile Robots (AMRs), Automated Guided Vehicles (AGVs), and smart building infrastructure (elevators, doors, turnstiles) to operate together seamlessly in shared physical environments.
+
 ## Recommended link for learning: https://github.com/Ekumen-OS/andino_rmf.git
 
 ### Overview
