@@ -773,7 +773,7 @@ micro-ROS works out-of-the-box or via community ports across a wide range of mic
 
 ## Recommended link for learning: https://github.com/Ekumen-OS/andino_rmf.git
 
-###💡 Overview
+### Overview
 Managing heterogeneous multi-robot fleets in shared industrial and commercial spaces introduces critical challenges such as deadlocks at intersections, inefficient task distribution, and infrastructure access (elevators/doors).
 
 This repository provides an end-to-end simulation and deployment pipeline that bridges local ROS 2 Nav2 navigation stacks with Open-RMF's global traffic negotiation and task auctioning engine.
@@ -789,7 +789,7 @@ This repository provides an end-to-end simulation and deployment pipeline that b
 
 🌐 Web Dashboard & Visualization: Real-time fleet tracking, status monitoring, and mission dispatch via web interface or RViz2.
 
-###🏗️ Architecture
+### Architecture
 Plaintext
 
 
@@ -815,7 +815,7 @@ Plaintext
   +-------------------+                         +-------------------+
   | Robot 1 (Nav2)    |                         | Robot 2 (AGV/AMR) |
   +-------------------+                         +-------------------+
-###🛠️ System Requirements
+### System Requirements
 OS: Ubuntu 22.04 LTS (Jammy) / Ubuntu 24.04 LTS (Noble)
 
 ROS 2: Humble Hawksbill / Jazzy Jalisco
