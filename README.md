@@ -17,6 +17,7 @@
 | 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | **MPPI (Model Predictive Path Integral) and tuning tips (obtained after hundreds of tries) for the nv2_params_yaml file**|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
 | 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | Micro-ROS: create nodes, publish topics in MCUs with **Practical Tips**|
+| 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project‑0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -763,6 +764,65 @@ micro-ROS works out-of-the-box or via community ports across a wide range of mic
 * **STMicroelectronics:** STM32F4, STM32F7, STM32H7 families
 * **Raspberry Pi:** RP2040 / RP2350 (Pico)
 * **Others:** Teensy, Arduino boards, and industrial Renesas microcontrollers.
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project-0.12"></a>
+# Project 0.12: Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)
+
+### Recommended link for learning: https://github.com/Ekumen-OS/andino_rmf.git
+
+###💡 Overview
+Managing heterogeneous multi-robot fleets in shared industrial and commercial spaces introduces critical challenges such as deadlocks at intersections, inefficient task distribution, and infrastructure access (elevators/doors).
+
+This repository provides an end-to-end simulation and deployment pipeline that bridges local ROS 2 Nav2 navigation stacks with Open-RMF's global traffic negotiation and task auctioning engine.
+
+### Key Features
+🤖 Nav2 Multi-Robot Namespace Management: Scalable configuration for running multiple independent Nav2 stacks in ROS 2.
+
+🚦 Dynamic Conflict Resolution & Negotiated Traffic: Space-time trajectory reservation preventing deadlocks in narrow lanes or intersections.
+
+📋 Distributed Task Allocation: Automated auction-based task dispatching (patrol, delivery, charging cycle).
+
+🏢 Infrastructure Integration: Open-RMF building infrastructure interface for automatic doors, lifts, and charging stations.
+
+🌐 Web Dashboard & Visualization: Real-time fleet tracking, status monitoring, and mission dispatch via web interface or RViz2.
+
+###🏗️ Architecture
+Plaintext
+
+
+                     +---------------------------+
+                     |    Web UI / Enterprise    |
+                     |  (WMS/MES/Task Dispatch)  |
+                     +-------------+-------------+
+                                   |
+                                   v
+                     +---------------------------+
+                     |      Open-RMF Core        |
+                     |  (Task Auction/Traffic)   |
+                     +------+-------------+------+
+                            |             |
+            +---------------+             +---------------+
+            |                                             |
+            v                                             v
+  +-------------------+                         +-------------------+
+  | Fleet Adapter A   |                         | Fleet Adapter B   |
+  +---------+---------+                         +---------+---------+
+            | (ROS 2 Action/Topics)                       | (VDA 5050 / Custom)
+            v                                             v
+  +-------------------+                         +-------------------+
+  | Robot 1 (Nav2)    |                         | Robot 2 (AGV/AMR) |
+  +-------------------+                         +-------------------+
+###🛠️ System Requirements
+OS: Ubuntu 22.04 LTS (Jammy) / Ubuntu 24.04 LTS (Noble)
+
+ROS 2: Humble Hawksbill / Jazzy Jalisco
+
+Simulation: Gazebo Fortress (Ignition) or Gazebo Harmonic
+
+Middleware: rmw_cyclonedds_cpp (Recommended for multi-robot networks)
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
