@@ -771,7 +771,7 @@ micro-ROS works out-of-the-box or via community ports across a wide range of mic
 <a id="project-0.12"></a>
 # Project 0.12: Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)
 
-### Recommended link for learning: https://github.com/Ekumen-OS/andino_rmf.git
+## Recommended link for learning: https://github.com/Ekumen-OS/andino_rmf.git
 
 ###💡 Overview
 Managing heterogeneous multi-robot fleets in shared industrial and commercial spaces introduces critical challenges such as deadlocks at intersections, inefficient task distribution, and infrastructure access (elevators/doors).
