@@ -839,7 +839,7 @@ Middleware: rmw_cyclonedds_cpp (Recommended for multi-robot networks)
 
 A lightweight, educational implementation of a 2D Particle Filter (Monte Carlo Localization, MCL) written in Python. This project demonstrates how a mobile robot estimates its position in a known grid map using noisy motion models, sensor observations, weighted particle evaluation, and resampling.
 
-Folder: project0/localization_mapping_SLAM_path planning_and_path tracking
+Folder: project0/localization_mapping_SLAM_path planning_and_path tracking, **robot.ipynb**
 
 **1-hour guide from Coursera:**https://www.coursera.org/projects/robot-localization-python-particle-filter
 
