@@ -18,6 +18,7 @@
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
 | 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | Micro-ROS: create nodes, publish topics in MCUs with **Practical Tips**|
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
+| 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -828,6 +829,35 @@ ROS 2: Humble Hawksbill / Jazzy Jalisco
 Simulation: Gazebo Fortress (Ignition) or Gazebo Harmonic
 
 Middleware: rmw_cyclonedds_cpp (Recommended for multi-robot networks)
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+
+<a id="project-0.13"></a>
+# Project 0.13: Simple 2D Monte Carlo Localization (Particle Filter)
+
+A lightweight, educational implementation of a 2D Particle Filter (Monte Carlo Localization, MCL) written in Python. This project demonstrates how a mobile robot estimates its position in a known grid map using noisy motion models, sensor observations, weighted particle evaluation, and resampling.
+
+Folder: project0/localization_mapping_SLAM_path planning_and_path tracking
+
+**1-hour guide from Coursera:**https://www.coursera.org/projects/robot-localization-python-particle-filter
+
+Most important function: Resampling step in a particle filter (often called the "survival of the fittest" phase)
+
+```
+#Sample with replacement based on probabilities
+  new_index = np.random.choice(
+      NUM_PARTICLES, size=NUM_PARTICLES, p=probabilities
+  )
+#Uses np.random.choice to draw a new set of indices from 0 to NUM_PARTICLES - 1 with a total count of NUM_PARTICLES.
+
+#The p=probabilities argument dictates the odds: particles with higher weights (higher probability) are much more likely to be selected—often #multiple times—while particles with near-zero weights have little to no chance of being chosen.
+ ```
+
+After this Coursera learning, I came across PythonRobotics, which is a popular open-source software (OSS) project for beginners
+in robotics to understand the basic ideas behind each algorithm in localization, mapping, SLAM, path planning, and path tracking.
+Here is the link to PythonRobotics: https://github.com/AtsushiSakai/PythonRobotics/tree/master
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
