@@ -866,43 +866,43 @@ Here is the link to PythonRobotics: https://github.com/AtsushiSakai/PythonRoboti
 <a id="project-0.14"></a>
 # Project 0.14: Advanced ROS 2: QoS, lifecycle Node, and message_filters
 
-Mastering advanced ROS 2 concepts is essential for building robust, reliable, and production-ready robotic systems. Below is a comprehensive guide covering Quality of Service (QoS), Lifecycle Nodes, and Message Filters, complete with best practices and practical implementation patterns.
+## Mastering advanced ROS 2 concepts is essential for building robust, reliable, and production-ready robotic systems. Below is a comprehensive guide covering Quality of Service (QoS), Lifecycle Nodes, and Message Filters, complete with best practices and practical implementation patterns.
 
-Folder: project0/robot011
+**Folder: project0/robot011**
 
-1. Quality of Service (QoS)
+### 1. Quality of Service (QoS)
 
 ROS 2 replaces the TCP/IP-centric transport of ROS 1 with Data Distribution Service (DDS), which allows fine-grained control over how data is communicated via QoS policies.
 
-Core QoS Policies
+**Core QoS Policies**
 
-Reliability:
+**Reliability:**
 
-RELIABLE: Guarantees message delivery by retransmitting lost packets (similar to TCP). Best for critical commands, maps, and service calls.
+**RELIABLE:** Guarantees message delivery by retransmitting lost packets (similar to TCP). Best for critical commands, maps, and service calls.
 
-BEST_EFFORT: Attempts to deliver messages, but drops packets if the network is congested (similar to UDP). Best for high-frequency sensor data (e.g., LiDAR, IMU, cameras) where receiving the latest data point matters more than recovering a dropped old one.
+**BEST_EFFORT:** Attempts to deliver messages, but drops packets if the network is congested (similar to UDP). Best for high-frequency sensor data (e.g., LiDAR, IMU, cameras) where receiving the latest data point matters more than recovering a dropped old one.
 
-Durability:
+**Durability:**
 
-VOLATILE: Late-joining subscribers do not receive historical messages published before they connected.
+**VOLATILE:** Late-joining subscribers do not receive historical messages published before they connected.
 
-TRANSIENT_LOCAL: The publisher "caches" the last sent messages so late-joining subscribers immediately receive the latest state (crucial for maps, static transforms, or robot configuration parameters).
+**TRANSIENT_LOCAL:**The publisher "caches" the last sent messages so late-joining subscribers immediately receive the latest state (crucial for maps, static transforms, or robot configuration parameters).
 
-History:
+**History:**
 
-KEEP_LAST: Retains up to a set number of messages (depth), discarding older ones.
+**KEEP_LAST:** Retains up to a set number of messages (depth), discarding older ones.
 
-KEEP_ALL: Retains all messages up to resource limits.
+**KEEP_ALL:** Retains all messages up to resource limits.
 
-Deadline & Lifespan: Set temporal expectations for how frequently data should arrive and how long messages remain valid.
+**Deadline & Lifespan:** Set temporal expectations for how frequently data should arrive and how long messages remain valid.
 
-Matching Compatibility Rules
+### Matching Compatibility Rules
 
 DDS will not connect a publisher and subscriber if their QoS profiles are incompatible.
 
-Rule of Thumb: A RELIABLE subscriber cannot subscribe to a BEST_EFFORT publisher. However, a RELIABLE publisher can communicate with a BEST_EFFORT subscriber.
+**Rule of Thumb:** A RELIABLE subscriber cannot subscribe to a BEST_EFFORT publisher. However, a RELIABLE publisher can communicate with a BEST_EFFORT subscriber.
 
-2. Lifecycle Nodes (Managed Nodes)
+## 2. Lifecycle Nodes (Managed Nodes)
 Standard ROS 2 nodes start executing immediately upon instantiation. Lifecycle Nodes introduce a standardized state machine to give external orchestrators (like a behavior tree or lifecycle manager) deterministic control over node startup, configuration, and shutdown.
 ```
 cd project0/robot011
@@ -919,15 +919,15 @@ ros2 lifecycle set /lifecyclenode deactivate
 ros2 lifecycle set /lifecyclenode shutdown
 ```
 
-3. Message Filters (message_filters)
+## 3. Message Filters (message_filters)
 When working with multi-sensor pipelines (e.g., synchronizing RGB images with depth data or LiDAR point clouds), traditional independent subscription callbacks suffer from race conditions and timing drift. The message_filters package solves this by synchronizing messages arriving across multiple topics.
 
-Key Synchronization Policies
-ApproximateTime: Matches messages from multiple topics that arrive close to each other within a configurable time tolerance (slop). Essential when sensors run on different internal clocks or publish at slightly different rates.
+### Key Synchronization Policies
+**ApproximateTime:** Matches messages from multiple topics that arrive close to each other within a configurable time tolerance (slop). Essential when sensors run on different internal clocks or publish at slightly different rates.
 
-ExactTime: Requires incoming messages to share the exact same timestamp header.
+**ExactTime:** Requires incoming messages to share the exact same timestamp header.
 
-TimeSynchronizer: Similar to ExactTime, tuned for strict synchronization.
+**TimeSynchronizer:** Similar to ExactTime, tuned for strict synchronization.
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
