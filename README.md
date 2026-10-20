@@ -35,7 +35,7 @@
 | 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
 | 14 | [Voice Control (Native Microphone Array) and LLM](#project‑14) | ASR (Automatic Speech Recognition), Ollama‑hosted Deepseek large language model for conversational voice control |
 | 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2 for Roarm |
-| 16 | [**Capstone project: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot**](#project‑16) | ROS 2 Humble | RoArm Manipulator | Nav2 | Cartographer | YOLOv8-Seg | RealSense RGBD |
+| 16 | [**Capstone project: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot**](#project‑16) | ROS2 Humble, RoArm Manipulator, Nav2, Cartographer, YOLOv8-Seg, RealSense RGBD |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series is a set of step-by-step projects.
