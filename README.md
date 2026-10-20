@@ -20,6 +20,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
+| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |ros2-moveit2-arm-control |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -929,6 +930,12 @@ When working with multi-sensor pipelines (e.g., synchronizing RGB images with de
 **ExactTime:** Requires incoming messages to share the exact same timestamp header.
 
 **TimeSynchronizer:** Similar to ExactTime, tuned for strict synchronization.
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project-0.15"></a>
+# Project 0.15: ros2-moveit2-arm-control
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
