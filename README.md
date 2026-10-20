@@ -35,6 +35,7 @@
 | 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
 | 14 | [Voice Control (Native Microphone Array) and LLM](#project‑14) | ASR (Automatic Speech Recognition), Ollama‑hosted Deepseek large language model for conversational voice control |
 | 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2 for Roarm |
+| 16 | [**Capstone project: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot**](#project‑16) | ROS 2 Humble | RoArm Manipulator | Nav2 | Cartographer | YOLOv8-Seg | RealSense RGBD |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 # The Project 0 series is a set of step-by-step projects.
@@ -2147,6 +2148,114 @@ Extended manual control module, compatible with multi‑scene keyboard operation
 
 **Function**: MTC core planning framework
 Integrates the official MoveIt Task Constructor core framework, provides basic task modeling, scheduling and execution logic support for complex robotic arm task planning, and is the underlying dependency for automated composite tasks.
+
+> 
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project‑16"></a>
+# Project 16: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot
+
+> ROS 2 Humble | RoArm Manipulator | Nav2 | Cartographer | YOLOv8-Seg | RealSense RGBD
+
+## Project Summary
+Indoor high-touch surfaces such as door handles, light switches, elevator buttons and handrails are key vectors for contact-mediated pathogen transmission. This project develops a decoupled robotic inspection and disinfection pipeline for autonomous UV-C disinfection or surface wiping. The system separates **global mobile navigation** from **local 3D semantic manipulation perception**: a 2D LiDAR handles room-scale localization and base navigation, while a fixed RGB-D camera performs close-range 3D sensing to identify high-touch surfaces, estimate surface geometry and normals, and supply target 6DoF poses to a RoArm serial manipulator. The robotic arm carries a UV-C or wiping end-effector to execute targeted disinfection.
+
+This implementation acts as a robust, interpretable baseline for embodied AI research. It can be directly compared against end-to-end Vision-Language-Action (VLA) models, to quantify performance gaps in success rate, pose accuracy, safety and repeatability for structured indoor contact-surface tasks.
+
+## Why This Solution
+Many alternative robotic pipelines couple global mapping and object perception into a single vision-only SLAM system. While fully visual systems are attractive for open-vocabulary tasks, they suffer from severe drift under changing indoor lighting, reflections and occlusions — unacceptable for long-duration indoor disinfection missions.
+
+- **Decoupled perception for reliability**: 2D LiDAR SLAM is mature, robust to lighting variation and low-noise for planar robot localization and navigation. It guarantees stable global positioning regardless of whether the RGB-D camera fails or sees reflective surfaces.
+- **Specialised 3D vision for manipulation**: RGB-D with semantic segmentation is only activated once the robot reaches a target waypoint. This reduces compute load and avoids polluting the global map with noisy close-range depth data. YOLO segmentation + point-cloud plane fitting gives the surface centroid and normal required to align the UV lamp or wiper perpendicular to the contact surface, which is critical for consistent disinfection dosage.
+- **Lower cost and engineering risk**: Compared with full 3D LiDAR or pure VLA end-to-end policies, this stack uses affordable sensors and a small desktop manipulator (RoArm). Every stage is interpretable and diagnosable: navigation failure, detection error or surface fitting bias can be inspected independently, unlike black-box VLA models.
+- **Ideal research baseline**: The deterministic pipeline delivers repeatable quantitative metrics (alignment error, disinfection success rate, coverage). This creates a controlled benchmark to evaluate VLA agents, isolating improvements from language understanding and scene reasoning rather than basic localization or kinematic control.
+- **Safety and auditability**: Disinfection logs can record global coordinates, surface type, exposure time and pose quality. This traceability is essential for infection-control studies, a requirement hard to enforce with pure end-to-end VLA policies.
+
+## System Architecture
+[2D LiDAR] → Cartographer 2D SLAM → AMCL Localization → Nav2 Planner → Mobile Base (global navigation)
+↓
+[RealSense RGBD] → realsense-ros → aligned RGB-D → YOLOv8-Seg → Mask extraction
+↓
+Masked PointCloud → RANSAC plane fitting → surface centroid + surface normal (camera frame)
+↓
+TF2 Transform (camera_link → base_link → arm_base_link)
+↓
+MoveIt2 → RoArm manipulator → UV / wiping end-effector action
+
+### TF Tree
+map ↔ odom ↔ base_link
+├─ camera_link (static transform: eye-to-hand RGBD camera)
+└─ arm_base_link (static transform: RoArm base mounted on mobile chassis)
+└─ end_effector_link (UV lamp / wiping tool)
+
+## Hardware
+| Component | Description |
+|---|---|
+| Mobile Chassis | Differential / omnidirectional mobile base |
+| 2D LiDAR | RPLIDAR / YDLIDAR for 2D SLAM and obstacle avoidance |
+| RGB-D Camera | Intel RealSense D435i / D455 (eye-to-hand, fixed on chassis) |
+| Manipulator | RoArm 6DoF serial manipulator with gripper / UV-C end-effector |
+| Compute | Jetson Orin NX / AGX Orin (ROS2 Humble runtime) |
+| Accessories | Polarizing filter, ring light for reducing metal surface reflection |
+
+## Key Workflow
+1. **Offline Mapping**
+   Drive the robot to scan the whole room, build a 2D occupancy grid map using Cartographer, save `pgm/yaml` map and pbstream file. Mark waypoints near high-touch surfaces in RViz.
+
+2. **Global Navigation (2D LiDAR)**
+   Load pre-built map. AMCL provides global robot pose estimation. Nav2 drives the mobile base sequentially to each predefined waypoint, avoids obstacles, and stops at the target standby position.
+
+3. **Local 3D Visual Perception (RGB-D)**
+   After the base stops, activate the RGBD perception pipeline:
+   - Align depth image to RGB frame, crop valid depth range (0.3 ~ 1.2 m)
+   - YOLOv8-Seg detects and segments high-touch surfaces (`door_handle`, `light_switch`, `elevator_button`, `handrail`, `tap`)
+   - Extract point cloud only inside segmentation mask
+   - RANSAC plane fitting: compute surface centroid and surface normal
+   - Filter outliers caused by specular reflection / invalid depth
+   - Transform target 6DoF pose from camera frame to `arm_base_link` via TF2
+
+4. **Arm Execution (MoveIt2 + RoArm)**
+   - Pre-approach pose (safe offset from surface)
+   - Slow approach to working distance
+   - Hold for UV exposure / short reciprocating wiping motion
+   - Retract arm back to safe home pose
+   - Log pose, surface category, exposure duration and success flag for infection-control evaluation
+
+## Dependencies
+- ROS 2 Humble
+- `cartographer_ros`
+- `nav2`
+- `realsense-ros`
+- `ultralytics_ros`
+- `pcl_ros`
+- `moveit2`
+- `tf2_ros`
+- `easy_handeye` (camera extrinsic calibration)
+- `depthimage_to_laserscan` (optional, virtual laser for low obstacle detection)
+
+## Calibration Steps (must follow in order)
+1. Camera intrinsic calibration (Kalibr, optional if factory calibration insufficient)
+2. Static extrinsic calibration: `base_link` ↔ `camera_link` (eye-to-hand)
+3. Static TF: `base_link` ↔ `arm_base_link` (RoArm base fixed on chassis)
+
+> Target precision goal: position error <1 cm, angular error <3° at working range.
+
+## Parameters & Safety
+- Depth range: `0.3–1.2 m`
+- YOLO confidence threshold: `>0.6`
+- RoArm: velocity limiting, joint limit checking, depth anomaly emergency retract
+- Avoid high-speed surface following due to servo latency & low stiffness
+
+## Known Limitations
+- Metal / glossy surfaces cause IR overexposure and depth voids; use polarizer + multi-frame averaging to mitigate
+- RoArm servo hysteresis and zero drift require periodic zero calibration
+- This pipeline requires pre-defined object classes; unseen surface types will fail segmentation
+- Designed for fixed-category high-touch surfaces, not open-vocabulary manipulation
+
+## Future Extension
+- Build semantic map: store detected surface 3D poses into global `map` frame for audit
+- **Integrate VLA (OpenVLA / SmolVLA)** as an experimental policy, compare success rate against this YOLO baseline
+- Close-loop control with UV irradiance sensor feedback to guarantee disinfection dosage
 
 > 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
