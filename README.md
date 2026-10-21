@@ -39,7 +39,8 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 16 | [**Capstone project: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot**](#project‑16) | ROS2 Humble, RoArm Manipulator, Nav2, Cartographer, YOLOv8-Seg, RealSense RGBD |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
-> Tools: 
+
+**Tools: **
 > VS Code (including ROS, Python, CMake, and other extensions); 
 > Terminator (can be installed via sudo apt install terminator, used for split-screen terminals; Ctrl+Shift+O splits vertically, Ctrl+Shift+E splits horizontally);
 >
