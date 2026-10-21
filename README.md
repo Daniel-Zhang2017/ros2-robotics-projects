@@ -39,6 +39,11 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 16 | [**Capstone project: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot**](#project‑16) | ROS2 Humble, RoArm Manipulator, Nav2, Cartographer, YOLOv8-Seg, RealSense RGBD |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
+> Tools: 
+> VS Code (including ROS, Python, CMake, and other extensions); 
+> Terminator (can be installed via sudo apt install terminator, used for split-screen terminals; Ctrl+Shift+O splits vertically, Ctrl+Shift+E splits horizontally);
+>
+
 # The Project 0 series is a set of step-by-step projects.
 
 <a id="project‑0.1"></a>
@@ -936,8 +941,18 @@ When working with multi-sensor pipelines (e.g., synchronizing RGB images with de
 
 <a id="project-0.15"></a>
 # Project 0.15: ros2-moveit2-arm-control
+
+
 ```
 cd project0/ros2-moveit2-arm-control
+```
+```
+#installation dependencies
+sudo apt update
+sudo apt install ros-humble-moveit ros-humble-moveit-ros-planning-interface
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+
 colcon build
 source install/setup.bash
 ros2 launch my_robot_description display.launch.xml 
