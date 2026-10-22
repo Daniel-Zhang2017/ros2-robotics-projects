@@ -977,7 +977,7 @@ MoveIt Setup Assistant (MSA) — Description
 > 
 > Given a desired end-effector Cartesian pose (position + orientation in 3D space), calculate the corresponding set of joint angles for your robot arm.
 
-Forward kinematics does the opposite: input joint angles → compute end-effector pose.
+>Forward kinematics does the opposite: input joint angles → compute end-effector pose.
 ```
 ros2 launch moveit_setup_assistant setup_assistant.launch.py 
 ```
