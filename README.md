@@ -969,6 +969,15 @@ ros2 launch my_robot_description display.launch.xml
 MoveIt Setup Assistant (MSA) — Description
 > 
 > **MoveIt Setup Assistant** is the official GUI wizard tool for MoveIt 2 (ROS 2 Humble/Iron/Jazzy), used to **generate all required MoveIt configuration packages from your robot URDF/Xacro**. It automates the tedious YAML / SRDF / controller config creation, so you can quickly get your manipulator ready for planning, RViz demo, ros2_control and execution.
+
+>A planning group defines a collection of joints and links that MoveIt will treat as a single controllable kinematic subsystem, such as a robotic arm or gripper. Each planning group is assigned an inverse kinematics solver, search parameters and a default motion planner.
+
+>**Inverse Kinematics (IK)** solves the problem:
+
+> 
+> Given a desired end-effector Cartesian pose (position + orientation in 3D space), calculate the corresponding set of joint angles for your robot arm.
+
+Forward kinematics does the opposite: input joint angles → compute end-effector pose.
 ```
 ros2 launch moveit_setup_assistant setup_assistant.launch.py 
 ```
