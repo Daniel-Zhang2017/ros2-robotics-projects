@@ -961,7 +961,8 @@ ros2 launch my_robot_description display.launch.xml
 #The core difference between Python and XML launch files in ROS 2 lies in flexibility versus declarative simplicity. Python offers powerful #programming capabilities and lower-level access, making it suitable for complex logic; XML is more concise and declarative, making it suitable #for simple, straightforward startup tasks and users migrating from ROS 1 .
 
 ```
-## MoveIt 2 is a widely used motion planning framework in ROS 2. It is responsible for generating motion trajectories based on robot models, joint limits, collision information, and target states, though it does not directly control the motors.
+## Overview
+>MoveIt 2 is a widely used motion planning framework in ROS 2. It is responsible for generating motion trajectories based on robot models, joint limits, collision information, and target states, though it does not directly control the motors.
 
 ### Configure a robotic arm visually using the MoveIt Setup Assistant
 ```
