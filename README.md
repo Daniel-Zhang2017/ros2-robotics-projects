@@ -965,12 +965,20 @@ ros2 launch my_robot_description display.launch.xml
 >MoveIt 2 is a widely used motion planning framework in ROS 2. It is responsible for generating motion trajectories based on robot models, joint limits, collision information, and target states, though it does not directly control the motors.
 
 ### Configure a robotic arm visually using the MoveIt Setup Assistant
+
+MoveIt Setup Assistant (MSA) — Description
+> 
+> **MoveIt Setup Assistant** is the official GUI wizard tool for MoveIt 2 (ROS 2 Humble/Iron/Jazzy), used to **generate all required MoveIt configuration packages from your robot URDF/Xacro**. It automates the tedious YAML / SRDF / controller config creation, so you can quickly get your manipulator ready for planning, RViz demo, ros2_control and execution.
 ```
 ros2 launch moveit_setup_assistant setup_assistant.launch.py 
-
 ```
-In RViz2 MotionPlanning panel:
+```
+colcon build --packages-select my_moveit_config
+source install/setup.bash
 
+ros2 launch my_moveit_config demo.launch.py
+```
+In the RViz2 Motion Planning panel:
 >1. Set goal (drag interactive marker or joint slider)
 >2. Click **Plan** → preview path drawn, robot stays still
 >3. Then click **Execute** → robot moves
