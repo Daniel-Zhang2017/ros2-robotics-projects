@@ -7,13 +7,12 @@ moveit_setup_assistant_config:
   package_settings:
     author_name: daniel
     author_email: hhzhang2016@outlook.com
-    generated_timestamp: 1792556199
+    generated_timestamp: 1792650590
   control_xacro:
     command:
       - position
     state:
       - position
-      - velocity
   modified_urdf:
     xacros:
       - control_xacro
@@ -22,4 +21,3 @@ moveit_setup_assistant_config:
       - position
     state:
       - position
-      - velocity

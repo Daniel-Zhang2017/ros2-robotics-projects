@@ -20,7 +20,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
-| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |ros2-moveit2-arm-control |
+| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit_setup_assistant, bringup |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -968,6 +968,12 @@ ros2 launch my_robot_description display.launch.xml
 ros2 launch moveit_setup_assistant setup_assistant.launch.py 
 
 ```
+In RViz2 MotionPlanning panel:
+
+>1. Set goal (drag interactive marker or joint slider)
+>2. Click **Plan** → preview path drawn, robot stays still
+>3. Then click **Execute** → robot moves
+>Or directly click **Plan & Execute** to combine two steps
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
