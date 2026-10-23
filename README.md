@@ -20,7 +20,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
-| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Cartesian Path Planning |
+| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Rviz/MotionPlanning, Cartesian Path Planning |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -989,10 +989,13 @@ source install/setup.bash
 ros2 launch my_moveit_config demo.launch.py
 ```
 In the RViz2 Motion Planning panel:
->1. Set goal (drag interactive marker or joint slider)
+>1. Set goal (drag interactive marker or joint slider), or adjust Start State, Goal State under the Planning/Query
 >2. Click **Plan** → preview path drawn, robot stays still
 >3. Then click **Execute** → robot moves
 >Or directly click **Plan & Execute** to combine two steps
+>rviz motionplaning/scene objects panel: The Scene Objects panel in the MoveIt RViz Motion Planning plugin is where you manage the collision environment. You use it to add, move, attach, or remove objects that the robot must avoid during motion planning.
+
+
 
 ## Overview
 `MoveGroupInterface` is the **core C++ API class** in MoveIt2 (header: `moveit/move_group_interface/move_group_interface.h`).
