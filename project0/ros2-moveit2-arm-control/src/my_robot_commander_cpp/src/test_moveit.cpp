@@ -112,7 +112,7 @@ int main(int argc, char **argv)
     std::vector<geometry_msgs::msg::Pose> waypoints;
 
     geometry_msgs::msg::Pose pose1 = arm.getCurrentPose().pose;
-    pose1.position.z += 0.2;
+    pose1.position.z += 0.6;
     waypoints.push_back(pose1);
 
     moveit_msgs::msg::RobotTrajectory trajectory;

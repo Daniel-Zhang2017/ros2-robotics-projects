@@ -20,7 +20,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
-| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit_setup_assistant, bringup |
+| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Cartesian Path Planning |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -978,6 +978,7 @@ MoveIt Setup Assistant (MSA) — Description
 > Given a desired end-effector Cartesian pose (position + orientation in 3D space), calculate the corresponding set of joint angles for your robot arm.
 
 >Forward kinematics does the opposite: input joint angles → compute end-effector pose.
+
 ```
 ros2 launch moveit_setup_assistant setup_assistant.launch.py 
 ```
@@ -992,6 +993,43 @@ In the RViz2 Motion Planning panel:
 >2. Click **Plan** → preview path drawn, robot stays still
 >3. Then click **Execute** → robot moves
 >Or directly click **Plan & Execute** to combine two steps
+
+## Overview
+`MoveGroupInterface` is the **core C++ API class** in MoveIt2 (header: `moveit/move_group_interface/move_group_interface.h`).
+It acts as a high-level wrapper to communicate with the `move_group` node.
+You use it to command a robot planning group: set target pose / joint goal, run motion planning, execute trajectory, query robot state, perform Cartesian path planning, etc.
+
+> ✅ In short:
+> **MoveGroupInterface = the main C++ bridge between your user program and the MoveIt move_group server.**
+> It hides the low-level ROS service / action calls, so you do not manually send action goals.
+
+## Comparison: PTP Joint Planning vs Cartesian Planning
+
+| Feature | PTP Joint Space Planning | Cartesian Path Planning |
+|---|---|---|
+| Trajectory control | Only start & goal joint states | End-effector TCP path |
+| End-effector path | Curved, uncontrolled | Near straight line |
+| Computation cost | Low | High (IK at every sample) |
+| Singularity risk | Low | High |
+| Use cases | Pick & place, point reaching | Welding, grinding, dispensing, assembly |
+
+## Safety Warning
+Do NOT set `jump_threshold = 0` on a real robot.
+
+Cartesian IK may switch to a different joint solution and cause sudden, unsafe large joint motion.
+Always perform full simulation validation and enable collision checking before real robot operation.
+```
+source install/setup.bash
+ros2 launch my_robot_bringup my_robot.launch.xml
+```
+```
+source install/setup.bash
+ros2 run my_robot_commander_cpp test_moveit
+```
+
+```
+ros2 launch 
+```
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 

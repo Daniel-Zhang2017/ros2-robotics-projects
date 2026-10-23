@@ -4,7 +4,7 @@
        value="$(find-pkg-share my_robot_description)/urdf/my_robot.urdf.xacro" />
 
   <let name="rviz_config_path"
-       value="$(find-pkg-share my_robot_bringup)/config/my_robot_moveit.rviz" />
+       value="$(find-pkg-share my_robot_bringup)/config/my_moveit.rviz" />
 
   <node pkg="robot_state_publisher" exec="robot_state_publisher" output="screen">
        <param name="robot_description"
@@ -25,7 +25,7 @@
 
   <node pkg="controller_manager" exec="spawner" args="gripper_controller" />
 
-  <include file="$(find-pkg-share my_robot_moveit_config)/launch/move_group.launch.py" />
+  <include file="$(find-pkg-share my_moveit_config)/launch/move_group.launch.py" />
 
   <node pkg="rviz2" exec="rviz2" output="screen"
         args="-d $(var rviz_config_path)" />
