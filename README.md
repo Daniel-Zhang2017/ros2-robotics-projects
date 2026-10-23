@@ -991,9 +991,8 @@ ros2 launch my_moveit_config demo.launch.py
 In the RViz2 Motion Planning panel:
 >1. Set goal (drag interactive marker or joint slider), or adjust Start State, Goal State under the Planning/Query
 >2. Click **Plan** → preview path drawn, robot stays still
->3. Then click **Execute** → robot moves
->Or directly click **Plan & Execute** to combine two steps
->rviz motionplaning/scene objects panel: The Scene Objects panel in the MoveIt RViz Motion Planning plugin is where you manage the collision environment. You use it to add, move, attach, or remove objects that the robot must avoid during motion planning.
+>3. Then click **Execute** → robot moves Or directly click **Plan & Execute** to combine two steps
+>4. Rviz motionplaning/scene objects panel: The Scene Objects panel in the MoveIt RViz Motion Planning plugin is where you manage the collision environment. You use it to add, move, attach, or remove objects that the robot must avoid during motion planning.
 
 
 
