@@ -947,7 +947,7 @@ When working with multi-sensor pipelines (e.g., synchronizing RGB images with de
 cd project0/ros2-moveit2-arm-control
 ```
 
-Instrucation and notes are provided in the https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control.
+Instructions and notes are provided in the https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control.
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
