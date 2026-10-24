@@ -20,7 +20,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
-| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Rviz/MotionPlanning, Cartesian Path Planning |
+| 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Rviz/MotionPlanning, Cartesian Path Planning, commander_template.cpp |
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -943,95 +943,12 @@ When working with multi-sensor pipelines (e.g., synchronizing RGB images with de
 <a id="project-0.15"></a>
 # Project 0.15: ros2-moveit2-arm-control
 
-
 ```
 cd project0/ros2-moveit2-arm-control
 ```
-```
-#installation dependencies
-sudo apt update
-sudo apt install ros-humble-moveit ros-humble-moveit-ros-planning-interface
-source /opt/ros/humble/setup.bash
-source install/setup.bash
 
-colcon build
-source install/setup.bash
-ros2 launch my_robot_description display.launch.xml 
+Instrucation and notes are provided in the https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control.
 
-#The core difference between Python and XML launch files in ROS 2 lies in flexibility versus declarative simplicity. Python offers powerful #programming capabilities and lower-level access, making it suitable for complex logic; XML is more concise and declarative, making it suitable #for simple, straightforward startup tasks and users migrating from ROS 1 .
-
-```
-## Overview
->MoveIt 2 is a widely used motion planning framework in ROS 2. It is responsible for generating motion trajectories based on robot models, joint limits, collision information, and target states, though it does not directly control the motors.
-
-### Configure a robotic arm visually using the MoveIt Setup Assistant
-
-MoveIt Setup Assistant (MSA) — Description
-> 
-> **MoveIt Setup Assistant** is the official GUI wizard tool for MoveIt 2 (ROS 2 Humble/Iron/Jazzy), used to **generate all required MoveIt configuration packages from your robot URDF/Xacro**. It automates the tedious YAML / SRDF / controller config creation, so you can quickly get your manipulator ready for planning, RViz demo, ros2_control and execution.
-
->A planning group defines a collection of joints and links that MoveIt will treat as a single controllable kinematic subsystem, such as a robotic arm or gripper. Each planning group is assigned an inverse kinematics solver, search parameters and a default motion planner.
-
->**Inverse Kinematics (IK)** solves the problem:
-
-> 
-> Given a desired end-effector Cartesian pose (position + orientation in 3D space), calculate the corresponding set of joint angles for your robot arm.
-
->Forward kinematics does the opposite: input joint angles → compute end-effector pose.
-
-```
-ros2 launch moveit_setup_assistant setup_assistant.launch.py 
-```
-```
-colcon build --packages-select my_moveit_config
-source install/setup.bash
-
-ros2 launch my_moveit_config demo.launch.py
-```
-In the RViz2 Motion Planning panel:
->1. Set goal (drag interactive marker or joint slider), or adjust Start State, Goal State under the Planning/Query
->2. Click **Plan** → preview path drawn, robot stays still
->3. Then click **Execute** → robot moves Or directly click **Plan & Execute** to combine two steps
->4. Rviz motionplaning/scene objects panel: The Scene Objects panel in the MoveIt RViz Motion Planning plugin is where you manage the collision environment. You use it to add, move, attach, or remove objects that the robot must avoid during motion planning.
-
-
-
-## Overview
-`MoveGroupInterface` is the **core C++ API class** in MoveIt2 (header: `moveit/move_group_interface/move_group_interface.h`).
-It acts as a high-level wrapper to communicate with the `move_group` node.
-You use it to command a robot planning group: set target pose / joint goal, run motion planning, execute trajectory, query robot state, perform Cartesian path planning, etc.
-
-> ✅ In short:
-> **MoveGroupInterface = the main C++ bridge between your user program and the MoveIt move_group server.**
-> It hides the low-level ROS service / action calls, so you do not manually send action goals.
-
-## Comparison: PTP Joint Planning vs Cartesian Planning
-
-| Feature | PTP Joint Space Planning | Cartesian Path Planning |
-|---|---|---|
-| Trajectory control | Only start & goal joint states | End-effector TCP path |
-| End-effector path | Curved, uncontrolled | Near straight line |
-| Computation cost | Low | High (IK at every sample) |
-| Singularity risk | Low | High |
-| Use cases | Pick & place, point reaching | Welding, grinding, dispensing, assembly |
-
-## Safety Warning
-Do NOT set `jump_threshold = 0` on a real robot.
-
-Cartesian IK may switch to a different joint solution and cause sudden, unsafe large joint motion.
-Always perform full simulation validation and enable collision checking before real robot operation.
-```
-source install/setup.bash
-ros2 launch my_robot_bringup my_robot.launch.xml
-```
-```
-source install/setup.bash
-ros2 run my_robot_commander_cpp test_moveit
-```
-
-```
-ros2 launch 
-```
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
