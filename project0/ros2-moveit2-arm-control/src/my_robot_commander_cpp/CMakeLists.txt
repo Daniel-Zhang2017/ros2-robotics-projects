@@ -27,6 +27,18 @@ ament_target_dependencies(
   tf2
 )
 
+#added
+add_executable(test2_moveit src/test2_moveit.cpp)
+
+ament_target_dependencies(
+  test2_moveit
+  rclcpp
+  moveit_ros_planning_interface
+  geometry_msgs
+  moveit_msgs
+  tf2
+)
+
 add_executable(commander_template src/commander_template.cpp)
 
 ament_target_dependencies(
@@ -43,6 +55,7 @@ ament_target_dependencies(
 install(
   TARGETS
     test_moveit
+    test2_moveit
     commander_template
   DESTINATION lib/${PROJECT_NAME}
 )

@@ -323,20 +323,51 @@ int main(int argc, char** argv)
     {
         executor.spin();
     });
-
+{
     auto commander = std::make_shared<Commander>(node);
 
     RCLCPP_INFO(
         node->get_logger(),
         "Commander is ready. Waiting for open_gripper, "
         "joint_command and pose_command topics...");
+    //下面这些是之前的方法测试示例。
+        // 一次只打开一个，其他保持注释。
+
+    //commander->goToNamedTarget("pose_1"); 
+    //`commander` 的类型是 **`std::shared_ptr<Commander>`**（智能指针），访问成员要用 `->`，不是 `.`
+    //如果是栈对象 `Commander commander(node);`，才用 `.`   
+    // commander.goToJointTarget(
+        //     {1.5, 0.5, 0.0, 1.5, 0.0, -0.7}
+        // );
+
+        // commander.goToPoseTarget(
+        //     0.0, -0.7, 0.4,
+        //     3.14, 0.0, 0.0,
+        //     true
+        // );
+
+    commander->goToPoseTarget(
+        0.0, -0.7, 0.4,
+        3.14, 0.0, 0.0,
+        false
+        );
+    commander->closeGripper();   // ✅ uses gripper_ group internally
+    //commander->openGripper();    // ✅ uses gripper_ group
+
+    commander->goToPoseTarget(
+        0.0, -0.7, 0.9,
+        3.14, 0.0, 0.0,
+        false
+        );
+    commander->goToNamedTarget("home"); 
+    commander->openGripper(); 
 
     while (rclcpp::ok())
     {
         std::this_thread::sleep_for(
             std::chrono::milliseconds(100));
     }
-
+}
     executor.cancel();
     spinner.join();
 
