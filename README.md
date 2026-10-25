@@ -35,7 +35,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 12 | [GMapping, SLAM Toolbox, and Cartographer](#project‑12) | ROS2 2D Mapping Algorithms |
 | 13 | [orb_slam2_ros](#project‑13) | orb_slam2_ros: visual mapping |
 | 14 | [Voice Control (Native Microphone Array) and LLM](#project‑14) | ASR (Automatic Speech Recognition), Ollama‑hosted Deepseek large language model for conversational voice control |
-| 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2 for Roarm, MoveIt Task Constructor (MTC) for complex robotic arm tasks |
+| 15 | [Controlling a Physical Robotic Arm](#project‑15) | ROS2 + Moveit2, **MoveIt Task Constructor (MTC) for complex robotic arm tasks** |
 | 16 | [**Capstone project: Hybrid 2D LiDAR + RGB-D Visual Perception for Indoor High-Touch Surface Disinfection Robot**](#project‑16) | ROS2 Humble, RoArm Manipulator, Nav2, Cartographer, YOLOv8-Seg, RealSense RGBD |
 
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
