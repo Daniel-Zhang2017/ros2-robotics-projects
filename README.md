@@ -1,6 +1,18 @@
 # ROS2 Project Portfolio
-## ros2‑robotics‑projects (continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked) 
-A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS‑ASR‑LLM voice interaction, Qt GUI monitoring, MCU programming, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
+
+[![ROS2](https://img.shields.io/badge/ROS2-Humble-orange)](https://docs.ros.org/en/humble/)
+[![Gazebo](https://img.shields.io/badge/Gazebo-Sim-brightgreen)](https://gazebosim.org/)
+[![Nav2](https://img.shields.io/badge/Nav2-Navigation-blue)](https://navigation.ros.org/)
+[![MoveIt2](https://img.shields.io/badge/MoveIt_2-Manipulation-red)](https://moveit.ai/)
+[![YOLO](https://img.shields.io/badge/YOLO-Vision-yellow)](https://github.com/ultralytics/ultralytics)
+[![LeRobot](https://img.shields.io/badge/LeRobot-Real_Robot-blueviolet)](https://github.com/huggingface/lerobot)
+[![C++](https://img.shields.io/badge/C++-17-blue.svg)](https://isocpp.org/)
+[![Qt](https://img.shields.io/badge/Qt-GUI-green)](https://www.qt.io/)
+
+## ros2-robotics-projects
+*(continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked)*
+
+A hands-on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
 
 Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development. Additionally included is a capstone project: a Hybrid 2D LiDAR + RGB-D Visual Perception system **deployed on a physical robot** for indoor high-touch surface disinfection.
 
