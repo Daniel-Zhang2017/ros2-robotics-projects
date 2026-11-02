@@ -1,6 +1,6 @@
 # ROS2 Project Portfolio
 ## ros2‑robotics‑projects (continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked) 
-A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS‑ASR‑LLM voice interaction, Qt GUI monitoring, MCU programming, and MoveIt2 robotic-arm manipulation. Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development. Additionally included is a capstone project: a Hybrid 2D LiDAR + RGB-D Visual Perception system **deployed on a physical robot** for indoor high-touch surface disinfection.
+A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS‑ASR‑LLM voice interaction, Qt GUI monitoring, MCU programming, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development. Additionally included is a capstone project: a Hybrid 2D LiDAR + RGB-D Visual Perception system **deployed on a physical robot** for indoor high-touch surface disinfection.
 
 <a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
@@ -21,6 +21,7 @@ A hands‑on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
 | 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Rviz/MotionPlanning, Cartesian Path Planning, commander_template.cpp, custom C++ motion commander, MoveIt2 MTC (MoveIt Task Constructor), **Pick and Place with MoveIt Task Constructor** |
+| 0.16  | [lerobot](#project-0.16) |Using the roarm_m3 with LeRobot|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -947,7 +948,15 @@ When working with multi-sensor pipelines (e.g., synchronizing RGB images with de
 cd project0/ros2-moveit2-arm-control
 ```
 
-Instructions and notes are provided in the https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control.
+Instructions and notes are provided at https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control.
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project-0.16"></a>
+# Project 0.16: lerobot
+
+Instructions and notes are provided at https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control.
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
