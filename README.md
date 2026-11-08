@@ -12,7 +12,7 @@
 ## ros2-robotics-projects
 *(continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked)*
 
-A hands-on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
+A hands-on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, FreeRTOS, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
 
 Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, including **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
 
@@ -30,7 +30,7 @@ Projects range from basic ROS 2 primitives to advanced autonomous patrol robots 
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
 | 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | **MPPI (Model Predictive Path Integral) and tuning tips (obtained after hundreds of tries) for the nv2_params_yaml file**|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
-| 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | Micro-ROS: create nodes, publish topics in MCUs with **Practical Tips**|
+| 0.11  | [<u>** Micro-ROS for (MCUs): ESP32 and STM32 **<u>](#project‑0.11) | <u>**Use of  FreeRTOS**<u>; **Micro-ROS**: create nodes, publish topics in MCUs with **Practical Tips**|
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
@@ -791,6 +791,147 @@ micro-ROS works out-of-the-box or via community ports across a wide range of mic
 * **STMicroelectronics:** STM32F4, STM32F7, STM32H7 families
 * **Raspberry Pi:** RP2040 / RP2350 (Pico)
 * **Others:** Teensy, Arduino boards, and industrial Renesas microcontrollers.
+
+### Part3: FreeRTOS
+
+📂 **Source Code Location:** `project0/robot010/src/freertos`
+
+#### ESP32 Ultrasonic → ROS2 (micro-ROS) Bridge
+
+Publish HC-SR04 ultrasonic distance measurements from an ESP32 to a ROS2 network over **micro-ROS**, with **hardware-timestamp synchronization** and **FreeRTOS task separation** for real-time reliability.
+
+Designed for a Jetson Nano (or any ROS2 host) running `micro_ros_agent`.
+
+---
+
+## Features
+
+- 📡 Standard `sensor_msgs/msg/Range` topic over micro-ROS (serial transport)
+- ⏱️ Session time sync with the ROS2 host via `rmw_uros_sync_session` — timestamps match the Jetson clock
+- 🧵 FreeRTOS dual-task design: high-priority sensor task, separate publish task (no timing jitter from serial I/O)
+- 📉 Graceful degradation to local `millis()` timestamps if sync fails
+- ⚙️ PlatformIO project — no manual library installs
+
+---
+
+## Hardware
+
+### Components
+- ESP32 dev board
+- HC-SR04 ultrasonic sensor
+- 1kΩ + 2kΩ resistors (voltage divider)
+- Jetson Nano (or any Linux host with ROS2)
+
+### Wiring
+
+| HC-SR04 | ESP32      | Notes |
+|---------|------------|-------|
+| VCC     | 5V (VIN)   | Use a stable 5V rail |
+| GND     | GND        | Common ground required |
+| TRIG    | GPIO 5     | Direct connection |
+| ECHO    | GPIO 18    | **Must use voltage divider** (see below) |
+
+> ⚠️ **ECHO outputs 5V.** ESP32 GPIOs are 3.3V-tolerant only. Use a divider:
+> `ECHO ──[1kΩ]── GPIO18 ──[2kΩ]── GND`
+
+---
+
+## Software Architecture
+┌──────────────── ESP32 ────────────────┐ ┌────── Jetson Nano ──────┐
+│ │ │ │
+│ sensor_task (prio 3, 20Hz) │ │ micro_ros_agent │
+│ ├─ trigger HC-SR04 │ serial │ ├─ /ultrasonic/range │
+│ └─ xQueueSend(distance) ──┐ │◄──────►│ └─ time sync service │
+│ │ │ │ │
+│ [Queue] │ │ ROS2 consumers │
+│ │ │ │ ├─ rviz2 / echo │
+│ publish_task (prio 2) ◄─────┘ │ │ └─ tf2 / fusion │
+│ ├─ rmw_uros_epoch_nanos() │ │ │
+│ └─ rcl_publish() │ │ │
+└───────────────────────────────────────┘ └─────────────────────────┘
+
+text
+
+**Why two tasks?** `rcl_publish` involves serialization and UART transfer that can take several milliseconds. Keeping it out of the measurement loop guarantees the 50 ms trigger period stays stable, so timestamps and intervals remain accurate.
+
+---
+
+## Getting Started
+
+### 1. Host side (Jetson Nano / Ubuntu with ROS2)
+
+Install the micro-ROS agent (ROS2 Humble shown):
+
+```bash
+sudo apt install ros-humble-micro-ros-agent
+```
+
+Plug in the ESP32 and start the agent:
+
+```bash
+# Check device name first: ls /dev/ttyUSB* /dev/ttyACM*
+ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0 -b 115200
+```
+
+2. ESP32 side
+Install PlatformIO, clone this repo, then:
+
+```bash
+pio run -t upload
+pio device monitor
+```
+
+The platformio.ini pulls in micro_ros_platformio automatically.
+
+Verify
+On the host:
+
+```bash
+ros2 topic list                    # should show /ultrasonic/range
+ros2 topic echo /ultrasonic/range  # inspect messages
+ros2 topic hz /ultrasonic/range    # expect ~20 Hz
+```
+
+Check clock sync: compare header.stamp in the echoed messages with date +%s.%N. They should agree within milliseconds when sync succeeded.
+
+Check the ESP32 serial log at boot:
+
+text
+Time sync OK
+If it prints Time sync FAILED, verify the agent is reachable and the serial device is correct.
+
+Configuration
+All tunables live at the top of src/main.cpp:
+
+## Configuration
+
+All tunables live at the top of `src/main.cpp`:
+
+| Macro / Constant      | Default | Description                     |
+|-----------------------|---------|---------------------------------|
+| `TRIG_PIN`            | 5       | TRIG GPIO                       |
+| `ECHO_PIN`            | 18      | ECHO GPIO (after divider)       |
+| `PUBLISH_PERIOD_MS`   | 50      | Sensor sample period (20 Hz)    |
+| `QUEUE_SIZE`          | 10      | FreeRTOS queue depth            |
+
+> **Baud rate** is set in two places and **must match**: `-b 115200` for the agent,
+> and `Serial.begin(115200)` in firmware. Raise both to `921600` to reduce publish latency.
+
+---
+
+#### Message Details
+
+```yaml
+topic:  /ultrasonic/range
+type:   sensor_msgs/msg/Range
+
+header.frame_id      "ultrasonic_link"
+header.stamp         host-synchronized Unix time (ns)
+radiation_type       ULTRASOUND
+field_of_view        0.785398 rad (~45°)
+min_range            0.02 m
+max_range            4.0 m
+range                measured distance (m)
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
