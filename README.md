@@ -14,7 +14,7 @@
 
 A hands-on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
 
-Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development. Additionally included is a capstone project: a Hybrid 2D LiDAR + RGB-D Visual Perception system **deployed on a physical robot** for indoor high-touch surface disinfection.
+Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, including **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
 
 <a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
@@ -993,6 +993,7 @@ Instructions and notes are provided at https://github.com/Daniel-Zhang2017/wall_
 Orchestrating sequential robot workflows that alternate between navigation (Nav2) and arm motion (MoveIt2):
 
 >**Navigate → Arm Motion → Navigate → Arm Motion → Navigate → ...**
+
 >The orchestration layer is built on ROS 2 Actions, which provide goal acceptance, progress feedback, result reporting, and cancellation — all essential for reliable task sequencing. It sits on top of the standard Nav2 and MoveIt2 stacks without modifying them.
 
 #### Overview
@@ -1009,10 +1010,12 @@ This project demonstrates how to build a task orchestrator in ROS 2 that:
 
 **Two execution models are supported:**
 
-Model	When to use
-Linear orchestrator (Python)	Simple fixed task sequences, few steps
-YASMIN state machine	Complex flows, recovery states, nested workflows
-The orchestrator never talks to Nav2 or MoveIt2 directly — it uses thin Action Server wrappers (NavigateTask, ArmMotionTask) that decouple the workflow logic from the underlying stacks.
+| Model | When to use |
+|---|---|
+| Linear orchestrator (Python) | Simple fixed task sequences, few steps |
+| YASMIN state machine | Complex flows, recovery states, nested workflows |
+
+The orchestrator never talks to Nav2 or MoveIt2 directly — it uses thin Action Server wrappers (`NavigateTask`, `ArmMotionTask`) that decouple the workflow logic from the underlying stacks.
 
 **Implementation Notes**
 
@@ -1020,10 +1023,11 @@ The orchestrator never talks to Nav2 or MoveIt2 directly — it uses thin Action
 The wrapper action servers forward to Nav2 / MoveIt2 action clients. If you use spin_until_future_complete inside the server callback with a single-threaded executor, you will deadlock. Solution:
 
 ```
+#Use a ReentrantCallbackGroup for both the Action Server and the Action Client
+
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 ```
->Use a ReentrantCallbackGroup for both the Action Server and the Action Client.
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
