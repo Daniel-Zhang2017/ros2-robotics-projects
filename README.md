@@ -30,7 +30,7 @@ Projects range from basic ROS 2 primitives to advanced autonomous patrol robots 
 | 0.8  | [**Nav2 Custom Planner & Controller**](#project‑0.8) | **Model Predictive Controller (MPC)** for differential-drive robots|
 | 0.9  | [**Nav2 Custom Planner & Controller**](#project‑0.9) | **MPPI (Model Predictive Path Integral) and tuning tips (obtained after hundreds of tries) for the nv2_params_yaml file**|
 | 0.10  | [**Compare different planners and controllers for ROS 2 Nav2**](#project‑0.10) | Compare DWB, MPPI, RPP, PID, LQR‑Safe with automatic evaluation and quantitative metrics|
-| 0.11  | [<u>** Micro-ROS for (MCUs): ESP32 and STM32 **<u>](#project‑0.11) | <u>**Use of  FreeRTOS**<u>; **Micro-ROS**: create nodes, publish topics in MCUs with **Practical Tips**|
+| 0.11  | [** Micro-ROS for (MCUs): ESP32 and STM32 **](#project‑0.11) | <u>**Use of  FreeRTOS**</u>; **Micro-ROS**: create nodes, publish topics in MCUs with **Practical Tips**|
 | 0.12  | [Practical Template for Integrating Nav2 with Open-RMF](#project-0.12) | Multi-Robot Fleet Management & Task Allocation System (Nav2 + Open-RMF)|
 | 0.13  | [Simple 2D Monte Carlo Localization (Particle Filter)](#project-0.13) | Simple 2D Monte Carlo Localization (Particle Filter)-> PythonRobotics:  basic ideas behind each algorithm in autonomous navigation: localization, mapping, SLAM, path planning, and path tracking|
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
@@ -932,7 +932,7 @@ field_of_view        0.785398 rad (~45°)
 min_range            0.02 m
 max_range            4.0 m
 range                measured distance (m)
-
+```
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
 
