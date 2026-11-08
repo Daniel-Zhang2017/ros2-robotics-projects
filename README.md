@@ -37,6 +37,7 @@ Projects range from basic ROS 2 primitives to advanced autonomous patrol robots 
 | 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Rviz/MotionPlanning, Cartesian Path Planning, commander_template.cpp, custom C++ motion commander, MoveIt2 MTC (MoveIt Task Constructor), **Pick and Place with MoveIt Task Constructor** |
 | 0.16  | [lerobot](#project-0.16) |Using the roarm_m3 with LeRobot|
 | 0.17  | [wall_climb_force_compliance_robot](#project-0.17) |Suitable for **facade inspection / cleaning / surface contact task prototype**|
+| 0.18  | [**Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**](#project-0.18) |Multi-Step Robot Task Orchestration with Nav2 and MoveIt2|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -985,6 +986,48 @@ Instructions and notes are provided at https://github.com/Daniel-Zhang2017/wall_
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project-0.18"></a>
+# Project 0.18:Multi-Step Robot Task Orchestration with Nav2 and MoveIt2
+
+Orchestrating sequential robot workflows that alternate between navigation (Nav2) and arm motion (MoveIt2):
+
+>**Navigate → Arm Motion → Navigate → Arm Motion → Navigate → ...**
+>The orchestration layer is built on ROS 2 Actions, which provide goal acceptance, progress feedback, result reporting, and cancellation — all essential for reliable task sequencing. It sits on top of the standard Nav2 and MoveIt2 stacks without modifying them.
+
+#### Overview
+
+This project demonstrates how to build a task orchestrator in ROS 2 that:
+
+>Sends a navigation goal via Nav2 (NavigateToPose) and waits for completion.
+
+>Executes an arm motion via MoveIt2 (ExecuteTrajectory or MoveGroup).
+
+>Repeats the cycle for as many waypoints as configured.
+
+>Handles failures gracefully — abort, retry, or skip.
+
+**Two execution models are supported:**
+
+Model	When to use
+Linear orchestrator (Python)	Simple fixed task sequences, few steps
+YASMIN state machine	Complex flows, recovery states, nested workflows
+The orchestrator never talks to Nav2 or MoveIt2 directly — it uses thin Action Server wrappers (NavigateTask, ArmMotionTask) that decouple the workflow logic from the underlying stacks.
+
+**Implementation Notes**
+
+>1. Use MultiThreadedExecutor for nested Actions
+The wrapper action servers forward to Nav2 / MoveIt2 action clients. If you use spin_until_future_complete inside the server callback with a single-threaded executor, you will deadlock. Solution:
+
+```
+from rclpy.executors import MultiThreadedExecutor
+from rclpy.callback_groups import ReentrantCallbackGroup
+```
+>Use a ReentrantCallbackGroup for both the Action Server and the Action Client.
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
 
 <a id="project‑1"></a>
 # Project 1: ROS2‑USB_CAM_YOLOvX Real‑Time Detection
