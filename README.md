@@ -14,7 +14,7 @@
 
 A hands-on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, FreeRTOS, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
 
-Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, including **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
+Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, Control Algorithm Comparison (Force Control), **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
 
 <a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
