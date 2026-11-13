@@ -14,7 +14,7 @@
 
 A hands-on ROS 2 robotics project suite covering Gazebo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, FreeRTOS, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
 
-Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, including **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
+Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, Control Algorithm Comparison (Force Control), **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
 
 <a id="table‑of‑contents"></a>
 ## 📚 Table of Contents
@@ -36,7 +36,7 @@ Projects range from basic ROS 2 primitives to advanced autonomous patrol robots 
 | 0.14  | [Advanced ROS 2: QoS, lifecycle Node, and message_filters](#project-0.14) |QoS, lifecycle Node, and message_filters |
 | 0.15  | [ros2-moveit2-arm-control](#project-0.15) |moveit2: moveit_setup_assistant, bringup, MoveGroupInterface, Rviz/MotionPlanning, Cartesian Path Planning, commander_template.cpp, custom C++ motion commander, MoveIt2 MTC (MoveIt Task Constructor), **Pick and Place with MoveIt Task Constructor** |
 | 0.16  | [lerobot](#project-0.16) |Using the roarm_m3 with LeRobot|
-| 0.17  | [wall_climb_force_compliance_robot](#project-0.17) |Suitable for **facade inspection / cleaning / surface contact task prototype**|
+| 0.17  | [wall_climb_force_compliance_robot](#project-0.17) |Control Algorithm Comparison (Force Control): P, **PID**, Python-based CVXPY MPC, **Acados MPC**; Suitable for **facade inspection / cleaning / surface contact task prototype**|
 | 0.18  | [**Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**](#project-0.18) |Multi-Step Robot Task Orchestration with Nav2 and MoveIt2|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
