@@ -3,22 +3,19 @@ sidebar_position: 3
 title: "3. MuJoCo 快速上手"
 displayed_sidebar: foundationsSimulationSidebar
 ---
-
 import Figure from '@site/src/components/Figure';
-
-refers to https://github.com/datawhalechina/dive-into-embodied-ai
 
 # 3. MuJoCo 快速上手
 
 开始之前，先说明本节需要的基础：
 
-* 具备 Python 基础，能够创建虚拟环境（如 `venv`、`Conda`）并运行脚本
-* 知道“模型文件描述一个场景/机器人”这件事；即使没系统学过 XML 或 URDF，也不影响跟着做完本节。
+- 具备 Python 基础，能够创建虚拟环境（如 `venv`、`Conda`）并运行脚本
+- 知道“模型文件描述一个场景/机器人”这件事；即使没系统学过 XML 或 URDF，也不影响跟着做完本节。
 
 本节目标：
 
 1. 选对安装方式，把环境装起来。
-2. 理解 `MJCF -> MjModel -> MjData -> mj\_step()` 这条最核心的工作流。
+2. 理解 `MJCF -> MjModel -> MjData -> mj_step()` 这条最核心的工作流。
 3. 跑通一个最小模型，让一个盒子真正掉下来。
 4. 分清什么时候用 viewer，什么时候直接写 Python 脚本。
 
@@ -33,28 +30,26 @@ MuJoCo（Multi-Joint dynamics with Contact）是由 Google DeepMind 维护并开
 因此，它尤其适合控制器验证、接触丰富的运动实验、强化学习环境搭建，以及各类需要大量反复迭代的算法原型开发。
 
 
-
 ### MuJoCo 与其他仿真平台的区别
 
 第一次接触仿真时，一个常见误区是把所有平台都想成“只是界面不同”。其实它们的设计重心差别很大。
 
-* `Isaac Sim` 更像高保真机器人仿真工作台，强项是逼真的渲染、传感器、场景搭建和围绕工业/数字孪生工作流的集成。
-* `Gazebo / Ignition` 更像机器人系统集成测试场，和 ROS 生态贴得更近，适合验证感知、导航、控制节点如何在完整系统里协同。
-* `PyBullet` 更像轻量级、容易快速起步的物理仿真工具，做教学、小实验和快速验证很方便。
-* `MuJoCo` 则更像动力学、接触与控制实验底座，重点不是把 3D 世界“做得很大很真”，而是把仿真内核、模型组织和算法迭代这条链路做得高效、稳定、可编程。
+- `Isaac Sim` 更像高保真机器人仿真工作台，强项是逼真的渲染、传感器、场景搭建和围绕工业/数字孪生工作流的集成。
+- `Gazebo / Ignition` 更像机器人系统集成测试场，和 ROS 生态贴得更近，适合验证感知、导航、控制节点如何在完整系统里协同。
+- `PyBullet` 更像轻量级、容易快速起步的物理仿真工具，做教学、小实验和快速验证很方便。
+- `MuJoCo` 则更像动力学、接触与控制实验底座，重点不是把 3D 世界“做得很大很真”，而是把仿真内核、模型组织和算法迭代这条链路做得高效、稳定、可编程。
 
 相比 `Isaac Sim` 这类高保真平台，`MuJoCo` 通常对设备和图形环境的要求更低，更适合先把控制、接触和强化学习实验快速跑起来。
 
 所以如果目标是下面这些方向，MuJoCo 往往会更合适：
 
-* 机械臂控制
-* 腿足机器人接触实验
-* 强化学习环境搭建
-* 模型预测控制、最优控制
-* 算法原型验证
+- 机械臂控制
+- 腿足机器人接触实验
+- 强化学习环境搭建
+- 模型预测控制、最优控制
+- 算法原型验证
 
 反过来说，如果读者当前更关心的是高保真视觉传感器、复杂场景编辑、ROS 全系统联调，或者偏数字孪生式的工作流，那 Isaac Sim 或 Gazebo 一类平台通常会更自然。MuJoCo 的长板，不在“做一个很完整的仿真世界”，而在“把动力学实验这件事做得非常顺手”。
-
 
 
 ## 3.2 安装
@@ -65,9 +60,9 @@ MuJoCo（Multi-Joint dynamics with Contact）是由 Google DeepMind 维护并开
 
 `pip` 安装简单，**适合新手第一次入门**。如果更偏下面这些场景，再考虑下载官方预编译二进制：
 
-* 想直接体验原生 `simulate` 应用
-* 想看官方附带的模型集合和 C/C++ sample
-* 想做底层开发或自己编译
+- 想直接体验原生 `simulate` 应用
+- 想看官方附带的模型集合和 C/C++ sample
+- 想做底层开发或自己编译
 
 ### 3.2.2 `pip` 安装
 
@@ -107,7 +102,7 @@ MuJoCo 常见的 GUI 入口主要有两类：
 最简单的启动方式是：
 
 ```bash
-python3 -m mujoco.viewer
+python -m mujoco.viewer
 ```
 
 这个命令会打开一个空 viewer，可以直接拖入模型文件；如果已经有 `MJCF` 文件，也可以直接指定：
@@ -116,22 +111,22 @@ python3 -m mujoco.viewer
 python -m mujoco.viewer --mjcf=hello.xml
 ```
 
-:::tip\[macOS 用户：先用 `python -m mujoco.viewer`]
-`python -m mujoco.viewer` 是官方文档里的 standalone app 启动方式，macOS 上也应优先这样验证 viewer 能否打开。`mjpython` 不是给这个命令兜底用的；它主要用于你在自己的脚本里调用 `mujoco.viewer.launch\_passive(...)`，并且遇到 macOS GUI 主线程限制时。
+:::tip[macOS 用户：先用 `python -m mujoco.viewer`]
+`python -m mujoco.viewer` 是官方文档里的 standalone app 启动方式，macOS 上也应优先这样验证 viewer 能否打开。`mjpython` 不是给这个命令兜底用的；它主要用于你在自己的脚本里调用 `mujoco.viewer.launch_passive(...)`，并且遇到 macOS GUI 主线程限制时。
 
 ```bash
-python3 -m mujoco.viewer
-python3 -m mujoco.viewer --mjcf=hello.xml
+python -m mujoco.viewer
+python -m mujoco.viewer --mjcf=hello.xml
 ```
 
-后面 3.5 节的 `hello\_box\_viewer.py` 用到了 `launch\_passive`。如果在 macOS 上直接 `python hello\_box\_viewer.py` 报主线程或 GLFW 相关错误，再把启动命令换成 `mjpython hello\_box\_viewer.py`。
+后面 3.5 节的 `hello_box_viewer.py` 用到了 `launch_passive`。如果在 macOS 上直接 `python hello_box_viewer.py` 报主线程或 GLFW 相关错误，再把启动命令换成 `mjpython hello_box_viewer.py`。
 :::
 
 这条路线更适合：
 
-* 已经在 Python 环境里工作
-* 想快速确认 GUI 能否正常打开
-* 想把 GUI 验证和后续 Python 脚本工作流接起来
+- 已经在 Python 环境里工作
+- 想快速确认 GUI 能否正常打开
+- 想把 GUI 验证和后续 Python 脚本工作流接起来
 
 ### 方式 B：`simulate`
 
@@ -147,12 +142,11 @@ python3 -m mujoco.viewer --mjcf=hello.xml
 
 <Figure caption="官方原生 simulate 打开 humanoid.xml 的界面效果" width={960}>
 
-!\[官方原生 simulate 打开 humanoid.xml 的界面效果](./figs/mujoco-simulate-humanoid.gif)
+![官方原生 simulate 打开 humanoid\.xml 的界面效果](./figs/mujoco-simulate-humanoid.gif)
 
 </Figure>
 
 如果只是为了先确认 GUI 能不能正常打开，优先使用 `mujoco.viewer` 往往更简单；如果已经下载了官方预编译二进制，或者想直接体验原生 `simulate`，那么这条路线会更直接。
-
 
 
 ## 3.4 MuJoCo 的核心心智模型
@@ -171,7 +165,7 @@ MuJoCo 的原生模型描述格式，本质上就是 XML。可以把它理解成
 
 这是仿真运行时的“动态状态”。位置、速度、接触、控制输入、中间计算结果，主要都在这里。
 
-### 4. `mj\_step`
+### 4. `mj_step`
 
 这是推进物理仿真的核心函数。可以把它理解成“把系统往前走一个时间步”。
 
@@ -181,7 +175,7 @@ viewer 负责把仿真状态可视化出来，但 viewer 本身不是场景编�
 
 真正最值得记住的一条主线是：
 
-`MJCF 文件 -> 编译成 MjModel -> 创建 MjData -> 循环调用 mj\_step()`
+`MJCF 文件 -> 编译成 MjModel -> 创建 MjData -> 循环调用 mj_step()`
 
 ## 3.5 第一个模型：让一个盒子掉下来
 
@@ -189,9 +183,9 @@ viewer 负责把仿真状态可视化出来，但 viewer 本身不是场景编�
 
 因为它会一次性建立三个最重要的直觉：
 
-* 地面也是 `geom`
-* 刚体要靠 `body + joint`
-* 物理是通过 `mj\_step()` 推进的
+- 地面也是 `geom`
+- 刚体要靠 `body + joint`
+- 物理是通过 `mj_step()` 推进的
 
 这个 demo 可以拆成三步：
 
@@ -205,8 +199,8 @@ viewer 负责把仿真状态可视化出来，但 viewer 本身不是场景编�
 
 ```xml
 <!-- 根节点：声明这是一个 MuJoCo 模型，model 名字会显示在 viewer 标题和调试信息里 -->
-<mujoco model="hello\_box">
-  <!-- 仿真步长：0.002 秒，也就是 500 Hz。mj\_step 每调用一次，仿真时间前进 2 ms -->
+<mujoco model="hello_box">
+  <!-- 仿真步长：0.002 秒，也就是 500 Hz。mj_step 每调用一次，仿真时间前进 2 ms -->
   <option timestep="0.002"/>
 
   <!-- worldbody 是世界坐标系下的场景根节点；所有直接放在这里的物体都以世界坐标为参考 -->
@@ -229,7 +223,7 @@ viewer 负责把仿真状态可视化出来，但 viewer 本身不是场景编�
         - rgba 分别是红、绿、蓝、透明度，取值范围 0 到 1
       -->
       <geom
-        name="box\_geom"
+        name="box_geom"
         type="box"
         size=".1 .2 .3"
         rgba="0.1 0.6 0.2 1"
@@ -251,7 +245,7 @@ python -m mujoco.viewer --mjcf=hello.xml
 
 <Figure caption="mujoco.viewer 打开 hello.xml 的界面效果" width={960}>
 
-!\[mujoco.viewer 打开 hello.xml 的界面效果](./figs/mujoco-viewer-hello-box.gif)
+![mujoco\.viewer 打开 hello\.xml 的界面效果](./figs/mujoco-viewer-hello-box.gif)
 
 </Figure>
 
@@ -259,9 +253,9 @@ python -m mujoco.viewer --mjcf=hello.xml
 
 这一步最重要的认知是：
 
-* MuJoCo viewer 能很好地“看仿真”
-* 但它不是 Isaac Sim 那种以 GUI 编辑为中心的工作台
-* 主要工作流仍然会是“写模型 + 写脚本”
+- MuJoCo viewer 能很好地“看仿真”
+- 但它不是 Isaac Sim 那种以 GUI 编辑为中心的工作台
+- 主要工作流仍然会是“写模型 + 写脚本”
 
 如果打开的是空 viewer，也没关系。官方文档明确写了它支持先启动空窗口，再拖放模型进去。
 
@@ -269,23 +263,23 @@ python -m mujoco.viewer --mjcf=hello.xml
 
 先把图形拿掉，是最稳的入门方式。
 
-新建 `hello\_box\_headless.py`：
+新建 `hello_box_headless.py`：
 
 ```python
 import mujoco
 
 # 从 MJCF/XML 文件编译出静态模型。
 # model 里保存的是结构和参数，比如 body、joint、geom、质量、时间步等。
-model = mujoco.MjModel.from\_xml\_path("hello.xml")
+model = mujoco.MjModel.from_xml_path("hello.xml")
 
 # 创建和 model 对应的运行时状态。
 # data 里保存的是会随仿真变化的量，比如时间、位置、速度、接触和中间计算结果。
 data = mujoco.MjData(model)
 
-# 每次 mj\_step 会按 model.opt.timestep 推进一个仿真步。
+# 每次 mj_step 会按 model.opt.timestep 推进一个仿真步。
 # hello.xml 里 timestep=0.002，所以这里会运行大约 1000 步，直到仿真时间到 2 秒。
 while data.time < 2.0:
-    mujoco.mj\_step(model, data)
+    mujoco.mj_step(model, data)
 
 print("sim time:", data.time)
 
@@ -297,7 +291,7 @@ print("box position:", data.body("box").xpos.copy())
 执行：
 
 ```bash
-python hello\_box\_headless.py
+python hello_box_headless.py
 ```
 
 执行结果示例：
@@ -328,20 +322,20 @@ import mujoco
 import mujoco.viewer
 
 # 和无渲染版本一样，先编译模型，再创建运行时状态。
-model = mujoco.MjModel.from\_xml\_path("hello.xml")
+model = mujoco.MjModel.from_xml_path("hello.xml")
 data = mujoco.MjData(model)
 
-# launch\_passive 会打开一个交互 viewer，但物理仿真仍然由当前脚本控制。
+# launch_passive 会打开一个交互 viewer，但物理仿真仍然由当前脚本控制。
 # 进入 with 代码块后，viewer 负责显示；离开 with 代码块后，窗口资源会自动释放。
-with mujoco.viewer.launch\_passive(model, data) as viewer:
-    # viewer.is\_running() 会在窗口关闭后变成 False。
+with mujoco.viewer.launch_passive(model, data) as viewer:
+    # viewer.is_running() 会在窗口关闭后变成 False。
     # data.time < 10.0 让脚本最多运行 10 秒，避免无限循环。
-    while viewer.is\_running() and data.time < 10.0:
+    while viewer.is_running() and data.time < 10.0:
         # 记录这一轮循环开始的真实时间，用来把仿真速度压到接近实时。
-        step\_start = time.time()
+        step_start = time.time()
 
         # 推进一个物理步；hello.xml 里 timestep=0.002，所以一次前进 2 ms 仿真时间。
-        mujoco.mj\_step(model, data)
+        mujoco.mj_step(model, data)
 
         # 把最新的 data 同步到 viewer。
         # 如果不调用 sync()，窗口可能不会及时显示当前仿真状态。
@@ -349,28 +343,28 @@ with mujoco.viewer.launch\_passive(model, data) as viewer:
 
         # 计算这一轮物理步和渲染同步已经花了多久。
         # 如果还没用完一个 timestep，就 sleep 一下，避免仿真跑得比真实时间快太多。
-        time\_until\_next\_step = model.opt.timestep - (time.time() - step\_start)
-        if time\_until\_next\_step > 0:
-            time.sleep(time\_until\_next\_step)
+        time_until_next_step = model.opt.timestep - (time.time() - step_start)
+        if time_until_next_step > 0:
+            time.sleep(time_until_next_step)
 ```
 
 执行：
 
 ```bash
-python hello\_box\_viewer.py
+python hello_box_viewer.py
 # macOS:
-mjpython hello\_box\_viewer.py
+mjpython hello_box_viewer.py
 ```
 
-下面动图展示的是执行 `python hello\_box\_viewer.py`（macOS 上是 `mjpython hello\_box\_viewer.py`）后的界面效果：
+下面动图展示的是执行 `python hello_box_viewer.py`（macOS 上是 `mjpython hello_box_viewer.py`）后的界面效果：
 
-<Figure caption="hello\_box\_viewer.py 运行时的 viewer 界面效果" width={960}>
+<Figure caption="hello_box_viewer.py 运行时的 viewer 界面效果" width={960}>
 
-!\[hello\_box\_viewer.py 运行时的 viewer 界面效果](./figs/mujoco-viewer-script-hello-box.gif)
+![hello\_box\_viewer\.py 运行时的 viewer 界面效果](./figs/mujoco-viewer-script-hello-box.gif)
 
 </Figure>
 
-这个版本和前面的 `python -m mujoco.viewer --mjcf=hello.xml` 不同：前者更像“直接打开模型看结果”，这里则是脚本一边调用 `mj\_step()` 推进仿真，一边通过 `viewer.sync()` 把状态同步到 GUI。
+这个版本和前面的 `python -m mujoco.viewer --mjcf=hello.xml` 不同：前者更像“直接打开模型看结果”，这里则是脚本一边调用 `mj_step()` 推进仿真，一边通过 `viewer.sync()` 把状态同步到 GUI。
 
 ## 3.6 从盒子到机器人
 
@@ -378,24 +372,24 @@ mjpython hello\_box\_viewer.py
 
 接下来通常有三条路线：
 
-### 1\. 走控制方向
+### 1. 走控制方向
 
-* 给模型加 `joint`
-* 加 actuator
-* 在循环里写控制输入
-* 观察轨迹、误差和稳定性
+- 给模型加 `joint`
+- 加 actuator
+- 在循环里写控制输入
+- 观察轨迹、误差和稳定性
 
-### 2\. 走强化学习方向
+### 2. 走强化学习方向
 
-* 把 MuJoCo 任务封装成环境
-* 接 `Gymnasium`
-* 再接 PPO、SAC、TD3 之类的训练代码
+- 把 MuJoCo 任务封装成环境
+- 接 `Gymnasium`
+- 再接 PPO、SAC、TD3 之类的训练代码
 
-### 3\. 走机器人建模方向
+### 3. 走机器人建模方向
 
-* 先从简单机械臂开始
-* 再导入自己的 `URDF`
-* 逐步补碰撞、惯量、执行器和传感器
+- 先从简单机械臂开始
+- 再导入自己的 `URDF`
+- 逐步补碰撞、惯量、执行器和传感器
 
 MuJoCo 官方 overview 也明确写到，模型既可以来自 `MJCF`，也可以来自 `URDF`。所以对机器人开发者来说，常见工作流可以理解成：
 
@@ -405,19 +399,18 @@ MuJoCo 官方 overview 也明确写到，模型既可以来自 `MJCF`，也可�
 
 这一节最重要的结论有四个：
 
-* MuJoCo 是一个偏动力学、控制和强化学习实验的物理引擎
-* 对第一次上手的人，`Python 3.12 + pip install mujoco==3.7.0` 是截至 `2026-04-18` 最稳妥的起点
-* 真正需要建立的核心心智模型是 `MJCF -> MjModel -> MjData -> mj\_step()`
-* `viewer` 很重要，但它是观察和调试窗口，不是完整场景编辑器
+- MuJoCo 是一个偏动力学、控制和强化学习实验的物理引擎
+- 对第一次上手的人，`Python 3.12 + pip install mujoco==3.7.0` 是截至 `2026-04-18` 最稳妥的起点
+- 真正需要建立的核心心智模型是 `MJCF -> MjModel -> MjData -> mj_step()`
+- `viewer` 很重要，但它是观察和调试窗口，不是完整场景编辑器
 
 当“让一个盒子掉下来”能同时用 `viewer` 和 Python 脚本各做一遍时，就已经真正迈过 MuJoCo 的入门门槛了。
 
 ## 参考资料
 
-* [MuJoCo 官方：Overview](https://mujoco.readthedocs.io/en/latest/overview.html)
-* [MuJoCo 官方：Python](https://mujoco.readthedocs.io/en/latest/python.html)
-* [MuJoCo 官方：Programming / Getting started](https://mujoco.readthedocs.io/en/stable/programming/index.html)
-* [MuJoCo 官方：GitHub Releases](https://github.com/google-deepmind/mujoco/releases)
-* [MuJoCo 官方：GitHub 仓库](https://github.com/google-deepmind/mujoco)
-* [PyPI：mujoco](https://pypi.org/project/mujoco/)
-
+- [MuJoCo 官方：Overview](https://mujoco.readthedocs.io/en/latest/overview.html)
+- [MuJoCo 官方：Python](https://mujoco.readthedocs.io/en/latest/python.html)
+- [MuJoCo 官方：Programming / Getting started](https://mujoco.readthedocs.io/en/stable/programming/index.html)
+- [MuJoCo 官方：GitHub Releases](https://github.com/google-deepmind/mujoco/releases)
+- [MuJoCo 官方：GitHub 仓库](https://github.com/google-deepmind/mujoco)
+- [PyPI：mujoco](https://pypi.org/project/mujoco/)
