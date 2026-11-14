@@ -1,16 +1,13 @@
----
-sidebar_position: 3
-title: "3. MuJoCo 快速上手"
-displayed_sidebar: foundationsSimulationSidebar
----
-import Figure from '@site/src/components/Figure';
-
 # 3. MuJoCo 快速上手
 
-开始之前，先说明本节需要的基础：
+> 本节参考 [datawhalechina/dive-into-embodied-ai](https://github.com/datawhalechina/dive-into-embodied-ai)。
 
-- 具备 Python 基础，能够创建虚拟环境（如 `venv`、`Conda`）并运行脚本
-- 知道“模型文件描述一个场景/机器人”这件事；即使没系统学过 XML 或 URDF，也不影响跟着做完本节。
+## 开始之前
+
+本节假设你具备：
+
+- Python 基础，能够创建虚拟环境（如 `venv`、`Conda`）并运行脚本
+- 对“模型文件描述一个场景/机器人”有基本概念；即使没系统学过 XML 或 URDF，也不影响跟着做完本节。
 
 本节目标：
 
@@ -102,21 +99,21 @@ MuJoCo 常见的 GUI 入口主要有两类：
 最简单的启动方式是：
 
 ```bash
-python -m mujoco.viewer
+python3 -m mujoco.viewer
 ```
 
 这个命令会打开一个空 viewer，可以直接拖入模型文件；如果已经有 `MJCF` 文件，也可以直接指定：
 
 ```bash
-python -m mujoco.viewer --mjcf=hello.xml
+python3 -m mujoco.viewer --mjcf=hello.xml
 ```
 
 :::tip[macOS 用户：先用 `python -m mujoco.viewer`]
 `python -m mujoco.viewer` 是官方文档里的 standalone app 启动方式，macOS 上也应优先这样验证 viewer 能否打开。`mjpython` 不是给这个命令兜底用的；它主要用于你在自己的脚本里调用 `mujoco.viewer.launch_passive(...)`，并且遇到 macOS GUI 主线程限制时。
 
 ```bash
-python -m mujoco.viewer
-python -m mujoco.viewer --mjcf=hello.xml
+python3 -m mujoco.viewer
+python3 -m mujoco.viewer --mjcf=hello.xml
 ```
 
 后面 3.5 节的 `hello_box_viewer.py` 用到了 `launch_passive`。如果在 macOS 上直接 `python hello_box_viewer.py` 报主线程或 GLFW 相关错误，再把启动命令换成 `mjpython hello_box_viewer.py`。
@@ -238,7 +235,7 @@ viewer 负责把仿真状态可视化出来，但 viewer 本身不是场景编�
 有了 `hello.xml` 之后，就可以直接用 Python 包自带 viewer 打开：
 
 ```bash
-python -m mujoco.viewer --mjcf=hello.xml
+python3 -m mujoco.viewer --mjcf=hello.xml
 ```
 
 下面动图展示的是执行 `python -m mujoco.viewer --mjcf=hello.xml` 后的界面效果：
@@ -291,7 +288,7 @@ print("box position:", data.body("box").xpos.copy())
 执行：
 
 ```bash
-python hello_box_headless.py
+python3 hello_box_headless.py
 ```
 
 执行结果示例：
