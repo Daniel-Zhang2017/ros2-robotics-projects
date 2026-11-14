@@ -1,17 +1,14 @@
-\---
-
-sidebar\_position: 3
+---
+sidebar_position: 3
 title: "3. MuJoCo 快速上手"
-displayed\_sidebar: foundationsSimulationSidebar
+displayed_sidebar: foundationsSimulationSidebar
 ---
 
 import Figure from '@site/src/components/Figure';
 
-
-
 refers to https://github.com/datawhalechina/dive-into-embodied-ai
 
-# 3\. MuJoCo 快速上手
+# 3. MuJoCo 快速上手
 
 开始之前，先说明本节需要的基础：
 
@@ -110,7 +107,7 @@ MuJoCo 常见的 GUI 入口主要有两类：
 最简单的启动方式是：
 
 ```bash
-python -m mujoco.viewer
+python3 -m mujoco.viewer
 ```
 
 这个命令会打开一个空 viewer，可以直接拖入模型文件；如果已经有 `MJCF` 文件，也可以直接指定：
@@ -123,8 +120,8 @@ python -m mujoco.viewer --mjcf=hello.xml
 `python -m mujoco.viewer` 是官方文档里的 standalone app 启动方式，macOS 上也应优先这样验证 viewer 能否打开。`mjpython` 不是给这个命令兜底用的；它主要用于你在自己的脚本里调用 `mujoco.viewer.launch\_passive(...)`，并且遇到 macOS GUI 主线程限制时。
 
 ```bash
-python -m mujoco.viewer
-python -m mujoco.viewer --mjcf=hello.xml
+python3 -m mujoco.viewer
+python3 -m mujoco.viewer --mjcf=hello.xml
 ```
 
 后面 3.5 节的 `hello\_box\_viewer.py` 用到了 `launch\_passive`。如果在 macOS 上直接 `python hello\_box\_viewer.py` 报主线程或 GLFW 相关错误，再把启动命令换成 `mjpython hello\_box\_viewer.py`。
@@ -162,23 +159,23 @@ python -m mujoco.viewer --mjcf=hello.xml
 
 MuJoCo 上手最快的方法，不是先背 XML 标签，而是先记住这 5 个核心概念。
 
-### 1\. `MJCF`
+### 1. `MJCF`
 
 MuJoCo 的原生模型描述格式，本质上就是 XML。可以把它理解成“世界、刚体、关节、碰撞体、执行器”这些东西的声明式描述。
 
-### 2\. `MjModel`
+### 2. `MjModel`
 
 这是编译后的“静态模型”。它描述的是模型结构和参数，本身通常不在仿真过程中频繁改动。
 
-### 3\. `MjData`
+### 3. `MjData`
 
 这是仿真运行时的“动态状态”。位置、速度、接触、控制输入、中间计算结果，主要都在这里。
 
-### 4\. `mj\_step`
+### 4. `mj\_step`
 
 这是推进物理仿真的核心函数。可以把它理解成“把系统往前走一个时间步”。
 
-### 5\. viewer
+### 5. viewer
 
 viewer 负责把仿真状态可视化出来，但 viewer 本身不是场景编辑器。它更像一个观察、调试和交互窗口。
 
@@ -307,7 +304,7 @@ python hello\_box\_headless.py
 
 ```text
 sim time: 2.0000000000000013
-box position: \[-1.09938295e-19  8.84563957e-18  2.99892245e-01]
+box position: [-1.09938295e-19  8.84563957e-18  2.99892245e-01]
 ```
 
 这里最值得关注的是 `box position` 的第三个分量大约是 `0.3`。这是因为盒子的半高就是 `0.3`，当盒子落到地面并稳定下来之后，质心高度会接近这个值。
@@ -322,7 +319,7 @@ box position: \[-1.09938295e-19  8.84563957e-18  2.99892245e-01]
 
 已经能跑通无渲染脚本后，再进入交互 viewer 会更稳。
 
-新建 `hello\_box\_viewer.py`：
+新建 `hello_box_viewer.py`：
 
 ```python
 import time
