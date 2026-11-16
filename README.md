@@ -2,6 +2,7 @@
 
 [![ROS2](https://img.shields.io/badge/ROS2-Humble-orange)](https://docs.ros.org/en/humble/)
 [![Gazebo](https://img.shields.io/badge/Gazebo-Sim-brightgreen)](https://gazebosim.org/)
+[![MuJoCo](https://img.shields.io/badge/MuJoCo-Sim-purple)](https://mujoco.org/)
 [![Nav2](https://img.shields.io/badge/Nav2-Navigation-blue)](https://navigation.ros.org/)
 [![MoveIt2](https://img.shields.io/badge/MoveIt_2-Manipulation-red)](https://moveit.ai/)
 [![YOLO](https://img.shields.io/badge/YOLO-Vision-yellow)](https://github.com/ultralytics/ultralytics)
