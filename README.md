@@ -13,7 +13,7 @@
 ## ros2-robotics-projects
 *(continuously updated; please star if you're keen on robotics. Each project code is reliable and carefully checked)*
 
-A hands-on ROS 2 robotics project suite covering Gazebo/MoJoCo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, FreeRTOS, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
+A hands-on ROS 2 robotics project suite covering Gazebo/MoJoCo robot simulation, SLAM & Nav2 autonomous navigation, custom MPC/MPPI motion controllers, YOLO real-time computer vision, **FoundationPose 6DoF**, skeleton-gesture robot control, TTS-ASR-LLM voice interaction, Qt GUI monitoring, MCU programming, FreeRTOS, MoveIt2 robotic-arm manipulation, and **using a real arm with LeRobot**. 
 
 Projects range from basic ROS 2 primitives to advanced autonomous patrol robots and custom navigation plugin development, Control Algorithm Comparison (Force Control), **Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**. Also included is **a capstone project**: a hybrid 2D LiDAR + RGB-D visual perception system deployed on **a physical robot** for indoor high-touch surface cleaning/disinfection.
 
@@ -40,6 +40,7 @@ Projects range from basic ROS 2 primitives to advanced autonomous patrol robots 
 | 0.17  | [wall_climb_force_compliance_robot](#project-0.17) |Control Algorithm Comparison (Force Control): P, **PID**, Python-based CVXPY MPC, **Acados MPC**; Suitable for **facade inspection / cleaning / surface contact task prototype**|
 | 0.18  | [**Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**](#project-0.18) |Multi-Step Robot Task Orchestration with Nav2 and MoveIt2|
 | 0.19  | [**MuJoCo (Multi-Joint dynamics with Contact)**](#project-0.19) |MuJoCo Practice|
+| 0.20  | [**Robotic Grasping: Comparison of Two Technical Approaches**](#project-0.20) |**YOLO Fixed-Pose Grasping VS FoundationPose 6DoF Grasping**|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -1182,6 +1183,48 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 MuJoCo (Multi-Joint dynamics with Contact) is a general-purpose physics engine designed for fast and accurate simulation of articulated structures interacting with their environment. It is widely used in robotics, biomechanics, machine learning, and graphics. Originally developed by Emo Todorov and colleagues, it was acquired by DeepMind in 2021 and subsequently open-sourced, making it freely available to everyone.
 
 > Task: read mujoco.md to get started with MuJoCo  
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+<a id="project-0.20"></a>
+# Project 0.20: Robotic Grasping: Comparison of Two Technical Approaches
+
+**A: YOLO Fixed-Pose Grasping**
+
+**Core idea**: Detect the object's position in the image, take the mask center or bbox center, combine with the depth map to obtain a 3D point, then grasp with a fixed orientation.
+
+RGB image ──→ YOLO detection ──→ object mask ──→ take center pixel (u, v)
+│ ↓
+└──────→ depth map ─────────────────────→ read Z
+↓
+back-project to (X, Y, Z)_cam
+↓
+transform to base_link
+↓
+fixed-orientation grasp
+
+Back-projection: given pixel (u, v), depth Z, and camera intrinsics:
+
+X = (u - cx) * Z / fx
+Y = (v - cy) * Z / fy
+Z = Z
+
+**B: FoundationPose 6DoF Grasping**
+
+**Core idea**: Use a CAD model and RGB-D images to estimate the object's full 6DoF pose (position + orientation). The default segmentation weights for this project are the course-trained assets/models/yolo26s-seg_finetuned.pt (ultralytics is currently pinned to 8.4.77; refer to the latest code for the authoritative version). It is only responsible for generating the seed mask; the grasp pose always comes from FoundationPose.
+
+RGB image ──→ YOLO segmentation ──→ object mask
+│ ↓
+└──────→ depth map + CAD model ──→ FoundationPose
+↓
+6DoF pose [x,y,z,qx,qy,qz,qw]
+↓
+compute the best grasp pose from the pose
+
+FoundationPose 是一种面向新物体（novel objects）的统一 6D 位姿估计与跟踪方法。
+
+FoundationPose 由 NVIDIA Research / NVLabs 提出，论文标题为 《FoundationPose: Unified 6D Pose Estimation and Tracking of Novel Objects》，发表于 CVPR 2024 Highlight。
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
