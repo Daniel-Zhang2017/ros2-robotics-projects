@@ -41,6 +41,7 @@ Projects range from basic ROS 2 primitives to advanced autonomous patrol robots 
 | 0.18  | [**Multi-Step Robot Task Orchestration with Nav2 and MoveIt2**](#project-0.18) |Multi-Step Robot Task Orchestration with Nav2 and MoveIt2|
 | 0.19  | [**MuJoCo (Multi-Joint dynamics with Contact)**](#project-0.19) |MuJoCo Practice|
 | 0.20  | [**Robotic Grasping: Comparison of Two Technical Approaches**](#project-0.20) |**YOLO Fixed-Pose Grasping VS FoundationPose 6DoF Grasping**|
+| 0.21  | [**RCM**](#project-0.21) |**ROS2 for RCM Surgical Robots**|
 | 1 | [ROS2‑USB_CAM_YOLOvX Real‑Time Detection](#project‑1) | Real‑time YOLO detection, GPU Acceleration & Model Optimization |
 | 2 | [ROS2 Person Detection Alert](#project‑2) | Multi‑node alerting |
 | 3 | [System Status + QT Display](#project‑3) | Custom interfaces |
@@ -1225,6 +1226,24 @@ compute the best grasp pose from the pose
 FoundationPose 是一种面向新物体（novel objects）的统一 6D 位姿估计与跟踪方法。
 
 FoundationPose 由 NVIDIA Research / NVLabs 提出，论文标题为 《FoundationPose: Unified 6D Pose Estimation and Tracking of Novel Objects》，发表于 CVPR 2024 Highlight。
+
+>
+> [⬆️ Back to Table of Contents](#table‑of‑contents)
+
+
+<a id="project-0.21"></a>
+# Project 0.21: ROS2 for RCM Surgical Robots
+
+>-**RCM (Remote Center of Motion)** is a fundamental kinematic constraint for minimally invasive surgical robots. The surgical instrument passes through a fixed trocar port; the instrument must pivot about this pivot point without lateral sliding at the port, to avoid tissue injury.
+
+There are two categories:
+
+1. **Mechanical RCM**: A dedicated parallel or linkage mechanism physically enforces the pivot.
+2. **Software RCM**: A general redundant manipulator (e.g., 7-DOF collaborative arm) uses constrained kinematics to satisfy the RCM rule in software. This is widely studied with ROS2.
+
+ROS2 serves as the distributed software framework to integrate the whole robotic system. Compared with ROS1, its DDS-based communication, configurable QoS, real-time-friendly interfaces and modular `ros2_control` stack make it suitable for surgical robot research.
+
+Examples and notes are provided at **https://github.com/Daniel-Zhang2017/ros2-moveit2-arm-control**.
 
 >
 > [⬆️ Back to Table of Contents](#table‑of‑contents)
